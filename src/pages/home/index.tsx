@@ -1,5 +1,6 @@
 import ListTrending from "@/pages/home/_components/section-trending/list-trending";
 import { useState } from 'react';
+import Hero from "./_components/hero/hero";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('WOMEN');
@@ -7,10 +8,9 @@ const Home = () => {
   const tabs = ['ALL', 'WOMEN', 'MEN', 'KIDS'];
 
   return (
-    <div className="flex justify-center items-center mx-10">
+    <div className="max-w-[1440px] mx-auto">
       {/* Hero panner */}
-    
-
+      <Hero />
       {/* Section Trending */}
       <div className="mt-24">
         <h3 className="text-center text-[35px] not-italic font-normal">Trending</h3>

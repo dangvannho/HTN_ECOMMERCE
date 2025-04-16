@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ShoppingBagIcon, QuickViewIcon, HeartIcon, ChevronLeftIcon, ChevronRightIcon } from "../../../../assets/icons";
+import { ShoppingBag, Eye, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -32,7 +32,7 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
   };
 
   return (
-    <div className="w-[343px] h-[515px] cursor-pointer">
+    <div className="w-full cursor-pointer">
       <div className="relative bg-[#F3F3F3] aspect-[1/1] group">
         <img
           src={product.images[currentImageIndex]}
@@ -40,7 +40,7 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
           className="size-full object-cover transition-transform duration-300"
         />
         {product.tag && (
-          <div className={`absolute top-3 right-3 ${product.tagColor} px-2 py-1 text-sm font-medium`}>
+          <div className={`absolute top-3 right-3 ${product.tagColor} px-2 py-1 text-base md:text-sm font-medium`}>
             {product.tag}
           </div>
         )}
@@ -48,55 +48,52 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
         {/* slider hình ảnh trái */}
         <button
           onClick={prevImage}
-          className="absolute left-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 "
+          className="absolute left-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           aria-label="Previous image"
         >
-          <ChevronLeftIcon />
+          <ChevronLeft size={24} />
         </button>
 
         {/* slider hình ảnh phải */}
         <button
           onClick={nextImage}
-          className="absolute right-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 "
+          className="absolute right-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           aria-label="Next image"
         >
-          <ChevronRightIcon />
+          <ChevronRight size={24} />
         </button>
-
 
         {/* hover cart của ảnh */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <ShoppingBagIcon />
+            <ShoppingBag size={20} />
           </button>
 
           <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <QuickViewIcon />
+            <Eye size={20} />
           </button>
 
           <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <HeartIcon />
+            <Heart size={20} />
           </button>
         </div>
       </div>
 
       <div className="my-3">
-        <p className="text-sm not-italic font-normal text-[#767676]">{product.category}</p>
-        <h3 className="text-base not-italic font-normal text-gray-900">{product.name}</h3>
-
+        <p className="text-base md:text-sm not-italic font-normal text-[#767676]">{product.category}</p>
+        <h3 className="text-lg md:text-base not-italic font-normal text-gray-900">{product.name}</h3>
 
         {/* price của sản phẩm */}
         <div className="flex items-center gap-2">
           {product.discount ? (
             <>
-              <span className="text-base font-medium">${product.discount}</span>
-              <span className="text-sm text-red-500 line-through">${product.price}</span>
+              <span className="text-lg md:text-base font-medium">${product.discount}</span>
+              <span className="text-base md:text-sm text-red-500 line-through">${product.price}</span>
             </>
           ) : (
-            <span className="text-base font-medium">${product.price}</span>
+            <span className="text-lg md:text-base font-medium">${product.price}</span>
           )}
         </div>
-
 
         {/* select màu cho sản phẩm */}
         {product.colors && product.colors.length > 0 && (
