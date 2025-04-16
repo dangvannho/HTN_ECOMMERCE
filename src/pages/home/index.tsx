@@ -7,7 +7,10 @@ const Home = () => {
   const tabs = ['ALL', 'WOMEN', 'MEN', 'KIDS'];
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mx-10">
+      {/* Hero panner */}
+    
+
       {/* Section Trending */}
       <div className="mt-24">
         <h3 className="text-center text-[35px] not-italic font-normal">Trending</h3>

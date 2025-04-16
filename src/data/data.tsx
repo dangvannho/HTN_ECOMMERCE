@@ -1,19 +1,21 @@
 import ImgItem from "../../src/assets/images.svg";
+import Profile from "../../src/assets/profleGit.jpg";
 
+//data sản phẩm trong section trending
 export const productData = [
     {
         id: 1,
-        image: ImgItem,
+        images: [ImgItem, Profile], // mảng hình ảnh của sản phẩm
         category: "Dresses",
         name: "Cropped Faux Leather Jacket",
         price: 29,
-        tag: "-35%",
-        tagColor: "bg-red-400 text-white",
-        colors: ["black"],
+        tag: "-35%", //discount
+        tagColor: "bg-red-500", //màu của discount
+        colors: ["black"], //màu của sản phẩm
     },
     {
         id: 2,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Satin Blouse",
         price: 77,
@@ -23,7 +25,7 @@ export const productData = [
     },
     {
         id: 3,
-        image: ImgItem,
+        images: [ImgItem, ImgItem, ImgItem],
         category: "Dresses",
         name: "Ribyr T-Shirt",
         price: 17,
@@ -32,18 +34,18 @@ export const productData = [
     },
     {
         id: 4,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Cardigan Shirt",
         price: 100,
         discount: 89,
         tag: "New",
-        tagColor: "bg-green-400 text-white",
+        tagColor: "bg-gray-200 text-black",
         colors: [],
     },
     {
         id: 5,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Casual Jacket",
         price: 29,
@@ -53,7 +55,7 @@ export const productData = [
     },
     {
         id: 6,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Shirt In Botanical Chinoshi Print",
         price: 82,
@@ -62,7 +64,7 @@ export const productData = [
     },
     {
         id: 7,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Cotton Jersey T-Shirt",
         price: 17,
@@ -71,7 +73,7 @@ export const productData = [
     },
     {
         id: 8,
-        image: ImgItem,
+        images: [ImgItem, ImgItem],
         category: "Dresses",
         name: "Zessi Dresser",
         price: 100,
