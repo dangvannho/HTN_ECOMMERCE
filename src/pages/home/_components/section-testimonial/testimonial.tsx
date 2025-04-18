@@ -65,7 +65,7 @@ export default function TestimonialsCarousel() {
           className="w-14 h-14 rounded-full mx-auto mb-[50px]"
         />
 
-        <div className="flex justify-between items-center absolute top-1/2 left-0 right-0 px-[70px] lg:px-[206px]">
+        <div className="flex justify-between items-center absolute top-1/2 left-0 right-0 px-[70px] lg:px-[100px]">
           <button onClick={prev}>
             <ChevronLeft className="w-6 h-6 text-gray-600 hover:text-black transition" />
           </button>
