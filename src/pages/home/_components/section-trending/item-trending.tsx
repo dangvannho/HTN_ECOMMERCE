@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { ShoppingBag, Eye, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import HeartIcon from "@/components/icons/heart"
+import Eye from "@/components/icons/eye"
+import Cart from "@/components/icons/cart"
+import ChevronLeft from "@/components/icons/chevronleft"
+import ChevronRight from "@/components/icons/chevronright"
+
 
 interface Product {
   id: number;
@@ -40,7 +45,7 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
           className="size-full object-cover transition-transform duration-300"
         />
         {product.tag && (
-          <div className={`absolute top-3 right-3 ${product.tagColor} px-2 py-1 text-base md:text-sm font-medium`}>
+          <div className={`absolute top-3 ${product.tag === "New" || product.tag === "Sale" ? "left-3" : "right-3"} ${product.tagColor} px-3 py-1 text-sm not-italic font-normal md:text-sm`}>
             {product.tag}
           </div>
         )}
@@ -51,7 +56,7 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
           className="absolute left-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           aria-label="Previous image"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft />
         </button>
 
         {/* slider hình ảnh phải */}
@@ -60,21 +65,21 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
           className="absolute right-2 top-1/2 -translate-y-1/2 size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           aria-label="Next image"
         >
-          <ChevronRight size={24} />
+          <ChevronRight />
         </button>
 
         {/* hover cart của ảnh */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <ShoppingBag size={20} />
+            <Cart />
           </button>
 
           <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <Eye size={20} />
+            <Eye />
           </button>
 
-          <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-            <Heart size={20} />
+          <button className="size-10 rounded-full bg-red-400 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+            <HeartIcon />
           </button>
         </div>
       </div>
@@ -87,11 +92,11 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
         <div className="flex items-center gap-2">
           {product.discount ? (
             <>
-              <span className="text-lg md:text-base font-medium">${product.discount}</span>
+              <span className="text-lg md:text-base font-normal">${product.discount}</span>
               <span className="text-base md:text-sm text-red-500 line-through">${product.price}</span>
             </>
           ) : (
-            <span className="text-lg md:text-base font-medium">${product.price}</span>
+            <span className="text-lg md:text-base font-normal">${product.price}</span>
           )}
         </div>
 

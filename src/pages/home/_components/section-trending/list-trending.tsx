@@ -40,7 +40,7 @@ const productData = [
     price: 100,
     discount: 89,
     tag: "New",
-    tagColor: "bg-green-500 text-white",
+    tagColor: "bg-white text-black",
     colors: [],
   },
   {
@@ -86,7 +86,7 @@ const productData = [
 
 const ListTrending = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 px-[20px] lg:px-[130px]">
       {productData.map((product) => (
         <ItemTrending key={product.id} product={product} />
       ))}
