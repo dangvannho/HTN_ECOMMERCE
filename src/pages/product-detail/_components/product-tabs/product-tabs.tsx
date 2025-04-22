@@ -1,0 +1,35 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AdditionalInfoTab from "./additional-info-tab";
+import DescriptionTab from "./description-tab";
+
+const ProductTabs = () => {
+  return (
+    <div className="mt-14 lg:mt-24">
+      <Tabs defaultValue="Description" className="w-full">
+        <TabsList className="flex space-x-8 justify-center bg-transparent border-b-0">
+          {["Description", "Additional Information"].map((tab) => (
+            <TabsTrigger
+              key={tab}
+              value={tab}
+              className="text-sm md:text-base font-medium text-[#767676] data-[state=active]:text-[#222] data-[state=active]:border-b-2 data-[state=active]:border-[#222] data-[state=active]:duration-100"
+            >
+              {tab.toUpperCase()}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        <TabsContent value="Description" className="mt-8 md:mt-[50px]">
+          <DescriptionTab />
+        </TabsContent>
+        <TabsContent
+          value="Additional Information"
+          className="mt-8 md:mt-[50px]"
+        >
+          <AdditionalInfoTab />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default ProductTabs;

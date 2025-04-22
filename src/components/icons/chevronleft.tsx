@@ -1,4 +1,4 @@
-const ChevronLeft = () => {
+const ChevronLeft = ({ className }: { className?: string }) => {
   return (
     <div>
       <svg
@@ -7,6 +7,7 @@ const ChevronLeft = () => {
         height="15"
         viewBox="0 0 15 15"
         fill="none"
+        className={className}
       >
         <g clip-path="url(#clip0_37_606)">
           <path
