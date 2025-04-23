@@ -5,9 +5,9 @@ interface LinkFooterProps {
 }
 const LinkFooter = ({ title, links }: LinkFooterProps) => {
   return (
-    <div className="flex flex-col items-center md:items-start">
+    <div className="flex flex-col ">
       <h3 className="text-lg font-medium">{title}</h3>
-      <ul className="space-y-4 flex flex-col items-center md:items-start mt-10 ">
+      <ul className="space-y-4 flex flex-col  mt-10 ">
         {links.map((link, index) => (
           <Link
             key={index}

@@ -30,7 +30,7 @@ const ProductImage = ({ checkSale }: ProductImageProps) => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-2">
-      <div className="flex flex-row lg:flex-col gap-2 lg:order-1 order-2">
+      <div className="flex flex-row lg:flex-col gap-2 lg:order-1 order-2 lg:px-0 px-2">
         {images.map((image, index) => (
           <div
             key={index}

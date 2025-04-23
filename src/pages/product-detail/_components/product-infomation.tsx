@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { Link } from "react-router-dom";
 import ChevronLeft from "@/components/icons/chevronleft";
 import ChevronRight from "@/components/icons/chevronright";
 import Heart from "@/components/icons/heart";
 import Share from "@/components/icons/share";
+import BreadCrumb from "@/components/commons/bread-crumb";
 
 interface ProductInfomationProps {
   checkSale: boolean;
@@ -20,15 +20,7 @@ const ProductInfomation = ({ checkSale }: ProductInfomationProps) => {
   return (
     <div className="lg:px-0 px-4">
       <div className="hidden xl:flex justify-between items-center">
-        <div className="text-sm uppercase text-[#222] font-medium">
-          <Link to="/" className="hover:underline">
-            Home
-          </Link>
-          <span>/</span>
-          <Link to="/shop" className="hover:underline">
-            The Shop
-          </Link>
-        </div>
+        <BreadCrumb />
         <div className="flex gap-4 text-sm uppercase font-medium ">
           <div className="flex items-center gap-1">
             <ChevronLeft className="size-3" />
