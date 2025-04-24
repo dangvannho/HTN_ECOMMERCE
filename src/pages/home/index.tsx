@@ -15,7 +15,7 @@ const Home = () => {
       <Hero />
       {/* Section Trending */}
       <div className="pt-24">
-        <h3 className="text-center text-[35px] not-italic font-normal">Trending</h3>
+        <h3 className="text-center text-[35px] not-italic font-normal">TRENDING</h3>
         <div className="flex justify-center gap-4 items-center my-8 px-36">
           {tabs.map((tab) => (
             <a
