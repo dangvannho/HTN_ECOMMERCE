@@ -10,7 +10,7 @@ import routePath from "@/config/route";
 
 const LINKS = [
   { name: "HOME", href: routePath.home },
-  { name: "SHOP", href: "/" },
+  { name: "SHOP", href: routePath.shop },
   { name: "COLLECTION", href: "/" },
   { name: "JOURNAL", href: "/" },
   { name: "LOOKBOOK", href: "/" },

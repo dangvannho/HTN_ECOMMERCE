@@ -37,7 +37,7 @@ const Home = () => {
         <ListTrending />
       </div>
       <div className="bg-[#FAF9F8]">
-        <section className="px-[20px] lg:px-[130px]">
+        <section className="mx-auto px-4 lg:px-0 max-w-7xl">
           <PromoBanners />
         </section>
         <TestimonialsCarousel />
