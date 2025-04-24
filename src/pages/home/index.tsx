@@ -10,7 +10,7 @@ const Home = () => {
   const tabs = ['ALL', 'WOMEN', 'MEN', 'KIDS'];
 
   return (
-    <div className=" bg-[#FAF9F8]">
+    <div className="bg-[#FAF9F8] ">
       {/* Hero panner */}
       <Hero />
       {/* Section Trending */}

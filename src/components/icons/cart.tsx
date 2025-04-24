@@ -1,4 +1,4 @@
-const Cart = () => {
+const CartIcon = () => {
   return (
     <div>
       <svg
@@ -17,4 +17,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default CartIcon;

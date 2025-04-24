@@ -7,6 +7,8 @@ import ProductDetail from "@/pages/product-detail";
 import Category from "@/pages/shop";
 import Login from "@/pages/auth/login";
 import Register from "@/pages/auth/register";
+import Cart from "@/pages/cart";
+
 
 const listRoute: Route[] = [
   {
@@ -21,20 +23,24 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.shop,
-    component: <Category/>,
+    component: <Category />,
     layout: MainLayout,
   },
   {
     path: routePath.login,
     component: <Login />,
-    layout: MainLayout, 
+    layout: MainLayout,
   },
   {
     path: routePath.register,
-    component: <Register/>,
+    component: <Register />,
     layout: MainLayout,
-  }
-
+  },
+  {
+    path: routePath.cart,
+    component: <Cart />,
+    layout: MainLayout,
+  },
 ];
 
 export default listRoute;
