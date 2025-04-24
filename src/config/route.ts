@@ -4,6 +4,7 @@ const routePath = {
   shop: "/shop",
   login: "/login",
   register: "/register",
+  cart: "/cart",
 };
 
 export default routePath;
