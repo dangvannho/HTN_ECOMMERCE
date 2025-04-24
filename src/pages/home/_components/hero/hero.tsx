@@ -22,7 +22,7 @@ const Hero = () => {
 
     return (
         <div className="bg-[#fff]">
-            <div className="relative flex flex-col lg:flex-row justify-center overflow-hidden pt-7 px-[20px] lg:px-[130px] container max-w-7xl mx-auto">
+            <div className=" flex flex-col lg:flex-row justify-center overflow-hidden pt-7  container max-w-7xl mx-auto">
                 {/* cột trái  */}
                 <div className="w-full lg:w-1/2 flex flex-col justify-center lg:justify-around ">
                     {/* Top Text Content */}
@@ -38,26 +38,21 @@ const Hero = () => {
 
                     {/* Bottom Slider */}
                     <div className="flex items-center gap-4 sm:gap-6 text-xs uppercase text-gray-500 tracking-wider mt-8 lg:mt-0">
-                        <button onClick={prevImage} className="flex items-center gap-2 group hover:text-gray-900 transition-colors">
-                            <ArrowLeft size={16} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+                        <button onClick={prevImage} className="flex items-center gap-2 group hover:text-gray-900 transition-colors hover:scale-120">
                             Prev
-
                             <span className="block w-6 sm:w-8 h-px bg-gray-400 group-hover:bg-gray-900 transition-colors"></span>
                         </button>
 
                         <button onClick={nextImage} className="flex items-center gap-2 group hover:text-gray-900 transition-colors">
                             <span className="block w-6 sm:w-8 h-px bg-gray-400 group-hover:bg-gray-900 transition-colors"></span>
                             Next
-
-                            <ArrowRight size={16} className="opacity-50 group-hover:opacity-100 transition-opacity" />
                         </button>
                     </div>
                 </div>
 
                 {/* cột phải */}
-                <div className="w-full lg:w-1/2 h-[50vh] sm:h-[60vh] lg:h-[80vh] flex items-center justify-center order-1 lg:order-2">
-
-                    <div className="w-full h-full lg:w-[350px] overflow-hidden ">
+                <div className="relative w-full lg:w-1/2 h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center order-1 lg:order-2">
+                    <div className="w-full h-full lg:w-[350px] lg:h-[600px] overflow-hidden relative">
                         {/* Đường tròn ẩn */}
 
                         {/* Update img src to use state */}
