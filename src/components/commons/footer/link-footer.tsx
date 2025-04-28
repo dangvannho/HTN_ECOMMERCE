@@ -15,7 +15,7 @@ const LinkFooter = ({ title, links }: LinkFooterProps) => {
             className="text-[#222] text-sm relative group w-max"
           >
             {link}
-            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
           </Link>
         ))}
       </ul>

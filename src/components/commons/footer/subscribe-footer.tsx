@@ -10,9 +10,11 @@ const SubscribeFooter = () => {
         <input
           type="email"
           placeholder="Your email address"
-          className=" bg-white text-[#222] px-2 py-3 w-2/3 text-sm focus:outline-none flex-1"
+          className=" bg-white text-[#222] px-2 py-3 w-2/3 text-sm focus:outline-none flex-1 placeholder:text-[#222]"
         />
-        <button className="bg-white text-[#222] px-3 text-sm">JOIN</button>
+        <button className="bg-white text-[#222] px-3 text-sm font-medium">
+          JOIN
+        </button>
       </div>
       <h4 className="text-sm font-medium mt-8">Secure payments</h4>
       <img src="/payments_logo.svg" alt="" className="mt-4" />
