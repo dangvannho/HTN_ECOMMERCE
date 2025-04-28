@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <header className="fixed left-0 top-0 w-full bg-white z-50">
       {/* Desktop Header */}
-      <div className="hidden lg:flex max-w-7xl mx-auto py-[33px] items-center ">
+      <div className="hidden lg:flex xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center ">
         <div className="flex items-center space-x-2">
           <img src="/logo.svg" alt="" />
         </div>
@@ -37,7 +37,7 @@ const Header = () => {
               className="text-sm font-medium text-[#222] relative group"
             >
               {item.name}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
             </Link>
           ))}
         </nav>
@@ -53,12 +53,12 @@ const Header = () => {
           <div className="cursor-pointer">
             <User className="size-5" />
           </div>
-          <div className="relative cursor-pointer">
+          <Link to={routePath.cart} className="relative cursor-pointer">
             <ShoppingBag className="size-5" />
-            <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] rounded-full w-3 h-3 flex items-center justify-center">
+            <span className="absolute -bottom-1 -right-2 bg-[#d4a373] text-white text-[10px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center">
               3
             </span>
-          </div>
+          </Link>
           <div>
             <Menu className="size-5" />
           </div>
@@ -73,12 +73,12 @@ const Header = () => {
         <div className="flex items-center space-x-2">
           <img src="/logo.svg" alt="" />
         </div>
-        <div className="relative">
+        <Link to={routePath.cart} className="relative cursor-pointer">
           <ShoppingBag className="size-5" />
           <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] rounded-full w-3 h-3 flex items-center justify-center">
-            3
+            100
           </span>
-        </div>
+        </Link>
       </div>
 
       {/* Mobile Sidebar */}
@@ -106,7 +106,7 @@ const Header = () => {
                     className="text-base font-medium text-[#222] relative group w-max"
                   >
                     {item}
-                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
+                    <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
                   </Link>
 
                   <ChevronRight />

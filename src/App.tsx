@@ -1,25 +1,30 @@
 import { Fragment } from "react/jsx-runtime";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  ScrollRestoration,
+} from "react-router-dom";
 import listRoute from "./routes";
 
+const router = createBrowserRouter(
+  listRoute.map((item) => {
+    const Page = item.component;
+    const Layout = item.layout ?? Fragment;
+
+    return {
+      path: item.path,
+      element: (
+        <>
+          <ScrollRestoration />
+          <Layout>{Page}</Layout>
+        </>
+      ),
+    };
+  })
+);
+
 function App() {
-  return (
-    <Router>
-      <Routes>
-        {listRoute.map((item, index) => {
-          const Page = item.component;
-          const Layout = item.layout ?? Fragment;
-          return (
-            <Route
-              key={index}
-              path={item.path}
-              element={<Layout>{Page}</Layout>}
-            />
-          );
-        })}
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

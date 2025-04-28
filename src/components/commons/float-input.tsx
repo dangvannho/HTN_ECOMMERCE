@@ -38,10 +38,11 @@ const FloatingInput = ({
           transform 
           -translate-y-1/2 
           text-sm 
-          text-[#222] 
+         ${isFloating || value ? "text-[#222]" : "text-[#767676]"}
           transition-all 
           duration-200 
-          ease-in-out 
+          ease-in-out  
+          pointer-events-none
           px-1
           ${
             isFloating || value
@@ -50,7 +51,7 @@ const FloatingInput = ({
           }
         `}
       >
-        {label} *
+        {label}
       </label>
     </div>
   );

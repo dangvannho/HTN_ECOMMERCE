@@ -5,6 +5,9 @@ const routePath = {
   login: "/login",
   register: "/register",
   cart: "/cart",
+  orders: "/orders",
+  accountDetail: "/account-detail",
+  wishlist: "/wishlist",
 };
 
 export default routePath;

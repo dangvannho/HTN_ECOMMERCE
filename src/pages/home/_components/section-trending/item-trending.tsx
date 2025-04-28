@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import HeartIcon from "@/components/icons/heart"
-import Eye from "@/components/icons/eye"
-import Cart from "@/components/icons/cart"
-import ChevronLeft from "@/components/icons/chevronleft"
-import ChevronRight from "@/components/icons/chevronright"
-
+import { useState } from "react";
+import HeartIcon from "@/components/icons/heart";
+import Eye from "@/components/icons/eye";
+import Cart from "@/components/icons/cart";
+import ChevronLeft from "@/components/icons/chevronleft";
+import ChevronRight from "@/components/icons/chevronright";
+import { Link, useNavigate } from "react-router-dom";
+import routePath from "@/config/route";
 
 interface Product {
   id: number;
@@ -25,6 +26,7 @@ interface ItemTrendingProps {
 // item trong section trending
 const ItemTrending = ({ product }: ItemTrendingProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -33,7 +35,9 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
 
   const prevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + product.images.length) % product.images.length
+    );
   };
 
   return (
@@ -45,7 +49,15 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
           className="size-full object-cover transition-transform duration-300"
         />
         {product.tag && (
-          <div className={`absolute top-3 ${product.tag === "New" || product.tag === "Sale" ? "left-3" : "right-3"} ${product.tagColor} px-3 py-1 text-sm not-italic font-normal md:text-sm`}>
+          <div
+            className={`absolute top-3 ${
+              product.tag === "New" || product.tag === "Sale"
+                ? "left-3"
+                : "right-3"
+            } ${
+              product.tagColor
+            } px-3 py-1 text-sm not-italic font-normal md:text-sm`}
+          >
             {product.tag}
           </div>
         )}
@@ -74,7 +86,14 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
             <Cart />
           </button>
 
-          <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
+          <button
+            className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+            onClick={() =>
+              navigate(
+                routePath.productDetail.replace(":id", product.id.toString())
+              )
+            }
+          >
             <Eye />
           </button>
 
@@ -85,18 +104,31 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
       </div>
 
       <div className="my-3">
-        <p className="text-base md:text-sm not-italic font-normal text-[#767676]">{product.category}</p>
-        <h3 className="text-lg md:text-base not-italic font-normal text-gray-900">{product.name}</h3>
+        <p className="text-base md:text-sm not-italic font-normal text-[#767676]">
+          {product.category}
+        </p>
+        <Link
+          to={routePath.productDetail.replace(":id", product.id.toString())}
+          className="text-lg md:text-base not-italic font-normal text-gray-900 hover:underline"
+        >
+          {product.name}
+        </Link>
 
         {/* price của sản phẩm */}
         <div className="flex items-center gap-2">
           {product.discount ? (
             <>
-              <span className="text-lg md:text-base font-normal">${product.discount}</span>
-              <span className="text-base md:text-sm text-red-500 line-through">${product.price}</span>
+              <span className="text-lg md:text-base font-normal">
+                ${product.discount}
+              </span>
+              <span className="text-base md:text-sm text-red-500 line-through">
+                ${product.price}
+              </span>
             </>
           ) : (
-            <span className="text-lg md:text-base font-normal">${product.price}</span>
+            <span className="text-lg md:text-base font-normal">
+              ${product.price}
+            </span>
           )}
         </div>
 
@@ -106,12 +138,13 @@ const ItemTrending = ({ product }: ItemTrendingProps) => {
             {product.colors.map((color, index) => (
               <button
                 key={index}
-                className={`w-4 h-4 rounded-full border ${color === 'black'
-                  ? 'bg-black border-black'
-                  : color === 'white'
-                    ? 'bg-white border-gray-300'
+                className={`w-4 h-4 rounded-full border ${
+                  color === "black"
+                    ? "bg-black border-black"
+                    : color === "white"
+                    ? "bg-white border-gray-300"
                     : `bg-${color}-500 border-${color}-500`
-                  } hover:border-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
+                } hover:border-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
                 aria-label={`Select ${color} color`}
               />
             ))}
