@@ -7,6 +7,14 @@ import Search from "../icons/search";
 import X from "../icons/x";
 import ChevronRight from "../icons/chevronright";
 import routePath from "@/config/route";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { LogIn, NotebookIcon } from "lucide-react";
+import Register from "@/pages/auth/register";
 
 const LINKS = [
   { name: "HOME", href: routePath.home },
@@ -27,7 +35,9 @@ const Header = () => {
       {/* Desktop Header */}
       <div className="hidden lg:flex xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center ">
         <div className="flex items-center space-x-2">
-          <img src="/logo.svg" alt="" />
+          <Link to={routePath.home}>
+            <img src="/logo.svg" alt="" />
+          </Link>
         </div>
         <nav className="flex gap-4 ml-[55px] items-center">
           {LINKS.map((item) => (
@@ -50,9 +60,31 @@ const Header = () => {
             />
             <Search className="size-4 absolute top-1/2 -translate-y-1/2 right-2" />
           </div>
-          <div className="cursor-pointer">
-            <User className="size-5" />
-          </div>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger>
+                <User className="size-5" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="flex flex-col">
+                  <Link
+                    to={routePath.login}
+                    className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                  >
+                    <LogIn className="size-5" />
+                    Login
+                  </Link>
+                  <Link
+                    to={routePath.register}
+                    className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                  >
+                    <NotebookIcon className="size-5" />
+                    Register
+                  </Link>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <Link to={routePath.cart} className="relative cursor-pointer">
             <ShoppingBag className="size-5" />
             <span className="absolute -bottom-1 -right-2 bg-[#d4a373] text-white text-[10px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center">

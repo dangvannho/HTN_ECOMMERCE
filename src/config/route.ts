@@ -8,6 +8,7 @@ const routePath = {
   orders: "/orders",
   accountDetail: "/account-detail",
   wishlist: "/wishlist",
+  address: "/address",
 };
 
 export default routePath;
