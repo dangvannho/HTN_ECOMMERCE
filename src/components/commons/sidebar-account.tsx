@@ -3,6 +3,7 @@ import routePath from "@/config/route";
 
 const SIDEBAR_ITEMS = [
   { name: "ORDERS", href: routePath.orders },
+  {name: "ADDRESSES", href: routePath.address },
   { name: "ACCOUNT DETAIL", href: routePath.accountDetail },
   { name: "WHISHLIST", href: routePath.wishlist },
   { name: "LOGOUT", href: "/" },
