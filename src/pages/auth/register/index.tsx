@@ -3,8 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Tab from "../_components/tab";
 import FloatingInput from "@/components/commons/float-input";
 import { registerSchema, type RegisterFormInputs } from "@/schemas/auth";
+import authApi from "@/services/auth/api/auth.api";
+import { useNavigate } from "react-router-dom";
+import routePath from "@/config/route";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,9 +23,23 @@ const Register = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    console.log("Form submitted:", data);
-    // Thêm logic gửi dữ liệu form đến API tại đây
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    const { name, phoneNumber, email, password } = data;
+    try {
+      const response = await authApi.register(
+        email,
+        name,
+        phoneNumber,
+        password
+      );
+      if (response.statusCode === 200) {
+        toast.success(response.message);
+        navigate(routePath.login);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -28,11 +47,7 @@ const Register = () => {
       <Tab />
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <FloatingInput
-            label="Username"
-            type="text"
-            {...register("name")}
-          />
+          <FloatingInput label="Username" type="text" {...register("name")} />
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
@@ -40,8 +55,21 @@ const Register = () => {
 
         <div>
           <FloatingInput
+            label="Phone number"
+            type="text"
+            {...register("phoneNumber")}
+          />
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.phoneNumber.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <FloatingInput
             label="Email address"
-            type="email"
+            type="text"
             {...register("email")}
           />
           {errors.email && (
@@ -56,7 +84,22 @@ const Register = () => {
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <FloatingInput
+            label="Confim password"
+            type="password"
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
 

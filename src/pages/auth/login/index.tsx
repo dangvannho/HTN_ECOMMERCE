@@ -1,11 +1,25 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Tab from "../_components/tab";
 import FloatingInput from "@/components/commons/float-input";
 import { loginSchema, type LoginFormInputs } from "@/schemas/auth";
+import { useAuthStore } from "@/stores/auth.store";
+import Facebook from "@/components/icons/facebook";
+import Google from "@/components/icons/google";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const {
+    login,
+    loginGoogle,
+    loginFacebook,
+    isLoading,
+    isAuthenticated,
+    fetchUser,
+  } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -18,9 +32,17 @@ const Login = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log("Form submitted:", data);
-    // Thêm logic gửi dữ liệu form đến API tại đây (ví dụ: gọi axiosInstance)
+  // Kiểm tra trạng thái đăng nhập khi component mount
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); 
+    } else if (localStorage.getItem("accessToken")) {
+      fetchUser(); // Thử khôi phục thông tin user nếu có token
+    }
+  }, [isAuthenticated, fetchUser, navigate]);
+
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    await login(data.email, data.password);
   };
 
   return (
@@ -78,9 +100,43 @@ const Login = () => {
         <button
           type="submit"
           className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? "Đang đăng nhập..." : "Login"}
         </button>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">LOGIN WITH</span>
+          </div>
+        </div>
+
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => {
+              loginFacebook();
+            }}
+            className="flex-1 flex items-center justify-center gap-1 bg-[#3b5998] text-white py-3 text-base font-medium hover:bg-[#334f88] transition-colors"
+          >
+            <Facebook className="w-5 h-5" color="#fff" />
+            Facebook
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              loginGoogle();
+            }}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#dd4b39] text-white py-3 text-base font-medium hover:bg-[#c23321] transition-colors"
+          >
+            <Google className="w-5 h-5" color="#fff" />
+            Google
+          </button>
+        </div>
 
         <p className="text-[#767676] text-sm not-italic font-normal leading-[24px] text-center">
           No account yet?{" "}
