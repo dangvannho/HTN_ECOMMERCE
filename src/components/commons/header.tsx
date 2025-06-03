@@ -6,6 +6,11 @@ import Menu from "../icons/menu";
 import Search from "../icons/search";
 import X from "../icons/x";
 import ChevronRight from "../icons/chevronright";
+import UserPenRound from "../icons/user-pen-round";
+import Container from "../icons/container";
+import Notebook from "../icons/notebook";
+import HeartPlus from "../icons/heart-plus";
+
 import routePath from "@/config/route";
 import {
   Tooltip,
@@ -13,8 +18,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { LogIn, NotebookIcon } from "lucide-react";
-import Register from "@/pages/auth/register";
+import { LogIn, LogOut } from "lucide-react";
+import { useAuthStore } from "@/stores/auth.store";
 
 const LINKS = [
   { name: "HOME", href: routePath.home },
@@ -25,8 +30,31 @@ const LINKS = [
   { name: "PAGES", href: "/" },
 ];
 
+const LINKS_ACCOUNT = [
+  {
+    name: "ORDERS",
+    href: routePath.orders,
+    icon: Container,
+  },
+  {
+    name: "ADDRESSES",
+    href: routePath.address,
+    icon: Notebook,
+  },
+  {
+    name: "ACCOUNT DETAIL",
+    href: routePath.accountDetail,
+    icon: User,
+  },
+  { name: "WHISHLIST", href: routePath.wishlist, icon: HeartPlus },
+];
+
+const AVATAR_DEFAULT =
+  "https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -60,28 +88,65 @@ const Header = () => {
             />
             <Search className="size-4 absolute top-1/2 -translate-y-1/2 right-2" />
           </div>
+
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger>
-                <User className="size-5" />
+                {isAuthenticated ? (
+                  <div className="w-6 h-6 rounded-full overflow-hidden">
+                    <img
+                      src={user?.avatar || AVATAR_DEFAULT}
+                      alt="User avatar"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = AVATAR_DEFAULT;
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <User className="size-5" />
+                )}
               </TooltipTrigger>
               <TooltipContent>
-                <div className="flex flex-col">
-                  <Link
-                    to={routePath.login}
-                    className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                  >
-                    <LogIn className="size-5" />
-                    Login
-                  </Link>
-                  <Link
-                    to={routePath.register}
-                    className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                  >
-                    <NotebookIcon className="size-5" />
-                    Register
-                  </Link>
-                </div>
+                {isAuthenticated ? (
+                  <div className="py-2 flex flex-col">
+                    {LINKS_ACCOUNT.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                      >
+                        <item.icon className="size-5" />
+                        {item.name}
+                      </Link>
+                    ))}
+                    <button
+                      onClick={logout}
+                      className="flex items-center gap-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                    >
+                      <LogOut className="size-5" />
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      to={routePath.login}
+                      className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                    >
+                      <LogIn className="size-5" />
+                      Login
+                    </Link>
+                    <Link
+                      to={routePath.register}
+                      className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
+                    >
+                      <UserPenRound className="size-5" />
+                      Register
+                    </Link>
+                  </>
+                )}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

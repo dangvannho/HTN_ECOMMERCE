@@ -11,7 +11,7 @@ const router = createBrowserRouter(
     const Page = item.component;
     const Layout = item.layout ?? Fragment;
 
-    return {
+    return {  
       path: item.path,
       element: (
         <>

@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FloatingInput from "@/components/commons/float-input";
-import { accountDetailSchema, type AccountDetailFormInputs } from "@/schemas/account";
+import {
+  accountDetailSchema,
+  type AccountDetailFormInputs,
+} from "@/schemas/account";
 
 const AccountDetail = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<AccountDetailFormInputs>({
     resolver: zodResolver(accountDetailSchema),
     defaultValues: {
@@ -31,7 +35,10 @@ const AccountDetail = () => {
       <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
         Account details
       </h4>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-6"
+      >
         <div className="flex gap-6">
           <div className="flex-1">
             <FloatingInput
@@ -40,7 +47,9 @@ const AccountDetail = () => {
               {...register("firstName")}
             />
             {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.firstName.message}
+              </p>
             )}
           </div>
           <div className="flex-1">
@@ -50,7 +59,9 @@ const AccountDetail = () => {
               {...register("lastName")}
             />
             {errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.lastName.message}
+              </p>
             )}
           </div>
         </div>
@@ -61,7 +72,9 @@ const AccountDetail = () => {
             {...register("displayName")}
           />
           {errors.displayName && (
-            <p className="text-red-500 text-sm mt-1">{errors.displayName.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.displayName.message}
+            </p>
           )}
         </div>
         <div>
@@ -82,7 +95,9 @@ const AccountDetail = () => {
             {...register("currentPassword")}
           />
           {errors.currentPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.currentPassword.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.currentPassword.message}
+            </p>
           )}
         </div>
         <div>
@@ -92,7 +107,9 @@ const AccountDetail = () => {
             {...register("newPassword")}
           />
           {errors.newPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.newPassword.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.newPassword.message}
+            </p>
           )}
         </div>
         <div>
@@ -102,11 +119,16 @@ const AccountDetail = () => {
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
 
-        <button type="submit" className="px-20 py-4 text-sm bg-[#222] text-white w-max">
+        <button
+          type="submit"
+          className="px-20 py-4 text-sm bg-[#222] text-white w-max"
+        >
           SAVE CHANGES
         </button>
       </form>
