@@ -1,10 +1,15 @@
 import { IAddressFormData } from "../types/addresses.types";
 import { axiosInstance } from "@/config/axios";
 
+
+const ADDRESSES_ENDPOINT = {
+    CREATE_ADDRESS: "/address/createAddress",
+    GET_MY_ADDRESSES: "/address",
+}
 const addressesApi = {
     createAddress: async (data: IAddressFormData) => {
         try {
-            const response = await axiosInstance.post("/address/createAddress", data);
+            const response = await axiosInstance.post(ADDRESSES_ENDPOINT.CREATE_ADDRESS, data);
             return response.data;
         } catch (error) {
             throw error;
@@ -13,7 +18,7 @@ const addressesApi = {
 
     getMyAddresses: async () => {
         try {
-            const response = await axiosInstance.get("/address");
+            const response = await axiosInstance.get(ADDRESSES_ENDPOINT.GET_MY_ADDRESSES);
             return response.data;
         } catch (error) {
             throw error;
@@ -22,6 +27,7 @@ const addressesApi = {
 
     updateAddress: async (id: string, data: IAddressFormData) => {
         try {
+            // const response = await axiosInstance.put(`/address/${id}`, data);
             const response = await axiosInstance.put(`/address/${id}`, data);
             return response.data;
         } catch (error) {

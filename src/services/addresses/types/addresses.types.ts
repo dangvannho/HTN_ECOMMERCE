@@ -29,7 +29,7 @@ export interface AddressCardProps {
 export interface AddressFormChangeEvent extends Omit<React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, 'target'> {
   target: {
       name: string;
-      value: string | boolean; // Cho phép value có thể là string hoặc boolean
+      value: string | boolean | undefined; // Cho phép value có thể là string hoặc boolean
   }
 }
 export interface AddressFormProps {

@@ -4,7 +4,6 @@ import provinces from "./select-provices/vietnam-provinces.json";
 
 
 const vietnamProvinces = provinces as Province[];
-
 const AddressForm: FC<AddressFormProps> = ({
     formData,
     onCancel,
