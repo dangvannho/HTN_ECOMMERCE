@@ -17,12 +17,12 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  isAuthenticated: !!localStorage.getItem("accessToken"), // Kiểm tra token ban đầu
+  isAuthenticated: !!localStorage.getItem("accessToken"),
   isLoading: false,
   error: null,
 
   login: async (email: string, password: string) => {
-    set({ isLoading: true, error: null }); // Bắt đầu loading, xóa lỗi cũ
+    set({ isLoading: true, error: null });
     try {
       const response = await authApi.login(email, password);
       if (response.statusCode === 200) {
@@ -34,7 +34,6 @@ export const useAuthStore = create<AuthState>((set) => ({
           isLoading: false,
           error: null,
         });
-        toast.success("Đăng nhập thành công!");
       } else {
         set({ isLoading: false, error: "Đăng nhập thất bại" });
         toast.error("Đăng nhập thất bại");
@@ -99,8 +98,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       toast.error(errorMessage);
     }
   },
-
-  // Hàm logout
   logout: () => {
     localStorage.removeItem("accessToken");
     set({ user: null, isAuthenticated: false, isLoading: false, error: null });

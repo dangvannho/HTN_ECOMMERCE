@@ -13,6 +13,8 @@ import Order from "@/pages/order";
 import AccountDetail from "@/pages/account-detail";
 import Wishlist from "@/pages/wishlist";
 import Addresses from "@/pages/addresses";
+import ForgotPassword from "@/pages/auth/forgot-password";
+import ResetPassword from "@/pages/auth/reset-password";
 
 const listRoute: Route[] = [
   {
@@ -41,6 +43,16 @@ const listRoute: Route[] = [
     layout: MainLayout,
   },
   {
+    path: routePath.forgotPassword,
+    component: <ForgotPassword />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.resetPassword,
+    component: <ResetPassword />,
+    layout: MainLayout,
+  },
+  {
     path: routePath.cart,
     component: <Cart />,
     layout: MainLayout,
@@ -59,7 +71,7 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.address,
-    component: <Addresses/>,
+    component: <Addresses />,
     layout: AccountLayout,
   },
 ];

@@ -35,9 +35,9 @@ const Login = () => {
   // Kiểm tra trạng thái đăng nhập khi component mount
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/"); 
+      navigate("/");
     } else if (localStorage.getItem("accessToken")) {
-      fetchUser(); // Thử khôi phục thông tin user nếu có token
+      fetchUser();
     }
   }, [isAuthenticated, fetchUser, navigate]);
 

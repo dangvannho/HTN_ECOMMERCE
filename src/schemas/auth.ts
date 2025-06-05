@@ -36,6 +36,23 @@ export const registerSchema = z
     path: ["confirmPassword"], // Hiển thị lỗi ở trường confirmPassword
   });
 
+// Schema cho form forgot password
+export const forgotPasswordSchema = z.object({
+  email: emailValidate,
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+    confirmPassword: z.string().min(1, "Xác nhận mật khẩu là bắt buộc"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Mật khẩu và xác nhận mật khẩu không khớp",
+    path: ["confirmPassword"], // Hiển thị lỗi ở trường confirmPassword
+  });
+
 // Types cho form inputs
 export type LoginFormInputs = z.infer<typeof loginSchema>;
 export type RegisterFormInputs = z.infer<typeof registerSchema>;
+export type ForgotPasswordFormInputs = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordFormInputs = z.infer<typeof resetPasswordSchema>;
