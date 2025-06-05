@@ -4,6 +4,8 @@ const routePath = {
   shop: "/shop",
   login: "/login",
   register: "/register",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
   cart: "/cart",
   orders: "/orders",
   accountDetail: "/account-detail",
