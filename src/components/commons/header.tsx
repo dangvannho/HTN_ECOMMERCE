@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { LogIn, LogOut } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
+import { useCartStore } from "@/stores/cart.store";
 
 const LINKS = [
   { name: "HOME", href: routePath.home },
@@ -55,6 +56,7 @@ const AVATAR_DEFAULT =
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { cartItemsCount } = useCartStore();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -153,7 +155,7 @@ const Header = () => {
           <Link to={routePath.cart} className="relative cursor-pointer">
             <ShoppingBag className="size-5" />
             <span className="absolute -bottom-1 -right-2 bg-[#d4a373] text-white text-[10px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center">
-              3
+              {cartItemsCount}
             </span>
           </Link>
           <div>

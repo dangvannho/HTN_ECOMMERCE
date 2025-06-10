@@ -3,7 +3,7 @@ import BagShopping from "./_pages/bag/bag-shopping"
 import { useState } from "react"
 import Checkout from "@/pages/cart/_pages/checkout/checkout"
 import Order from "./_pages/order-received/order"
-import { CartSummary } from "@/pages/cart/types/types-cart"
+import { CartSummary } from "@/services/cart/types/cart.types"
 
 const CartLayout = () => {
     const [step, setStep] = useState("bag")
@@ -14,7 +14,6 @@ const CartLayout = () => {
         total: 0,
         selectedShipping: "",
         shippingCost: 0,
-
     })
 
     return (
