@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ImgItem from "@/assets/images.svg";
 import Profile from "@/assets/profleGit.jpg";
-import ItemTrending from "@/pages/home/_components/section-trending/item-trending";
+import ItemTrending from "@/components/commons/card-item";
 
 const productData = [
   {

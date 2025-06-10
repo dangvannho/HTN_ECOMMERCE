@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import ProductCategory from './product-category';
-import ColorCategory from './color-categoty';
-import SizeCategory from './size-category/size-category';
+// import ColorCategory from './color-categoty';
+// import SizeCategory from './size-category/size-category';
 import BrandsCategory from './brands-category';
 import PriceCategory from './price-category';
 import FilterCategory from './filter-category/filter-category';
@@ -110,14 +110,14 @@ const SidebarCategory = () => {
         selectedCategories={filters.categories}
         onCategorySelect={handleCategory}
       />
-      <ColorCategory 
+      {/* <ColorCategory 
         selectedColors={filters.colors}
         onColorSelect={handleColor}
       />
       <SizeCategory 
         selectedSizes={filters.sizes}
         onSizeSelect={handleSize}
-      />
+      /> */}
       <BrandsCategory 
         selectedBrands={filters.brands}
         onBrandSelect={handleBrand}
