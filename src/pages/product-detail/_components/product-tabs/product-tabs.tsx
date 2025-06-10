@@ -1,8 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AdditionalInfoTab from "./additional-info-tab";
 import DescriptionTab from "./description-tab";
+import type { Product } from "@/services/product/types/product.type";
 
-const ProductTabs = () => {
+interface ProductTabsProps {
+  productData: Product | null;
+}
+
+const ProductTabs = ({ productData }: ProductTabsProps) => {
   return (
     <div className="mt-14 lg:mt-24">
       <Tabs defaultValue="Description" className="w-full">
@@ -19,13 +24,13 @@ const ProductTabs = () => {
         </TabsList>
 
         <TabsContent value="Description" className="mt-8 md:mt-[50px]">
-          <DescriptionTab />
+          <DescriptionTab description={productData?.description} />
         </TabsContent>
         <TabsContent
           value="Additional Information"
           className="mt-8 md:mt-[50px]"
         >
-          <AdditionalInfoTab />
+          <AdditionalInfoTab aditionalInfo={productData?.additional_info} />
         </TabsContent>
       </Tabs>
     </div>
