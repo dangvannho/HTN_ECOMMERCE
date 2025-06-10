@@ -1,21 +1,92 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import ChevronLeft from "@/components/icons/chevronleft";
 import ChevronRight from "@/components/icons/chevronright";
 import Heart from "@/components/icons/heart";
 import Share from "@/components/icons/share";
 import BreadCrumb from "@/components/commons/bread-crumb";
+import SizeGuideModal from "./size-guide-modal";
+import type { Product } from "@/services/product/types/product.type";
+import { formatToVND } from "@/utils/format";
 
 interface ProductInfomationProps {
-  checkSale: boolean;
+  productData: Product | null;
+  onColorChange?: (images: string[]) => void;
 }
-const ProductInfomation = ({ checkSale }: ProductInfomationProps) => {
+
+const ProductInfomation = ({
+  productData,
+  onColorChange,
+}: ProductInfomationProps) => {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedSize, setSelectedSize] = useState("XS");
-  const [selectedColor, setSelectedColor] = useState("red-500");
-  const sizes = ["XS", "S", "M", "L", "XL"];
-  const colors = ["black", "red-500", "[#E4E4E4]"];
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [currentSku, setCurrentSku] = useState("");
+  const [currentId, setCurrentId] = useState("");
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+
+  const variants = productData?.variants || [];
+
+  // Helper function to find next available size
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const findNextAvailableSize = (sizes: any[]) => {
+    const availableSize = sizes.find((size) => size.stock > 0);
+    return availableSize || sizes[0]; // Return first size if none available
+  };
+
+  useEffect(() => {
+    if (productData) {
+      setIsFavorite(productData.isFavorite);
+    }
+  }, [productData]);
+
+  useEffect(() => {
+    if (variants.length > 0 && !selectedColor) {
+      // Set default color to first variant only if no color is selected
+      setSelectedColor(variants[0].color);
+      // Set default size to first available size of first variant
+      if (variants[0].sizes.length > 0) {
+        const nextAvailableSize = findNextAvailableSize(variants[0].sizes);
+        setSelectedSize(nextAvailableSize.size);
+        setCurrentSku(nextAvailableSize.sku);
+        setCurrentId(nextAvailableSize.id);
+      }
+      // Set default images
+      onColorChange?.(variants[0].images);
+    }
+  }, [variants, onColorChange, selectedColor]);
+
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+    setSelectedSize(""); // Reset size when changing color
+
+    const selectedVariant = variants.find((v) => v.color === color);
+    if (selectedVariant) {
+      // Update images
+      onColorChange?.(selectedVariant.images);
+      // Set first available size and SKU of new color
+      if (selectedVariant.sizes.length > 0) {
+        const nextAvailableSize = findNextAvailableSize(selectedVariant.sizes);
+        setSelectedSize(nextAvailableSize.size);
+        setCurrentSku(nextAvailableSize.sku);
+        setCurrentId(nextAvailableSize.id);
+      }
+    }
+  };
+
+  const handleSizeChange = (size: string) => {
+    setSelectedSize(size);
+    // Update SKU when size changes
+    const selectedVariant = variants.find((v) => v.color === selectedColor);
+    if (selectedVariant) {
+      const sizeInfo = selectedVariant.sizes.find((s) => s.size === size);
+      if (sizeInfo) {
+        setCurrentSku(sizeInfo.sku);
+        setCurrentId(sizeInfo.id);
+      }
+    }
+  };
 
   return (
     <div className="lg:px-0 px-4">
@@ -37,65 +108,89 @@ const ProductInfomation = ({ checkSale }: ProductInfomationProps) => {
         </div>
       </div>
       <h3 className="text-xl lg:text-[26px] font-normal text-[#222] mt-0 lg:mt-10">
-        Lightweight Puffer Jacket With A Hood
+        {productData?.name}
       </h3>
       <div className="mt-[7px]">
-        {checkSale ? (
+        {productData && productData.discount > 0 ? (
           <div className="flex items-center gap-3">
-            <p className="text-[16px] text-[#767676] line-through">$769</p>
-            <p className="text-[22px] font-medium text-[#D6001C]">$249</p>
+            <p className="text-[16px] text-[#767676] line-through">
+              {formatToVND(productData.price || 0)}
+            </p>
+            <p className="text-[22px] font-medium text-[#D6001C]">
+              {formatToVND(productData.finalPrice || 0)}
+            </p>
           </div>
         ) : (
-          <p className="text-xl font-medium text-[#222]">$249</p>
+          <p className="text-xl font-medium text-[#222]">
+            {formatToVND(productData?.price || 0)}
+          </p>
         )}
       </div>
       <p className="text-[#222] mt-[25px] text-[14px] leading-[24px]">
-        Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum
-        gravida nec dui. Aenean aliquam quis ipsum, non ultricies tellus sodales
-        eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
+        {productData?.description_short}
       </p>
 
       {/* Size Selector */}
       <div className="flex items-center gap-3 mt-[30px]">
         <p className="font-medium text-sm">SIZES</p>
         <div className="flex gap-2 ml-[20px] md:ml-[50px]">
-          {sizes.map((size) => (
-            <button
-              key={size}
-              onClick={() => setSelectedSize(size)}
-              className={`h-[30px] w-auto px-3 py-1 border text-sm font-normal ${
-                selectedSize === size ? "border-1 border-black" : ""
-              }`}
-            >
-              {size}
-            </button>
-          ))}
+          {variants
+            .find((variant) => variant.color === selectedColor)
+            ?.sizes.map((sizeItem) => (
+              <button
+                key={sizeItem.size}
+                onClick={() =>
+                  sizeItem.stock > 0 && handleSizeChange(sizeItem.size)
+                }
+                disabled={sizeItem.stock === 0}
+                className={`h-[30px] w-auto px-3 py-1 border text-sm font-normal relative ${
+                  sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"
+                } ${
+                  selectedSize === sizeItem.size && sizeItem.stock > 0
+                    ? "border-1 border-black"
+                    : ""
+                }`}
+              >
+                {sizeItem.size}
+                {sizeItem.stock === 0 && (
+                  <>
+                    <span className="absolute h-[1px] w-[128%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[43deg] bg-gray-400"></span>
+                    <span className="absolute h-[1px] w-[128%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[43deg] bg-gray-400"></span>
+                  </>
+                )}
+              </button>
+            ))}
         </div>
-        <a
-          href="#"
-          className="ml-1 md:ml-20 text-[10px] md:text-sm font-medium text-[#222] group relative"
+        <p
+          className="ml-1 md:ml-20 text-[10px] md:text-sm font-medium text-[#222] group relative cursor-pointer"
+          onClick={() => {
+            setIsSizeGuideOpen(true);
+          }}
         >
           SIZE GUIDE
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
-        </a>
+        </p>
       </div>
 
       {/* Color Selector */}
       <div className="mt-[30px] flex item-center">
         <p className="font-medium text-sm self-center">COLOR</p>
         <div className="flex ml-5 md:ml-[50px] gap-2">
-          {colors.map((color) => (
+          {variants.map((variant) => (
             <button
-              key={color}
-              onClick={() => setSelectedColor(color)}
+              key={variant.color}
+              onClick={() => handleColorChange(variant.color)}
               className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${
-                selectedColor === color ? "border-black" : "border-transparent"
+                selectedColor === variant.color
+                  ? "border-black"
+                  : "border-transparent"
               }`}
             >
               <div
-                className={`w-4 h-4 bg-${color} rounded-full ${
-                  selectedColor === color ? "border-2 border-white" : ""
+                className={`w-4 h-4 rounded-full ${
+                  selectedColor === variant.color ? "border-2 border-white" : ""
                 }`}
+                style={{ backgroundColor: variant.color.toLowerCase() }}
               ></div>
             </button>
           ))}
@@ -148,23 +243,31 @@ const ProductInfomation = ({ checkSale }: ProductInfomationProps) => {
       <div className="text-sm space-y-1 mt-[26px]">
         <div className="flex gap-1">
           <p className="text-[#767676]">SKU:</p>
-          <span className="font-medium text-[#222]"> N/A</span>
+          <span className="font-medium text-[#222]">{currentSku || "N/A"}</span>
         </div>
         <div className="flex gap-1">
           <p className="text-[#767676]">CATEGORIES:</p>
           <span className="font-medium text-[#222]">
-            {" "}
-            Casual & Urban Wear, Jackets, Men
+            {productData?.categories
+              .map((item) => {
+                return item.name;
+              })
+              .join(", ")}
           </span>
         </div>
-        <div className="flex gap-1">
+        {/* <div className="flex gap-1">
           <p className="text-[#767676]">TAGS: </p>
           <span className="font-medium text-[#222]">
-            {" "}
             biker, black, bomber, leather, jackets
           </span>
-        </div>
+        </div> */}
       </div>
+
+      <SizeGuideModal
+        open={isSizeGuideOpen}
+        onOpenChange={setIsSizeGuideOpen}
+        image={productData?.sizeGuide || ""}
+      />
     </div>
   );
 };
