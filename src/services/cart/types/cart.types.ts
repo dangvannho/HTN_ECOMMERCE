@@ -43,6 +43,7 @@ export interface ICartResponse {
             cart: ICart;
             totalQuantity: number;
             totalPrice: number;
+            item: number;
         };
     }
 }

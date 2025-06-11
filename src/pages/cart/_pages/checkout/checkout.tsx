@@ -2,7 +2,7 @@ import FloatingInput from "@/components/commons/float-input"
 import { Progress } from "@/components/ui/progress"
 import { useState } from "react";
 import ButtomCommon from "../../_common/buttom";
-import { CartSummary } from "@/pages/cart/types/types-cart";
+import { CartSummary } from "@/services/cart/types/cart.types";
 
 
 interface checkoutProps {
@@ -60,12 +60,12 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                             <div className="grid grid-cols-2 gap-4">
                                 <FloatingInput
                                     label="First Name"
-                                    value={fistname}
+                                   
                                     onChange={(e) => setFistName(e.target.value)}
                                 />
                                 <FloatingInput
                                     label="Last Name"
-                                    value={lastname}
+                                   
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
@@ -73,7 +73,7 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
 
                             <FloatingInput
                                 label="Company Name"
-                                value={company}
+                                
                                 onChange={(e) => setCompany(e.target.value)}
                             />
 
@@ -214,7 +214,7 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                                     />
                                     <span className="text-base font-normal">Cash on delivery</span>
                                 </label>
-                                <label className="flex items-center space-x-2">
+                                {/* <label className="flex items-center space-x-2">
                                     <input
                                         type="radio"
                                         name="payment"
@@ -224,7 +224,7 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                                         className="accent-[#222]"
                                     />
                                     <span className="text-base font-normal">PayPal</span>
-                                </label>
+                                </label> */}
                                 <p className="text-xs">
                                     Your personal data will be used to process your order, support your
                                     experience throughout this website, and for other purposes
