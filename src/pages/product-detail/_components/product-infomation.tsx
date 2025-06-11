@@ -8,6 +8,8 @@ import BreadCrumb from "@/components/commons/bread-crumb";
 import SizeGuideModal from "./size-guide-modal";
 import type { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
+import favoriteApi from "@/services/favorite/api/favorite.api";
+import toast from "react-hot-toast";
 
 interface ProductInfomationProps {
   productData: Product | null;
@@ -84,6 +86,30 @@ const ProductInfomation = ({
       if (sizeInfo) {
         setCurrentSku(sizeInfo.sku);
         setCurrentId(sizeInfo.id);
+      }
+    }
+  };
+
+  const handleFavorite = async () => {
+    if (isFavorite) {
+      try {
+        const response = await favoriteApi.deleteFavorite(
+          productData?._id || ""
+        );
+        toast.success(response.message);
+        setIsFavorite(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
+    } else {
+      try {
+        const response = await favoriteApi.addFavorite(productData?._id || "");
+        toast.success(response.message);
+        setIsFavorite(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -224,7 +250,7 @@ const ProductInfomation = ({
       <div className="flex gap-4 mt-[35px]">
         <button
           className="flex items-center gap-2 relative group pb-1"
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={() => handleFavorite()}
         >
           <Heart className="size-4" fill={isFavorite ? "red" : "black"} />
           <span className="text-[13px] font-medium">ADD TO WISHLIST</span>

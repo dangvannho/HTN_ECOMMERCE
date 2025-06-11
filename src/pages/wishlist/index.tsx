@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import ItemTrending from "@/pages/home/_components/section-trending/item-trending";
 import ImgItem from "@/assets/images.svg";
 import Profile from "@/assets/profleGit.jpg";
 import X from "@/components/icons/x";
+import type { Product } from "@/services/product/types/product.type";
+import favoriteApi from "@/services/favorite/api/favorite.api";
 
 const productData = [
   {
@@ -85,6 +88,24 @@ const productData = [
 ];
 
 const Wishlist = () => {
+  const [wishlist, setWishlist] = useState<Product[]>();
+
+  const fetchWishlist = async () => {
+    try {
+      const response = await favoriteApi.getFavorites();
+      console.log(response);
+      if (response.status === 200) {
+        setWishlist(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
   return (
     <>
       <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
