@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import User from "../icons/user";
 import ShoppingBag from "../icons/shopping-bag";
 import Menu from "../icons/menu";
@@ -10,7 +10,6 @@ import UserPenRound from "../icons/user-pen-round";
 import Container from "../icons/container";
 import Notebook from "../icons/notebook";
 import HeartPlus from "../icons/heart-plus";
-
 import routePath from "@/config/route";
 import {
   Tooltip,
@@ -55,8 +54,21 @@ const AVATAR_DEFAULT =
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuthStore();
-  const { cartItemsCount } = useCartStore();
+  const { user, isAuthenticated, fetchUser, logout } = useAuthStore();
+  const { cartItemsCount, fetchCart } = useCartStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchUser();
+      fetchCart();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    logout();
+    navigate(routePath.home);
+  };
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -124,7 +136,7 @@ const Header = () => {
                       </Link>
                     ))}
                     <button
-                      onClick={logout}
+                      onClick={() => handleLogout()}
                       className="flex items-center gap-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
                     >
                       <LogOut className="size-5" />
@@ -154,9 +166,11 @@ const Header = () => {
           </TooltipProvider>
           <Link to={routePath.cart} className="relative cursor-pointer">
             <ShoppingBag className="size-5" />
-            <span className="absolute -bottom-1 -right-2 bg-[#d4a373] text-white text-[10px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center">
-              {cartItemsCount}
-            </span>
+            {user && (
+              <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] rounded-full w-3 h-3 flex items-center justify-center pt-[1px]">
+                {cartItemsCount}
+              </span>
+            )}
           </Link>
           <div>
             <Menu className="size-5" />
@@ -174,9 +188,11 @@ const Header = () => {
         </div>
         <Link to={routePath.cart} className="relative cursor-pointer">
           <ShoppingBag className="size-5" />
-          <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] rounded-full w-3 h-3 flex items-center justify-center">
-            100
-          </span>
+          {user && (
+            <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] pts-[1px] rounded-full w-3 h-3 flex items-center justify-center">
+              {cartItemsCount}
+            </span>
+          )}
         </Link>
       </div>
 

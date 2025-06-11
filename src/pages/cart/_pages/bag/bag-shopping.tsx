@@ -24,7 +24,7 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
 
     useEffect(() => {
         fetchCart();
-    }, [fetchCart]);
+    }, []);
 
     const getShippingCost = (method: string) => {
         switch (method) {
