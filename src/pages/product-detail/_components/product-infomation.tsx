@@ -12,7 +12,8 @@ import { useCartStore } from "@/stores/cart.store"
 import cartApi from "@/services/cart/api/cart.api"
 import { IAddToCartData } from "@/services/cart/types/cart.types";
 import toast from "react-hot-toast"; 
-import routePath from "@/config/route";
+import favoriteApi from "@/services/favorite/api/favorite.api";
+
 
 interface ProductInfomationProps {
   productData: Product | null;
@@ -81,6 +82,7 @@ const ProductInfomation = ({
         fetchCart(); 
       }
        
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
       toast.error(error.data.response.message);
     }
@@ -114,6 +116,30 @@ const ProductInfomation = ({
       if (sizeInfo) {
         setCurrentSku(sizeInfo.sku);
         setCurrentId(sizeInfo.id);
+      }
+    }
+  };
+
+  const handleFavorite = async () => {
+    if (isFavorite) {
+      try {
+        const response = await favoriteApi.deleteFavorite(
+          productData?._id || ""
+        );
+        toast.success(response.message);
+        setIsFavorite(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
+    } else {
+      try {
+        const response = await favoriteApi.addFavorite(productData?._id || "");
+        toast.success(response.message);
+        setIsFavorite(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -250,7 +276,7 @@ const ProductInfomation = ({
       <div className="flex gap-4 mt-[35px]">
         <button
           className="flex items-center gap-2 relative group pb-1"
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={() => handleFavorite()}
         >
           <Heart className="size-4" fill={isFavorite ? "red" : "black"} />
           <span className="text-[13px] font-medium">ADD TO WISHLIST</span>
