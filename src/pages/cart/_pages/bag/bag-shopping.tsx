@@ -128,7 +128,6 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
 
                 <CartTotals
                     subtotal={subtotal}
-                    vat={vat}
                     total={total}
                     selectedShipping={selectedShipping}
                     setSelectedShipping={setSelectedShipping}

@@ -23,7 +23,7 @@ export const useCartStore = create<CartStore>((set) => ({
         const items = response.data.data.cart.items;
         set({
           cartItems: items,
-          cartItemsCount: response.data.data.totalQuantity
+          cartItemsCount: response.data.data.item
         });
       } else {
         set({

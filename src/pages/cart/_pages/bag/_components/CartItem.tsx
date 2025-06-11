@@ -1,5 +1,6 @@
 import { ICartItem } from '@/services/cart/types/cart.types';
 import { formatToVND } from '@/utils/format';
+import { Link } from 'react-router-dom';
 
 interface CartItemProps {
     item: ICartItem;
@@ -22,9 +23,12 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
 
                 {/* Product info */}
                 <div className="sm:col-span-3">
-                    <h3 className="text-base font-normal truncate max-w-[200px] sm:max-w-[300px]">
+                    <Link
+                        to={`/product-detail/${item.productId?.slug}`}
+                        className="block text-base font-normal truncate max-w-[200px] sm:max-w-[300px]  transition-colors"
+                    >
                         {item.productId?.name || 'Product'}
-                    </h3>
+                    </Link>
                     <p className="text-sm text-[#767676] flex items-center gap-2">
                         Color:
                         <div
