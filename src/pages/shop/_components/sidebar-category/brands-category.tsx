@@ -13,13 +13,10 @@ interface BrandOption {
 }
 
 const brandOptions: BrandOption[] = [
-  { name: "Adidas", count: 2 }, 
-  { name: "Balmain", count: 7 }, 
-  { name: "Balenciaga", count: 19 },
-  { name: "Burberry", count: 29 }, 
-  { name: "Guess", count: 15 }, 
-  { name: "Givenchy", count: 1002 },
-  { name: "Zara", count: 48 }
+  { name: "MEN", count: 2 }, 
+  { name: "WOMEN", count: 7 }, 
+  { name: "KIDS", count: 19 },
+  { name: "UNISEX", count: 29 }, 
 ];
 
 const BrandsCategory: React.FC<BrandsCategoryProps> = ({
@@ -40,7 +37,7 @@ const BrandsCategory: React.FC<BrandsCategoryProps> = ({
 
   return (
     <div>
-      <ButtonFilter title="Brands" onClick={handleClick} openCats={openCats}/>
+      <ButtonFilter title="The Collection" onClick={handleClick} openCats={openCats}/>
       {openCats && (
         <div className="mb-10">
           <div className="relative">

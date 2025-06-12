@@ -2,7 +2,7 @@ import React from "react";
 import { X } from "lucide-react";
 
 interface FilterState {
-  categories: string[];
+  category: string | null;
   colors: string[];
   sizes: string[];
   brands: string[];
@@ -38,7 +38,7 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
 }) => {
   // Check if any filters are applied
   const hasFilters = 
-    filters.categories.length > 0 ||
+    (filters.category !== null && filters.category !== undefined) ||
     filters.colors.length > 0 ||
     filters.sizes.length > 0 ||
     filters.brands.length > 0 ||
@@ -56,15 +56,14 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
   return (
     <div className="border-t border-gray-200 pt-4">
       <div className="flex flex-wrap mb-2">
-        {/* Categories */}
-        {filters.categories.map((category) => (
+        {/* Category */}
+        {filters.category && (
           <FilterTag
-            key={`category-${category}`}
-            label={category}
-            onRemove={() => handleRemove("categories", category)}
+            key={`category-${filters.category}`}
+            label={filters.category}
+            onRemove={() => handleRemove("category", filters.category!)}
           />
-        ))}
-
+        )}
         {/* Colors */}
         {filters.colors.map((color) => (
           <FilterTag
@@ -73,7 +72,6 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
             onRemove={() => handleRemove("colors", color)}
           />
         ))}
-
         {/* Sizes */}
         {filters.sizes.map((size) => (
           <FilterTag
@@ -82,7 +80,6 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
             onRemove={() => handleRemove("sizes", size)}
           />
         ))}
-
         {/* Brands */}
         {filters.brands.map((brand) => (
           <FilterTag
@@ -91,7 +88,6 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
             onRemove={() => handleRemove("brands", brand)}
           />
         ))}
-
         {/* Price Range */}
         {(filters.price[0] !== 20 || filters.price[1] !== 937) && (
           <FilterTag
@@ -100,7 +96,6 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
           />
         )}
       </div>
-
       {/* Reset All Button */}
       {hasFilters && (
         <button

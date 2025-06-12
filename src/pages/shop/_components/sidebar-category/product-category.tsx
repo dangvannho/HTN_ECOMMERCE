@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ButtonFilter from '@/components/commons/button-filter';
 
 interface ProductCategoryProps {
-  selectedCategories: string[];
+  selectedCategory: string | null;
   onCategorySelect: (category: string) => void;
 }
 
@@ -11,7 +11,7 @@ const categories = [
   "Swimwear", "T-Shirts & Tops", "Trousers", "Jumpers & Cardigans"
 ];
 
-const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategories, onCategorySelect }) => {
+const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategory, onCategorySelect }) => {
   const [openCats, setOpenCats] = useState(true);
 
   const handleClick = () => {
@@ -28,7 +28,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategories, o
               <li key={cat}>
                 <button
                   className={`py-1.5 px-2 rounded hover:bg-gray-100 text-left text-[.96rem] w-full text-[#222] text-sm not-italic font-normal leading-[30px]${
-                    selectedCategories.includes(cat) ? " bg-gray-200" : ""
+                    selectedCategory === cat ? " bg-gray-200" : ""
                   }`}
                   onClick={() => onCategorySelect(cat)}
                 >
@@ -37,7 +37,6 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategories, o
               </li>
             ))}
           </ul>
-
         </div>
       )}
     </div>

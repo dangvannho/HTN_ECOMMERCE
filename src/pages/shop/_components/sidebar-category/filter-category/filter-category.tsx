@@ -2,7 +2,7 @@ import React from 'react';
 import SelectedFilters from './selected-filters-category';
 
 interface FilterState {
-  categories: string[];
+  category: string | null;
   colors: string[];
   sizes: string[];
   brands: string[];

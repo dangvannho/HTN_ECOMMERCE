@@ -8,7 +8,7 @@ import PriceCategory from './price-category';
 import FilterCategory from './filter-category/filter-category';
 
 interface FilterState {
-  categories: string[];
+  category: string | null;
   colors: string[];
   sizes: string[];
   brands: string[];
@@ -17,7 +17,7 @@ interface FilterState {
 
 const SidebarCategory = () => {
   const [filters, setFilters] = useState<FilterState>({
-    categories: [],
+    category: null,
     colors: [],
     sizes: [],
     brands: [],
@@ -28,9 +28,7 @@ const SidebarCategory = () => {
   const handleCategory = (category: string) => {
     setFilters(prev => ({
       ...prev,
-      categories: prev.categories.includes(category)
-        ? prev.categories.filter(c => c !== category)
-        : [...prev.categories, category]
+      category: prev.category === category ? null : category
     }));
   };
 
@@ -70,7 +68,7 @@ const SidebarCategory = () => {
 
   const resetAll = () => {
     setFilters({
-      categories: [],
+      category: null,
       colors: [],
       sizes: [],
       brands: [],
@@ -80,8 +78,8 @@ const SidebarCategory = () => {
 
   const handleRemoveFilter = (type: string, value: string) => {
     switch (type) {
-      case 'categories':
-        handleCategory(value);
+      case 'category':
+        setFilters(prev => ({ ...prev, category: null }));
         break;
       case 'colors':
         handleColor(value);
@@ -107,7 +105,7 @@ const SidebarCategory = () => {
         </button>
       </div>
       <ProductCategory 
-        selectedCategories={filters.categories}
+        selectedCategory={filters.category}
         onCategorySelect={handleCategory}
       />
       {/* <ColorCategory 

@@ -1,4 +1,3 @@
-import Reac, {useState} from 'react'
 import { ChevronDown } from 'lucide-react'
 
 interface ButtonFilterProps {
