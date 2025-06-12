@@ -36,6 +36,9 @@ export type Product = {
   featured: boolean;
   categories: Category[];
   isFavorite: boolean;
+  //needAdd
+  tag: string;
+  tagColor: string;
 };
 
 export type ProductDetailResponse = {
@@ -43,4 +46,41 @@ export type ProductDetailResponse = {
   data: {
     product: Product;
   };
+};
+
+export type ProductResponse = {
+  meta: {
+      currentPage: number;
+      pageSize: number;
+      totalItems: number;
+      totalPages: number;
+  };
+  result: Product[];
+}
+
+export type FilterProductParams = {
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
+  type?: string;
+  limit?: number;
+  currentPage?: number;
+  pageSize?: number;
+};
+
+export type FilterProductResponse = {
+  EC: number;
+  EM: string;
+  data: {
+    data: {
+      meta: {
+        currentPage: number;
+        pageSize: number;
+        totalItems: number;
+        totalPages: number;
+      };
+      result: Product[];
+    };
+
+    }
 };

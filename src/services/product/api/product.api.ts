@@ -1,8 +1,9 @@
 import { axiosInstance } from "@/config/axios";
-import { ProductDetailResponse } from "../types/product.type";
+import { ProductDetailResponse, ProductResponse, FilterProductParams, FilterProductResponse } from "../types/product.type";
 
 const PRODUCT_ENDPOINT = {
   GET_PRODUCT_DETAIL: "/products",
+  GET_ALL_PRODUCTS: "/products",
 };
 
 const productApi = {
@@ -17,6 +18,31 @@ const productApi = {
       throw error;
     }
   },
+
+  getAllProducts: async (pageSize: number, currentPage: number): Promise<ProductResponse> => {
+    try {
+      const response = await axiosInstance.get(PRODUCT_ENDPOINT.GET_ALL_PRODUCTS, {
+        params: {
+          pageSize,
+          currentPage
+        }
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching all products:", error);
+      throw error;
+    }
+  },
+
+  filterProducts: async (params: FilterProductParams): Promise<FilterProductResponse> => {
+    try {
+      const response = await axiosInstance.get("/products/filter", { params });
+      return response.data;
+    } catch (error) {
+      console.error("Error filtering products:", error);
+      throw error;
+    }
+  }
 };
 
 export default productApi;

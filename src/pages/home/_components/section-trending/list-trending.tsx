@@ -1,8 +1,8 @@
-import ItemTrending from "@/pages/home/_components/section-trending/item-trending";
 import ImgItem from "@/assets/images.svg";
 import Profile from "@/assets/profleGit.jpg";
+import CardItem from "@/components/commons/card-item";
 
-const productData = [
+export const productData = [
   {
     id: 1,
     images: [ImgItem, Profile], // mảng hình ảnh của sản phẩm
@@ -88,7 +88,7 @@ const ListTrending = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 container max-w-7xl mx-auto">
       {productData.map((product) => (
-        <ItemTrending key={product.id} product={product} />
+        <CardItem key={product.id} product={product} />
       ))}
     </div>
   );

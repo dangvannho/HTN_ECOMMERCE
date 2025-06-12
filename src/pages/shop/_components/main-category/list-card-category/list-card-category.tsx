@@ -1,113 +1,63 @@
-import React, {useState} from "react";
-import ImgItem from "@/assets/images.svg";
-import Profile from "@/assets/profleGit.jpg";
-import ItemTrending from "@/pages/home/_components/section-trending/item-trending";
+import React from "react";
 import Pagination from "./pagination-category";
+import CardItem from "@/components/commons/card-item";
+import { Product } from "@/services/product/types/product.type";
 
-const productData = [
-  {
-    id: 1,
-    images: [ImgItem, Profile], // mảng hình ảnh của sản phẩm
-    category: "Dresses",
-    name: "Cropped Faux Leather Jacket",
-    price: 29,
-    tag: "-35%", //discount
-    tagColor: "bg-red-500 text-white", //màu của discount
-    colors: ["black"], //màu của sản phẩm
-  },
-  {
-    id: 2,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Satin Blouse",
-    price: 77,
-    tag: "",
-    tagColor: "bg-red-500",
-    colors: ["black", "white"],
-  },
-  {
-    id: 3,
-    images: [ImgItem, ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Ribyr T-Shirt",
-    price: 17,
-    tag: "",
-    colors: ["gray", "white", "red"],
-  },
-  {
-    id: 4,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Cardigan Shirt",
-    price: 100,
-    discount: 89,
-    tag: "New",
-    tagColor: "bg-white text-black",
-    colors: [],
-  },
-  {
-    id: 5,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Casual Jacket",
-    price: 29,
-    tag: "Sale",
-    tagColor: "bg-black text-white",
-    colors: [],
-  },
-  {
-    id: 6,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Shirt In Botanical Chinoshi Print",
-    price: 82,
-    tag: "",
-    colors: [],
-  },
-  {
-    id: 7,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Cotton Jersey T-Shirt",
-    price: 17,
-    tag: "",
-    colors: [],
-  },
-  {
-    id: 8,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Zessi Dresser",
-    price: 100,
-    discount: 89,
-    tag: "",
-    colors: [],
-  },
-];
+interface ListCardCategoryProps {
+  filteredProducts?: Product[];
+  loading?: boolean;
+  onReset?: () => void;
+  page: number;
+  totalPages: number;
+  setPage: (page: number) => void;
+}
 
-const ListCardCategory = () => {
-    const [page, setPage] = useState(1);
-    const productsPerPage = 8; // Cố định hiển thị 8 sản phẩm trên mỗi trang
-    
-    // Calculate total pages
-    const totalPages = Math.ceil(productData.length / productsPerPage);
-    
-    // Get current page's products
-    const currentProducts = productData.slice(
-      (page - 1) * productsPerPage,
-      page * productsPerPage
-    );
-
+const ListCardCategory: React.FC<ListCardCategoryProps> = ({ 
+  filteredProducts, 
+  loading,
+  onReset,
+  page,
+  totalPages,
+  setPage 
+}) => {
+  if (loading) {
     return (
-      <>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 py-5 lg:py-10">
-          {currentProducts.map((product) => (
-            <ItemTrending key={product.id} product={product} />
-          ))}
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
+          <div
+            className="absolute inset-0 rounded-full border-4 border-[#C32929] border-t-transparent animate-spin"
+            style={{ width: 80, height: 80 }}
+          ></div>
+          <img
+            src="/logo.svg"
+            alt="Loading..."
+            width={50}
+            height={28}
+            className="animate-pulse z-10"
+            style={{ objectFit: "contain" }}
+          />
         </div>
-        <Pagination current={page} pages={totalPages} setPage={setPage} />
-      </>
+      </div>
     );
+  }
+
+  if (!filteredProducts?.length && !loading) {
+    return (
+      <div className="w-full text-center py-10 text-gray-500 text-lg">Không có sản phẩm phù hợp.</div>
+    );
+  }
+
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 py-5 lg:py-10">
+        {Array.isArray(filteredProducts) &&
+          filteredProducts.map((product) => (
+            <CardItem key={product._id} product={product} />
+          ))}
+      </div>
+      <Pagination current={page} pages={totalPages} setPage={setPage} />
+    </>
+  );
 };
 
 export default ListCardCategory;
