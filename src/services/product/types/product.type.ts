@@ -57,3 +57,30 @@ export type ProductResponse = {
   };
   result: Product[];
 }
+
+export type FilterProductParams = {
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
+  type?: string;
+  limit?: number;
+  currentPage?: number;
+  pageSize?: number;
+};
+
+export type FilterProductResponse = {
+  EC: number;
+  EM: string;
+  data: {
+    data: {
+      meta: {
+        currentPage: number;
+        pageSize: number;
+        totalItems: number;
+        totalPages: number;
+      };
+      result: Product[];
+    };
+
+    }
+};

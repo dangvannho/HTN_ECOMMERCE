@@ -7,7 +7,7 @@ interface ProductCategoryProps {
 }
 
 const categories = [
-  "Dresses", "Sweatshirts", "Jeans", "Jewelry", "Men", "Shirts",
+  "Dresses", "Jeans", "Sweatshirts", "Jewelry", "Shirts",
   "Swimwear", "T-Shirts & Tops", "Trousers", "Jumpers & Cardigans"
 ];
 

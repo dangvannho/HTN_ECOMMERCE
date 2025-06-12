@@ -1,107 +1,47 @@
-// import ItemTrending from "@/pages/home/_components/section-trending/item-trending";
-// import ImgItem from "@/assets/images.svg";
-// import Profile from "@/assets/profleGit.jpg";
-// import X from "@/components/icons/x";
+import { useState, useEffect } from "react";
+import X from "@/components/icons/x";
+import type { Product } from "@/services/product/types/product.type";
+import favoriteApi from "@/services/favorite/api/favorite.api";
+import CardItem from "@/components/commons/card-item";
 
-// const productData = [
-//   {
-//     id: 1,
-//     images: [ImgItem, Profile], // mảng hình ảnh của sản phẩm
-//     category: "Dresses",
-//     name: "Cropped Faux Leather Jacket",
-//     price: 29,
-//     tag: "-35%", //discount
-//     tagColor: "bg-red-500 text-white", //màu của discount
-//     colors: ["black"], //màu của sản phẩm
-//   },
-//   {
-//     id: 2,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Satin Blouse",
-//     price: 77,
-//     tag: "",
-//     tagColor: "bg-red-500",
-//     colors: ["black", "white"],
-//   },
-//   {
-//     id: 3,
-//     images: [ImgItem, ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Ribyr T-Shirt",
-//     price: 17,
-//     tag: "",
-//     colors: ["gray", "white", "red"],
-//   },
-//   {
-//     id: 4,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Cardigan Shirt",
-//     price: 100,
-//     discount: 89,
-//     tag: "New",
-//     tagColor: "bg-white text-black",
-//     colors: [],
-//   },
-//   {
-//     id: 5,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Casual Jacket",
-//     price: 29,
-//     tag: "Sale",
-//     tagColor: "bg-black text-white",
-//     colors: [],
-//   },
-//   {
-//     id: 6,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Shirt In Botanical Chinoshi Print",
-//     price: 82,
-//     tag: "",
-//     colors: [],
-//   },
-//   {
-//     id: 7,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Cotton Jersey T-Shirt",
-//     price: 17,
-//     tag: "",
-//     colors: [],
-//   },
-//   {
-//     id: 8,
-//     images: [ImgItem, ImgItem],
-//     category: "Dresses",
-//     name: "Zessi Dresser",
-//     price: 100,
-//     discount: 89,
-//     tag: "",
-//     colors: [],
-//   },
-// ];
 
-// const Wishlist = () => {
-//   return (
-//     <>
-//       <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
-//         wishlist
-//       </h4>
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//         {productData.map((product) => (
-//           <div className="relative group">
-//             <ItemTrending key={product.id} product={product} />
-//             <button className="absolute top-3 left-3 p-2 rounded bg-white opacity-0 group-hover:opacity-100 transition-all duration-200">
-//               <X className="size-3" />
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-//     </>
-//   );
-// };
 
-// export default Wishlist;
+const Wishlist = () => {
+  const [wishlist, setWishlist] = useState<Product[]>();
+
+  const fetchWishlist = async () => {
+    try {
+      const response = await favoriteApi.getFavorites();
+      console.log(response);
+      if (response.status === 200) {
+        setWishlist(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
+  return (
+    <>
+      <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
+        wishlist
+      </h4>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {wishlist?.map((product) => (
+          <div className="relative group">
+            <CardItem key={product._id} product={product} />
+            <button className="absolute top-3 left-3 p-2 rounded bg-white opacity-0 group-hover:opacity-100 transition-all duration-200">
+              <X className="size-3" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default Wishlist;

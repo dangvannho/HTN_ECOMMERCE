@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import ButtonFilter from "@/components/commons/button-filter";
+import { formatToVND } from "@/utils/format";
 
 interface PriceCategoryProps {
   selectedPrice: [number, number];
@@ -17,7 +18,6 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
   return (
     <div>
       <ButtonFilter title="Price" onClick={handleClick} openCats={openCats}/>
-
       {openCats && (
         <div className="pl-1 pt-4">
           <div className="relative w-full">
@@ -26,9 +26,9 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
               defaultValue={selectedPrice}
               value={selectedPrice}
               onValueChange={onPriceSelect}
-              max={937}
-              min={29}
-              step={1}
+              max={1000000}
+              min={100000}
+              step={10000}
               minStepsBetweenThumbs={1}
             >
               <SliderPrimitive.Track className="relative h-[3px] w-full grow overflow-hidden rounded-full bg-[#E4E4E4]">
@@ -47,11 +47,11 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
           <div className="flex justify-between mt-4">
             <div className="flex items-center gap-2">
               <span className="text-[#767676] text-sm">Min Price:</span>
-              <p className="text-[#222] text-sm">${selectedPrice[0]}</p>
+              <p className="text-[#222] text-sm">{formatToVND(selectedPrice[0])}</p>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#767676] text-sm">Max Price:</span>
-              <p className="text-[#222] text-sm">${selectedPrice[1]}</p>
+              <p className="text-[#222] text-sm">{formatToVND(selectedPrice[1])}</p>
             </div>
           </div>
         </div>

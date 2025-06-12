@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { Plus, Minus } from "lucide-react";
 import ChevronLeft from "@/components/icons/chevronleft";
 import ChevronRight from "@/components/icons/chevronright";
@@ -8,6 +8,12 @@ import BreadCrumb from "@/components/commons/bread-crumb";
 import SizeGuideModal from "./size-guide-modal";
 import type { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
+import { useCartStore } from "@/stores/cart.store"
+import cartApi from "@/services/cart/api/cart.api"
+import { IAddToCartData } from "@/services/cart/types/cart.types";
+import toast from "react-hot-toast"; 
+import favoriteApi from "@/services/favorite/api/favorite.api";
+
 
 interface ProductInfomationProps {
   productData: Product | null;
@@ -26,6 +32,10 @@ const ProductInfomation = ({
   const [currentId, setCurrentId] = useState("");
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
+  const { fetchCart } = useCartStore(); 
+  
+
+
   const variants = productData?.variants || [];
 
   // Helper function to find next available size
@@ -34,6 +44,8 @@ const ProductInfomation = ({
     const availableSize = sizes.find((size) => size.stock > 0);
     return availableSize || sizes[0]; // Return first size if none available
   };
+
+
 
   useEffect(() => {
     if (productData) {
@@ -56,6 +68,26 @@ const ProductInfomation = ({
       onColorChange?.(variants[0].images);
     }
   }, [variants, onColorChange, selectedColor]);
+
+  const handleAddToCart = async () => { 
+    try {
+      const data: IAddToCartData = {
+        productId: productData?._id || "",
+        variantId: currentId,
+        quantity: quantity,
+      };
+      const response = await cartApi.addToCart(data); 
+      if(response.statusCode === 200){
+        toast.success(response.message);
+        fetchCart(); 
+      }
+       
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      toast.error(error.data.response.message);
+    }
+    
+  }
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
@@ -84,6 +116,30 @@ const ProductInfomation = ({
       if (sizeInfo) {
         setCurrentSku(sizeInfo.sku);
         setCurrentId(sizeInfo.id);
+      }
+    }
+  };
+
+  const handleFavorite = async () => {
+    if (isFavorite) {
+      try {
+        const response = await favoriteApi.deleteFavorite(
+          productData?._id || ""
+        );
+        toast.success(response.message);
+        setIsFavorite(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
+    } else {
+      try {
+        const response = await favoriteApi.addFavorite(productData?._id || "");
+        toast.success(response.message);
+        setIsFavorite(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -143,13 +199,11 @@ const ProductInfomation = ({
                   sizeItem.stock > 0 && handleSizeChange(sizeItem.size)
                 }
                 disabled={sizeItem.stock === 0}
-                className={`h-[30px] w-auto px-3 py-1 border text-sm font-normal relative ${
-                  sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"
-                } ${
-                  selectedSize === sizeItem.size && sizeItem.stock > 0
+                className={`h-[30px] w-auto px-3 py-1 border text-sm font-normal relative ${sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"
+                  } ${selectedSize === sizeItem.size && sizeItem.stock > 0
                     ? "border-1 border-black"
                     : ""
-                }`}
+                  }`}
               >
                 {sizeItem.size}
                 {sizeItem.stock === 0 && (
@@ -180,16 +234,14 @@ const ProductInfomation = ({
             <button
               key={variant.color}
               onClick={() => handleColorChange(variant.color)}
-              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${
-                selectedColor === variant.color
-                  ? "border-black"
-                  : "border-transparent"
-              }`}
+              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${selectedColor === variant.color
+                ? "border-black"
+                : "border-transparent"
+                }`}
             >
               <div
-                className={`w-4 h-4 rounded-full ${
-                  selectedColor === variant.color ? "border-2 border-white" : ""
-                }`}
+                className={`w-4 h-4 rounded-full ${selectedColor === variant.color ? "border-2 border-white" : ""
+                  }`}
                 style={{ backgroundColor: variant.color.toLowerCase() }}
               ></div>
             </button>
@@ -215,7 +267,7 @@ const ProductInfomation = ({
             <Plus className="size-3" />
           </button>
         </div>
-        <button className="bg-black text-white px-6 py-2 w-[280px] text-sm ">
+        <button className="bg-black text-white px-6 py-2 w-[280px] text-sm " onClick={() => handleAddToCart()}>
           ADD TO CART
         </button>
       </div>
@@ -224,7 +276,7 @@ const ProductInfomation = ({
       <div className="flex gap-4 mt-[35px]">
         <button
           className="flex items-center gap-2 relative group pb-1"
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={() => handleFavorite()}
         >
           <Heart className="size-4" fill={isFavorite ? "red" : "black"} />
           <span className="text-[13px] font-medium">ADD TO WISHLIST</span>

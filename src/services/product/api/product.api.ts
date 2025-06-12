@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/config/axios";
-import { ProductDetailResponse, ProductResponse } from "../types/product.type";
+import { ProductDetailResponse, ProductResponse, FilterProductParams, FilterProductResponse } from "../types/product.type";
 
 const PRODUCT_ENDPOINT = {
   GET_PRODUCT_DETAIL: "/products",
@@ -30,6 +30,16 @@ const productApi = {
       return response.data.data;
     } catch (error) {
       console.error("Error fetching all products:", error);
+      throw error;
+    }
+  },
+
+  filterProducts: async (params: FilterProductParams): Promise<FilterProductResponse> => {
+    try {
+      const response = await axiosInstance.get("/products/filter", { params });
+      return response.data;
+    } catch (error) {
+      console.error("Error filtering products:", error);
       throw error;
     }
   }

@@ -11,7 +11,7 @@ import Register from "@/pages/auth/register";
 import Cart from "@/pages/cart";
 import Order from "@/pages/order";
 import AccountDetail from "@/pages/account-detail";
-// import Wishlist from "@/pages/wishlist";
+import Wishlist from "@/pages/wishlist";
 import Addresses from "@/pages/addresses";
 import ForgotPassword from "@/pages/auth/forgot-password";
 import ResetPassword from "@/pages/auth/reset-password";
@@ -64,11 +64,11 @@ const listRoute: Route[] = [
     component: <AccountDetail />,
     layout: AccountLayout,
   },
-  // {
-  //   path: routePath.wishlist,
-  //   component: <Wishlist />,
-  //   layout: AccountLayout,
-  // },
+  {
+    path: routePath.wishlist,
+    component: <Wishlist />,
+    layout: AccountLayout,
+  },
   {
     path: routePath.address,
     component: <Addresses />,

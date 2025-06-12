@@ -1,98 +1,53 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import ProductCategory from './product-category';
-// import ColorCategory from './color-categoty';
-// import SizeCategory from './size-category/size-category';
-import BrandsCategory from './brands-category';
-import PriceCategory from './price-category';
 import FilterCategory from './filter-category/filter-category';
+import PriceCategory from './price-category';
+import { FilterProductParams } from '@/services/product/types/product.type';
 
-interface FilterState {
-  category: string | null;
-  colors: string[];
-  sizes: string[];
-  brands: string[];
-  price: [number, number];
+interface SidebarCategoryProps {
+  filter: FilterProductParams;
+  setFilter: React.Dispatch<React.SetStateAction<FilterProductParams>>;
 }
 
-const SidebarCategory = () => {
-  const [filters, setFilters] = useState<FilterState>({
-    category: null,
-    colors: [],
-    sizes: [],
-    brands: [],
-    price: [20, 937],
-  });
+const DEFAULT_PRICE: [number, number] = [100000, 1000000];
+
+const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [price, setPrice] = useState<[number, number]>([
+    filter.minPrice ?? DEFAULT_PRICE[0],
+    filter.maxPrice ?? DEFAULT_PRICE[1],
+  ]);
+  const isPriceActive = price[0] !== DEFAULT_PRICE[0] || price[1] !== DEFAULT_PRICE[1];
 
   const handleCategory = (category: string) => {
-    setFilters(prev => ({
+    setFilter(prev => ({
       ...prev,
-      category: prev.category === category ? null : category
+      category: prev.category === category ? undefined : category
     }));
   };
 
-  const handleColor = (color: string) => {
-    setFilters(prev => ({
+  const handlePrice = (newPrice: [number, number]) => {
+    setPrice(newPrice);
+    setFilter(prev => ({
       ...prev,
-      colors: prev.colors.includes(color)
-        ? prev.colors.filter(c => c !== color)
-        : [...prev.colors, color]
-    }));
-  };
-
-  const handleSize = (size: string) => {
-    setFilters(prev => ({
-      ...prev,
-      sizes: prev.sizes.includes(size)
-        ? prev.sizes.filter(s => s !== size)
-        : [...prev.sizes, size]
-    }));
-  };
-
-  const handleBrand = (brand: string) => {
-    setFilters(prev => ({
-      ...prev,
-      brands: prev.brands.includes(brand)
-        ? prev.brands.filter(b => b !== brand)
-        : [...prev.brands, brand]
-    }));
-  };
-
-  const handlePrice = (price: [number, number]) => {
-    setFilters(prev => ({
-      ...prev,
-      price
+      minPrice: newPrice[0],
+      maxPrice: newPrice[1],
     }));
   };
 
   const resetAll = () => {
-    setFilters({
-      category: null,
-      colors: [],
-      sizes: [],
-      brands: [],
-      price: [20, 937],
-    });
+    setFilter({});
+    setPrice(DEFAULT_PRICE);
   };
 
   const handleRemoveFilter = (type: string, value: string) => {
-    switch (type) {
-      case 'category':
-        setFilters(prev => ({ ...prev, category: null }));
-        break;
-      case 'colors':
-        handleColor(value);
-        break;
-      case 'sizes':
-        handleSize(value);
-        break;
-      case 'brands':
-        handleBrand(value);
-        break;
-      case 'price':
-        handlePrice([20, 937]);
-        break;
+    if (type === 'category') {
+      setFilter(prev => ({ ...prev, category: undefined }));
+    }
+    if (type === 'price') {
+      setFilter(prev => ({ ...prev, minPrice: DEFAULT_PRICE[0], maxPrice: DEFAULT_PRICE[1] }));
+      setPrice(DEFAULT_PRICE);
     }
   };
 
@@ -105,29 +60,18 @@ const SidebarCategory = () => {
         </button>
       </div>
       <ProductCategory 
-        selectedCategory={filters.category}
+        selectedCategory={filter.category || null}
         onCategorySelect={handleCategory}
       />
-      {/* <ColorCategory 
-        selectedColors={filters.colors}
-        onColorSelect={handleColor}
-      />
-      <SizeCategory 
-        selectedSizes={filters.sizes}
-        onSizeSelect={handleSize}
-      /> */}
-      <BrandsCategory 
-        selectedBrands={filters.brands}
-        onBrandSelect={handleBrand}
-      />
-      <PriceCategory 
-        selectedPrice={filters.price}
+      <PriceCategory
+        selectedPrice={price}
         onPriceSelect={handlePrice}
       />
       <FilterCategory 
-        filters={filters}
+        filters={{ category: filter.category || null, price }}
         resetAll={resetAll}
         onRemoveFilter={handleRemoveFilter}
+        isPriceActive={isPriceActive}
       />
     </div>
   );

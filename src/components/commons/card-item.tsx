@@ -79,7 +79,7 @@ const CardItem = ({ product }: CardItemProps) => {
           {product.discount  ? (
             <>
               <span className="text-lg md:text-base font-normal">
-                {formatToVND(product.discount)}
+                {formatToVND(product.finalPrice)}
               </span>
               <span className="text-base md:text-sm text-red-500 line-through">
                 {formatToVND(product.price)}

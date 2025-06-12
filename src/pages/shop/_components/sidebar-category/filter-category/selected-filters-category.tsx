@@ -1,11 +1,9 @@
 import React from "react";
 import { X } from "lucide-react";
+import { formatToVND } from '@/utils/format';
 
 interface FilterState {
   category: string | null;
-  colors: string[];
-  sizes: string[];
-  brands: string[];
   price: [number, number];
 }
 
@@ -13,6 +11,7 @@ interface SelectedFiltersProps {
   filters: FilterState;
   resetAll: () => void;
   onRemoveFilter?: (type: string, value: string) => void;
+  isPriceActive?: boolean;
 }
 
 // Helper component for filter tags
@@ -34,16 +33,13 @@ function FilterTag({ label, onRemove }: { label: string; onRemove: () => void })
 const SelectedFilters: React.FC<SelectedFiltersProps> = ({ 
   filters, 
   resetAll,
-  onRemoveFilter 
+  onRemoveFilter,
+  isPriceActive
 }) => {
   // Check if any filters are applied
   const hasFilters = 
     (filters.category !== null && filters.category !== undefined) ||
-    filters.colors.length > 0 ||
-    filters.sizes.length > 0 ||
-    filters.brands.length > 0 ||
-    filters.price[0] !== 20 ||
-    filters.price[1] !== 937;
+    (isPriceActive);
 
   if (!hasFilters) return null;
 
@@ -64,34 +60,10 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
             onRemove={() => handleRemove("category", filters.category!)}
           />
         )}
-        {/* Colors */}
-        {filters.colors.map((color) => (
-          <FilterTag
-            key={`color-${color}`}
-            label={color}
-            onRemove={() => handleRemove("colors", color)}
-          />
-        ))}
-        {/* Sizes */}
-        {filters.sizes.map((size) => (
-          <FilterTag
-            key={`size-${size}`}
-            label={size}
-            onRemove={() => handleRemove("sizes", size)}
-          />
-        ))}
-        {/* Brands */}
-        {filters.brands.map((brand) => (
-          <FilterTag
-            key={`brand-${brand}`}
-            label={brand}
-            onRemove={() => handleRemove("brands", brand)}
-          />
-        ))}
         {/* Price Range */}
-        {(filters.price[0] !== 20 || filters.price[1] !== 937) && (
+        {isPriceActive && (
           <FilterTag
-            label={`$${filters.price[0]} - $${filters.price[1]}`}
+            label={`${formatToVND(filters.price[0])} - ${formatToVND(filters.price[1])}`}
             onRemove={() => handleRemove("price", "")}
           />
         )}
