@@ -6,17 +6,13 @@ import routePath from "@/config/route";
 import { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
 
-
 interface CardItemProps {
   product: Product;
 }
 
 // item trong section trending
 const CardItem = ({ product }: CardItemProps) => {
-  const navigate = useNavigate(); 
-
-
-  
+  const navigate = useNavigate();
 
   return (
     <div className="w-full cursor-pointer">
@@ -49,9 +45,7 @@ const CardItem = ({ product }: CardItemProps) => {
           <button
             className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors"
             onClick={() =>
-              navigate(
-                routePath.productDetail.replace(":slug", product.slug)
-              )
+              navigate(routePath.productDetail.replace(":slug", product.slug))
             }
           >
             <Eye />
@@ -76,7 +70,7 @@ const CardItem = ({ product }: CardItemProps) => {
 
         {/* price của sản phẩm */}
         <div className="flex items-center gap-2">
-          {product.discount  ? (
+          {product.discount ? (
             <>
               <span className="text-lg md:text-base font-normal">
                 {formatToVND(product.finalPrice)}
