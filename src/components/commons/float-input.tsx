@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface FloatingInputProps {
   label: string;
@@ -8,6 +8,9 @@ interface FloatingInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   ref?: React.Ref<HTMLInputElement>;
+  value?: string;
+  defaultValue?: string; 
+  disabled?: boolean
 }
 
 const FloatingInput = ({
@@ -18,28 +21,45 @@ const FloatingInput = ({
   onChange,
   onBlur,
   ref,
+  value,
+  defaultValue, 
+  disabled
 }: FloatingInputProps) => {
   const [isFloating, setIsFloating] = useState(false);
-  const [value, setValue] = useState(""); // Quản lý giá trị nội bộ để điều khiển label
+  const [inputValue, setInputValue] = useState(defaultValue || "");
+
+  useEffect(() => {
+    // Nếu có value prop (controlled input), sử dụng nó
+    if (value !== undefined) {
+      setIsFloating(!!value);
+    } else {
+      // Nếu không có value prop (uncontrolled input), sử dụng inputValue
+      setIsFloating(!!inputValue);
+    }
+  }, [value, inputValue]);
 
   return (
     <div className="relative mt-1 w-full">
-      <input
+      <input 
+        disabled = {disabled}
         type={type}
         name={name}
+        value={value !== undefined ? value : inputValue}
         className={`w-full border-2 px-2 py-3 text-sm text-[#222] focus:outline-none focus:border-2 focus:border-[#222] peer`}
         placeholder={placeholder}
         onChange={(e) => {
-          setValue(e.target.value); // Cập nhật giá trị nội bộ
-          setIsFloating(!!e.target.value); // Cập nhật trạng thái "nổi"
-          onChange?.(e); // Gọi onChange của react-hook-form
+          if (value === undefined) {
+            setInputValue(e.target.value);
+          }
+          setIsFloating(!!e.target.value);
+          onChange?.(e);
         }}
-        onFocus={() => setIsFloating(true)} // "Nổi" khi focus
+        onFocus={() => setIsFloating(true)}
         onBlur={(e) => {
-          setIsFloating(!!e.target.value); // Giữ "nổi" nếu có giá trị
-          onBlur?.(e); // Gọi onBlur của react-hook-form
+          setIsFloating(!!e.target.value);
+          onBlur?.(e);
         }}
-        ref={ref} // Truyền ref từ react-hook-form
+        ref={ref}
       />
       <label
         className={`
@@ -49,14 +69,14 @@ const FloatingInput = ({
           transform 
           -translate-y-1/2 
           text-sm 
-          ${isFloating || value ? "text-[#222]" : "text-[#767676]"}
+          ${isFloating ? "text-[#222]" : "text-[#767676]"}
           transition-all 
           duration-200 
           ease-in-out  
           pointer-events-none
           px-1
           ${
-            isFloating || value
+            isFloating
               ? "top-0 font-medium bg-white px-1 -translate-y-[calc(100%+14px)]"
               : ""
           }
@@ -64,7 +84,6 @@ const FloatingInput = ({
       >
         {label}
       </label>
-    
     </div>
   );
 };

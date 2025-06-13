@@ -12,7 +12,7 @@ export type RegisterResponse = {
 export type User = {
   name: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   avatar?: string;
 };
 
