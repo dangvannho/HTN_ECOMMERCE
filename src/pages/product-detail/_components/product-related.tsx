@@ -1,91 +1,30 @@
-import { useState } from "react";
-import ImgItem from "@/assets/images.svg";
-import Profile from "@/assets/profleGit.jpg";
-import ItemTrending from "@/components/commons/card-item";
+import { useState, useEffect } from "react";
+import type { Product } from "@/services/product/types/product.type";
+import CardItem from "@/components/commons/card-item";
+import productApi from "@/services/product/api/product.api";
 
-const productData = [
-  {
-    id: 1,
-    images: [ImgItem, Profile], // mảng hình ảnh của sản phẩm
-    category: "Dresses",
-    name: "Cropped Faux Leather Jacket",
-    price: 29,
-    tag: "-35%", //discount
-    tagColor: "bg-red-500 text-white", //màu của discount
-    colors: ["black"], //màu của sản phẩm
-  },
-  {
-    id: 2,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Satin Blouse",
-    price: 77,
-    tag: "",
-    tagColor: "bg-red-500",
-    colors: ["black", "white"],
-  },
-  {
-    id: 3,
-    images: [ImgItem, ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Ribyr T-Shirt",
-    price: 17,
-    tag: "",
-    colors: ["gray", "white", "red"],
-  },
-  {
-    id: 4,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Cardigan Shirt",
-    price: 100,
-    discount: 89,
-    tag: "New",
-    tagColor: "bg-white text-black",
-    colors: [],
-  },
-  {
-    id: 5,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Casual Jacket",
-    price: 29,
-    tag: "Sale",
-    tagColor: "bg-black text-white",
-    colors: [],
-  },
-  {
-    id: 6,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Shirt In Botanical Chinoshi Print",
-    price: 82,
-    tag: "",
-    colors: [],
-  },
-  {
-    id: 7,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Cotton Jersey T-Shirt",
-    price: 17,
-    tag: "",
-    colors: [],
-  },
-  {
-    id: 8,
-    images: [ImgItem, ImgItem],
-    category: "Dresses",
-    name: "Zessi Dresser",
-    price: 100,
-    discount: 89,
-    tag: "",
-    colors: [],
-  },
-];
-const ProductRelated = () => {
+interface ProductRelatedProps {
+  slug: string;
+}
+
+const ProductRelated = ({ slug }: ProductRelatedProps) => {
   const [showAll, setShowAll] = useState(false);
+  const [productData, setProductData] = useState<Product[]>([]);
   const displayedProducts = showAll ? productData : productData.slice(0, 4);
+
+  useEffect(() => {
+    fetchProductData();
+  }, []);
+
+  const fetchProductData = async () => {
+    try {
+      const response = await productApi.getRelatedProducts(slug);
+      setProductData(response.data);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
+  };
+
   return (
     <div className="mt-14 pb-4">
       <div className="flex justify-between items-center lg:px-0 px-3">
@@ -102,9 +41,13 @@ const ProductRelated = () => {
       </div>
 
       <div className="mt-[34px] grid grid-cols-1 md:grid-cols-4 gap-4 lg:px-0 px-3">
-        {displayedProducts.map((item) => {
-          return <ItemTrending key={item.id} product={item} />;
-        })}
+        {productData.length === 0 ? (
+          <p className="text-center col-span-4">No related products found</p>
+        ) : (
+          displayedProducts.map((item) => {
+            return <CardItem key={item._id} product={item} />;
+          })
+        )}
       </div>
 
       <p

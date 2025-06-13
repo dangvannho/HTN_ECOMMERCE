@@ -50,13 +50,13 @@ export type ProductDetailResponse = {
 
 export type ProductResponse = {
   meta: {
-      currentPage: number;
-      pageSize: number;
-      totalItems: number;
-      totalPages: number;
+    currentPage: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
   };
   result: Product[];
-}
+};
 
 export type FilterProductParams = {
   minPrice?: number;
@@ -81,6 +81,11 @@ export type FilterProductResponse = {
       };
       result: Product[];
     };
+  };
+};
 
-    }
+export type RelatedProductResponse = {
+  statusCode: number;
+  message: string;
+  data: Product[];
 };

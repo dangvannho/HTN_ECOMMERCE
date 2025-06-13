@@ -6,18 +6,8 @@ import Menu from "../icons/menu";
 import Search from "../icons/search";
 import X from "../icons/x";
 import ChevronRight from "../icons/chevronright";
-import UserPenRound from "../icons/user-pen-round";
-import Container from "../icons/container";
-import Notebook from "../icons/notebook";
-import HeartPlus from "../icons/heart-plus";
 import routePath from "@/config/route";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { LogIn, LogOut } from "lucide-react";
+import Account from "./account";
 import { useAuthStore } from "@/stores/auth.store";
 import { useCartStore } from "@/stores/cart.store";
 
@@ -29,28 +19,6 @@ const LINKS = [
   { name: "LOOKBOOK", href: "/" },
   { name: "PAGES", href: "/" },
 ];
-
-const LINKS_ACCOUNT = [
-  {
-    name: "ORDERS",
-    href: routePath.orders,
-    icon: Container,
-  },
-  {
-    name: "ADDRESSES",
-    href: routePath.address,
-    icon: Notebook,
-  },
-  {
-    name: "ACCOUNT DETAIL",
-    href: routePath.accountDetail,
-    icon: User,
-  },
-  { name: "WHISHLIST", href: routePath.wishlist, icon: HeartPlus },
-];
-
-const AVATAR_DEFAULT =
-  "https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,6 +39,10 @@ const Header = () => {
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   return (
     <header className="fixed left-0 top-0 w-full bg-white z-50">
@@ -103,67 +75,11 @@ const Header = () => {
             <Search className="size-4 absolute top-1/2 -translate-y-1/2 right-2" />
           </div>
 
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger>
-                {isAuthenticated ? (
-                  <div className="w-6 h-6 rounded-full overflow-hidden">
-                    <img
-                      src={user?.avatar || AVATAR_DEFAULT}
-                      alt="User avatar"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = AVATAR_DEFAULT;
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <User className="size-5" />
-                )}
-              </TooltipTrigger>
-              <TooltipContent>
-                {isAuthenticated ? (
-                  <div className="py-2 flex flex-col">
-                    {LINKS_ACCOUNT.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                      >
-                        <item.icon className="size-5" />
-                        {item.name}
-                      </Link>
-                    ))}
-                    <button
-                      onClick={() => handleLogout()}
-                      className="flex items-center gap-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                    >
-                      <LogOut className="size-5" />
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <Link
-                      to={routePath.login}
-                      className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                    >
-                      <LogIn className="size-5" />
-                      Login
-                    </Link>
-                    <Link
-                      to={routePath.register}
-                      className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
-                    >
-                      <UserPenRound className="size-5" />
-                      Register
-                    </Link>
-                  </>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Account
+            isAuthenticated={isAuthenticated}
+            user={user}
+            handleLogout={handleLogout}
+          />
           <Link to={routePath.cart} className="relative cursor-pointer">
             <ShoppingBag className="size-5" />
             {user && (
@@ -186,14 +102,22 @@ const Header = () => {
         <div className="flex items-center space-x-2">
           <img src="/logo.svg" alt="" />
         </div>
-        <Link to={routePath.cart} className="relative cursor-pointer">
-          <ShoppingBag className="size-5" />
-          {user && (
-            <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] pts-[1px] rounded-full w-3 h-3 flex items-center justify-center">
-              {cartItemsCount}
-            </span>
-          )}
-        </Link>
+
+        <div className="flex items-center gap-3">
+          <Account
+            isAuthenticated={isAuthenticated}
+            user={user}
+            handleLogout={handleLogout}
+          />
+          <Link to={routePath.cart} className="relative cursor-pointer">
+            <ShoppingBag className="size-5" />
+            {user && (
+              <span className="absolute -bottom-1 -right-1 bg-[#d4a373] text-white text-[10px] pts-[1px] rounded-full w-3 h-3 flex items-center justify-center">
+                {cartItemsCount}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
 
       {/* Mobile Sidebar */}
@@ -212,27 +136,33 @@ const Header = () => {
         </div>
 
         <nav className="flex flex-col space-y-6 mt-6 flex-1">
-          {["HOME", "SHOP", "COLLECTION", "JOURNAL", "LOOKBOOK", "PAGES"].map(
-            (item) => {
-              return (
-                <div className="flex items-center justify-between" key={item}>
-                  <Link
-                    to=""
-                    className="text-base font-medium text-[#222] relative group w-max"
-                  >
-                    {item}
-                    <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
-                  </Link>
+          {LINKS.map((item) => {
+            return (
+              <div
+                className="flex items-center justify-between"
+                key={item.name}
+              >
+                <Link
+                  to={item.href}
+                  onClick={handleLinkClick}
+                  className="text-base font-medium text-[#222] relative group w-max"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
+                </Link>
 
-                  <ChevronRight />
-                </div>
-              );
-            }
-          )}
+                <ChevronRight />
+              </div>
+            );
+          })}
         </nav>
 
         <div className="border-t border-[#E4E4E4] py-3 flex items-center">
-          <Link to="" className="uppercase flex gap-2 text-sm font-medium">
+          <Link 
+            to={routePath.accountDetail} 
+            onClick={handleLinkClick}
+            className="uppercase flex gap-2 text-sm font-medium"
+          >
             <User className="size-5" />
             <span className="mt-1"> My account</span>
           </Link>
