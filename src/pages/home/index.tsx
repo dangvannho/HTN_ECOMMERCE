@@ -2,15 +2,12 @@ import ListTrending from "@/pages/home/_components/section-trending/list-trendin
 import { useState } from "react";
 import Hero from "./_components/hero/hero";
 import PromoBanners from "./_components/section-promo-banners";
-import TestimonialsCarousel from "./_components/section-testimonial/testimonial"; 
-import { useCartStore } from "@/stores/cart.store";
+import TestimonialsCarousel from "./_components/section-testimonial/testimonial";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("WOMEN");
-  const { fetchCart } = useCartStore();
 
-  const tabs = ["ALL", "WOMEN", "MEN", "KIDS"]; 
-
+  const tabs = ["ALL", "WOMEN", "MEN", "KIDS"];
 
   return (
     <div className="bg-[#FAF9F8] ">

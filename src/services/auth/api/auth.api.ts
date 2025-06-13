@@ -54,7 +54,10 @@ const authApi = {
     }
   },
 
-  resetPassword: async (newPassword: string, token: string): Promise<ResetPasswordResponse> => {
+  resetPassword: async (
+    newPassword: string,
+    token: string
+  ): Promise<ResetPasswordResponse> => {
     try {
       const response = await axiosInstance.post(AUTH_ENDPOINT.RESET_PASSWORD, {
         newPassword,
@@ -75,7 +78,8 @@ const authApi = {
       console.log(error);
       throw error;
     }
-  },
+  }, 
+
   register: async (
     email: string,
     name: string,
