@@ -69,7 +69,7 @@ const CardItem = ({ product }: CardItemProps) => {
         </p>
         <Link
           to={routePath.productDetail.replace(":slug", product.slug)}
-          className="text-lg md:text-base not-italic font-normal text-gray-900 hover:underline"
+          className="text-lg md:text-base not-italic font-normal text-gray-900 hover:underline line-clamp-2"
         >
           {product.name}
         </Link>
