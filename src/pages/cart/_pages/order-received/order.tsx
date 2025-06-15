@@ -1,5 +1,9 @@
 import { Progress } from "@/components/ui/progress"
-import { CartSummary } from "@/pages/cart/types/types-cart"
+import { CartSummary } from "@/services/cart/types/cart.types"
+import { formatToVND } from "@/utils/format"
+import addressesApi from "@/services/addresses/api/addresses.api";
+import { IAddress } from "@/services/addresses/types/addresses.types";
+import { useEffect, useState } from "react";
 
 interface OrderData {
     cartSummary: CartSummary;
@@ -15,6 +19,20 @@ interface OrderData {
 const Order = () => {
     const orderData: OrderData = JSON.parse(localStorage.getItem('orderData') || '{}');
     const { cartSummary, paymentMethod, billingDetails } = orderData;
+    const [defaultAddress, setDefaultAddress] = useState<IAddress | null>(null);
+
+    useEffect(() => {
+        const fetchDefaultAddress = async () => {
+            try {
+                const response = await addressesApi.getMyAddresses();
+                const defaultAddr = response.data.find((addr: IAddress) => addr.isDefault);
+                setDefaultAddress(defaultAddr || null);
+            } catch (error) {
+                // Có thể log hoặc bỏ qua
+            }
+        };
+        fetchDefaultAddress();
+    }, []);
 
     return (
         <>
@@ -42,7 +60,7 @@ const Order = () => {
                         </div>
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Total</p>
-                            <p className="text-base font-medium">${cartSummary?.total.toFixed(2)}</p>
+                            <p className="text-base font-medium">{formatToVND(cartSummary.finalAmount)}</p>
                         </div>
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Payment Method</p>
@@ -61,30 +79,40 @@ const Order = () => {
 
                         {cartSummary?.items?.map((item) => (
                             <div key={item.id} className="flex justify-between items-center">
-                                <div>
-                                    <p className="text-sm font-medium text-[#767676]">{item.name} {item.quantity > 1 ? `x${item.quantity}` : ''}</p>
+                                <div className="basis-1/2 overflow-hidden whitespace-nowrap truncate">
+                                    <p className="text-sm font-medium text-[#767676]">
+                                        {item.name} {item.quantity > 1 ? `x${item.quantity}` : ''}
+                                    </p>
                                 </div>
-                                <p className="text-sm font-medium text-[#767676]">${(item.price * item.quantity).toFixed(2)}</p>
+                                <div className="basis-1/2 text-right">
+                                    <p className="text-sm font-medium text-[#767676]">
+                                        {formatToVND(item.price * item.quantity)}
+                                    </p>
+                                </div>
                             </div>
                         ))}
 
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">SUBTOTAL</p>
-                            <p className="text-sm font-medium">${cartSummary?.subtotal.toFixed(2)}</p>
+                            <p className="text-sm font-medium">{formatToVND(cartSummary?.totalPrice)}</p>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">SHIPPING</p>
-                            <p className="text-sm font-normal">
-                                {cartSummary?.selectedShipping === "free" && "Free shipping"}
-                                {cartSummary?.selectedShipping === "flat-rate" && "Flat rate"}
-                                {cartSummary?.selectedShipping === "local-pickup" && "Local pickup"}
-                            </p>
-                        </div>
-
-                        <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">VAT</p>
-                            <p className="text-sm font-medium">${cartSummary?.vat.toFixed(2)}</p>
+                            <div className="text-sm font-normal text-right">
+                                {defaultAddress ? (
+                                    <>
+                                        <div>
+                                            {defaultAddress.address}, {defaultAddress.wardName}, {defaultAddress.provinceName}
+                                        </div>
+                                        <div>
+                                            Receiver: {defaultAddress.fullname} - {defaultAddress.phoneNumber}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div>No default shipping address set</div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
@@ -92,9 +120,18 @@ const Order = () => {
                             <p className="text-sm font-medium">{paymentMethod}</p>
                         </div>
 
+                        {cartSummary?.discountAmount && cartSummary.discountAmount > 0 && (
+                            <div className="flex justify-between items-center border-t pt-5">
+                                <p className="text-sm font-medium">DISCOUNT</p>
+                                <p className="text-sm font-medium">
+                                    {formatToVND(cartSummary.discountAmount)}
+                                </p>
+                            </div>
+                        )}
+
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">TOTAL</p>
-                            <p className="text-sm font-medium">${cartSummary?.total.toFixed(2)}</p>
+                            <p className="text-sm font-medium">{formatToVND(cartSummary?.finalAmount)}</p>
                         </div>
                     </div>
                 </div>

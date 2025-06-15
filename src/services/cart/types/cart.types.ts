@@ -35,16 +35,24 @@ export interface ICart {
     items: ICartItem[];
     updatedAt: string;
     __v: number;
+    appliedVoucher?: ICartAppliedVoucher; 
 }
 
 export interface ICartResponse {
-    data:{
+    data: {
         data: {
             cart: ICart;
             totalQuantity: number;
-            totalPrice: number;
             item: number;
-        };
+            totalPrice: number;
+            discountAmount: number;
+            finalAmount: number;
+            voucherInfo?: {
+                voucherId: string;
+                code: string;
+                discountValue: number;
+            };
+        }
     }
 }
 
@@ -57,11 +65,11 @@ export interface CartSummary {
         color: string;
         size: string;
     }>;
-    subtotal: number;
-    vat: number;
-    total: number;
+    finalAmount: number;
     selectedShipping: string;
     shippingCost: number;
+    totalPrice: number;
+    discountAmount: number;
 }
 
 export interface IAddToCartData {
@@ -76,6 +84,12 @@ export interface IUpdateCartData {
     quantity: number;
 }
 
+export interface ResponseUpdateCart {
+    totalPrice: number
+    discountAmount: number
+    finalAmount: number
+}
+
 export interface IRemoveCartData {
     productId: string;
     variantId: string;
@@ -84,6 +98,17 @@ export interface IRemoveCartData {
 export interface AddToCartResponse {
    statusCode: number; 
    message: string;
+}
+
+export interface ICartAppliedVoucher {
+    voucherId: {
+        _id: string;
+        code: string;
+        name: string;
+        discountValue: number;
+    };
+    code: string;
+    discountValue: number;
 }
 
 

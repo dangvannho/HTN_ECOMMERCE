@@ -6,19 +6,21 @@ import addressesApi from "@/services/addresses/api/addresses.api";
 import { IAddress } from "@/services/addresses/types/addresses.types";
 
 interface CartTotalsProps {
-    subtotal: number;
-    total: number;
+    totalPrice?: number;
+    finalAmount?: number;
     selectedShipping: string;
     setSelectedShipping: (shipping: string) => void;
     onProceedToCheckout: () => void;
+    discountAmount?: number;
 }
 
 const CartTotals = ({
-    subtotal,
-    total,
+    totalPrice,
+    finalAmount,
     selectedShipping,
     setSelectedShipping,
-    onProceedToCheckout
+    onProceedToCheckout,
+    discountAmount
 }: CartTotalsProps) => {
     const navigate = useNavigate();
     const [defaultAddress, setDefaultAddress] = useState<IAddress | null>(null);
@@ -53,7 +55,9 @@ const CartTotals = ({
                     <tbody>
                         <tr className="border-b">
                             <td className="py-4 text-sm font-medium">SUBTOTAL</td>
-                            <td className="py-4 pl-[100px] text-left text-sm">{formatToVND(subtotal)}</td>
+                            <td className="py-4 pl-[100px] text-left text-sm">
+                                {totalPrice && formatToVND(totalPrice)}
+                            </td>
                         </tr>
 
                         <tr>
@@ -113,14 +117,29 @@ const CartTotals = ({
                             </td>
                         </tr>
 
-                        <tr className="border-b">
-                            {/* <td className="py-4 text-sm font-medium">VAT</td>
-                            <td className="py-4 text-left px-[100px]">{formatToVND(vat)}</td> */}
-                        </tr>
+                        {discountAmount && discountAmount > 0 && (
+                            <tr>
+                                <td className="py-4 text-sm font-medium ">DISCOUNT</td>
+                                <td className="py-4 text-left pl-[100px] ">
+                                    {formatToVND(discountAmount)}
+                                </td>
+                            </tr>
+                        )}
 
                         <tr>
                             <td className="py-4 text-sm font-medium">TOTAL</td>
-                            <td className="py-4 text-left px-[100px]">{formatToVND(total)}</td>
+                            <td className="py-4 text-left pl-[100px] flex flex-col">
+                                {discountAmount && discountAmount > 0 ? (
+                                    <>
+                                        <span className="line-through text-gray-400 mr-2">
+                                            {totalPrice && formatToVND(totalPrice)}
+                                        </span>
+                                        {finalAmount && formatToVND(finalAmount)}
+                                    </>
+                                ) : (
+                                    finalAmount && formatToVND(finalAmount)
+                                )}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

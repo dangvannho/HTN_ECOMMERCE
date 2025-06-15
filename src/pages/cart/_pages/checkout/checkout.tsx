@@ -1,51 +1,124 @@
-import FloatingInput from "@/components/commons/float-input"
 import { Progress } from "@/components/ui/progress"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtomCommon from "../../_common/buttom";
 import { CartSummary } from "@/services/cart/types/cart.types";
+import { Province, District, Ward } from "@/services/addresses/types/addresses.types";
+import provinces from "@/pages/addresses/_components/select-provices/vietnam-provinces.json";
+import addressesApi from "@/services/addresses/api/addresses.api";
+import { formatToVND } from '@/utils/format';
 
-
-interface checkoutProps {
-    // setStep: React.Dispatch<React.SetStateAction<string>>
+interface CheckoutProps {
     setStep: (step: string) => void
     cartSummary: CartSummary
 }
-const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
-    const [fistname, setFistName] = useState("");
-    const [lastname, setLastName] = useState("");
-    const [company, setCompany] = useState("");
-    const [street, setStreet] = useState("");
-    const [town, setTown] = useState("");
-    const [code, setCode] = useState("");
-    const [province, setProvince] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [selectedPayment, setSelectedPayment] = useState("bank");
 
-    const getPaymentMethodText = (value: string) => {
-        const paymentMethods: { [key: string]: string } = {
-            bank: "Direct bank transfer",
-            check: "Check payments",
-            cash: "Cash on delivery",
-            paypal: "PayPal"
+const vietnamProvinces = provinces as Province[];
+
+const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
+    const [selectedPayment, setSelectedPayment] = useState("cash");
+    const [provinces] = useState<Province[]>(vietnamProvinces);
+    const [districts, setDistricts] = useState<District[]>([]);
+    const [wards, setWards] = useState<Ward[]>([]);
+
+    const [formData, setFormData] = useState({
+        fullname: "",
+        phoneNumber: "",
+        address: "",
+        provinceName: "",
+        districtName: "",
+        wardName: "",
+        email: ""
+    });
+
+    // Fetch default address
+    useEffect(() => {
+        const fetchDefaultAddress = async () => {
+            try {
+                const response = await addressesApi.getMyAddresses();
+                const defaultAddress = response.data.find((addr: any) => addr.isDefault);
+
+                if (defaultAddress) {
+                    setFormData({
+                        fullname: defaultAddress.fullname,
+                        phoneNumber: defaultAddress.phoneNumber,
+                        address: defaultAddress.address,
+                        provinceName: defaultAddress.provinceName,
+                        districtName: defaultAddress.districtName,
+                        wardName: defaultAddress.wardName,
+                        email: "" // Email không có trong address nên giữ rỗng
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching default address:", error);
+            }
         };
-        return paymentMethods[value];
+
+        fetchDefaultAddress();
+    }, []);
+
+    // Load districts when province changes
+    useEffect(() => {
+        if (formData.provinceName) {
+            const selectedProvince = provinces.find(
+                (province) => province.name === formData.provinceName
+            );
+            if (selectedProvince) {
+                setDistricts(selectedProvince.districts || []);
+            }
+        }
+    }, [formData.provinceName, provinces]);
+
+    // Load wards when district changes
+    useEffect(() => {
+        if (formData.districtName && districts.length > 0) {
+            const selectedDistrict = districts.find(
+                (district) => district.name === formData.districtName
+            );
+            if (selectedDistrict) {
+                setWards(selectedDistrict.wards || []);
+            }
+        }
+    }, [formData.districtName, districts]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedProvince = provinces.find(
+            (province) => province.name === e.target.value
+        );
+        setDistricts(selectedProvince?.districts || []);
+        setWards([]);
+        handleInputChange(e);
+    };
+
+    const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedDistrict = districts.find(
+            (district) => district.name === e.target.value
+        );
+        setWards(selectedDistrict?.wards || []);
+        handleInputChange(e);
     };
 
     const HandelSubmitOrder = () => {
         const orderData = {
             cartSummary,
-            paymentMethod: getPaymentMethodText(selectedPayment),
+            paymentMethod: selectedPayment,
             billingDetails: {
-                firstName: fistname,
-                lastName: lastname,
+                ...formData,
                 orderNumber: `ORD${Math.floor(Math.random() * 100000)}`,
                 date: new Date().toLocaleDateString()
             }
         };
         localStorage.setItem('orderData', JSON.stringify(orderData));
         setStep("order");
-    }
+    };
+
     return (
         <>
             <Progress value={66} />
@@ -56,80 +129,111 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                     <div className="flex flex-col lg:flex-row gap-8 my-6 sm:my-[34px]">
                         {/* Left column - Billing Form */}
                         <div className="flex flex-col gap-6 sm:gap-8 w-full lg:w-[65%]">
-                            {/* firstName lastName */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <FloatingInput
-                                    label="First Name"
-                                   
-                                    onChange={(e) => setFistName(e.target.value)}
-                                />
-                                <FloatingInput
-                                    label="Last Name"
-                                   
-                                    onChange={(e) => setLastName(e.target.value)}
-                                />
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="fullname"
+                                        value={formData.fullname}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        name="phoneNumber"
+                                        value={formData.phoneNumber}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Address</label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Province/City</label>
+                                    <select
+                                        name="provinceName"
+                                        value={formData.provinceName}
+                                        onChange={handleProvinceChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400"
+                                        required
+                                    >
+                                        <option value="">Select Province/City</option>
+                                        {provinces.map((province) => (
+                                            <option key={province.code} value={province.name}>
+                                                {province.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">District</label>
+                                    <select
+                                        name="districtName"
+                                        value={formData.districtName}
+                                        onChange={handleDistrictChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400"
+                                        required
+                                        disabled={!formData.provinceName}
+                                    >
+                                        <option value="">Select District</option>
+                                        {districts.map((district) => (
+                                            <option key={district.code} value={district.name}>
+                                                {district.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Ward</label>
+                                    <select
+                                        name="wardName"
+                                        value={formData.wardName}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400"
+                                        required
+                                        disabled={!formData.districtName}
+                                    >
+                                        <option value="">Select Ward</option>
+                                        {wards.map((ward) => (
+                                            <option key={ward.code} value={ward.name}>
+                                                {ward.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-
-
-                            <FloatingInput
-                                label="Company Name"
-                                
-                                onChange={(e) => setCompany(e.target.value)}
-                            />
-
-                            {/* dropdown input */}
-                            <select className="text-sm text-[#222] w-full p-2 border rounded border-gray-300">
-                                <option value="">Country / Region *</option>
-                                <option value="turkey">Turkey</option>
-                                {/* Add more countries */}
-                            </select>
-
-                            <FloatingInput
-                                label="Street Address"
-                                value={street}
-                                onChange={(e) => setStreet(e.target.value)}
-                            />
-                            <FloatingInput
-                                label="Town / City"
-                                value={town}
-                                onChange={(e) => setTown(e.target.value)}
-                            />
-                            <FloatingInput
-                                label="Postcode / ZIP"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
-                            />
-                            <FloatingInput
-                                label="Province"
-                                value={province}
-                                onChange={(e) => setProvince(e.target.value)}
-                            />
-                            <FloatingInput
-                                label="Phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                            />
-                            <FloatingInput
-                                label="Your Mail"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-
-                            {/* text box */}
-                            <div className="space-y-2">
-                                <label className="flex items-center space-x-2">
-                                    <input type="checkbox" />
-                                    <span className="text-sm font-medium">CREATE AN ACCOUNT?</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                    <input type="checkbox" />
-                                    <span className="text-sm font-medium">SHIP TO A DIFFERENT ADDRESS?</span>
-                                </label>
-                            </div>
-                            <textarea
-                                placeholder="Order Notes (optional)"
-                                className="w-full p-2 border rounded h-32 border-gray-300 text-sm "
-                            />
                         </div>
 
                         {/* Right column - Order Summary */}
@@ -148,61 +252,36 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                                             {item.name} {item.quantity > 1 ? `x${item.quantity}` : ''}
                                         </span>
                                         <span className="text-sm font-medium text-[#767676]">
-                                            ${(item.price * item.quantity).toFixed(2)}
+                                            {formatToVND(item.price * item.quantity)}
                                         </span>
                                     </div>
                                 ))}
 
                                 <div className="flex justify-between border-t pt-2">
                                     <span className="text-sm font-medium">SUBTOTAL</span>
-                                    <span className="text-sm font-medium">${cartSummary.subtotal.toFixed(2)}</span>
+                                    <span className="text-sm font-medium">{formatToVND(cartSummary.finalAmount)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm font-medium">SHIPPING</span>
                                     <span className="text-sm font-medium">
                                         {cartSummary.selectedShipping === "free" && "Free shipping"}
-                                        {cartSummary.selectedShipping === "flat-rate" && `Flat rate`}
-                                        {cartSummary.selectedShipping === "local-pickup" && `Local pickup`}
+                                        {cartSummary.selectedShipping === "flat-rate" && formatToVND(49000)}
+                                        {cartSummary.selectedShipping === "local-pickup" && formatToVND(8000)}
                                     </span>
                                 </div>
-                                <div className="flex justify-between">
+                                {/* <div className="flex justify-between">
                                     <span className="text-sm font-medium">VAT</span>
                                     <span className="text-sm font-medium">${cartSummary.vat.toFixed(2)}</span>
-                                </div>
+                                </div> */}
                                 <div className="flex justify-between border-t pt-2 font-medium">
                                     <span className="text-sm font-medium">TOTAL</span>
-                                    <span className="text-sm font-medium">${cartSummary.total.toFixed(2)}</span>
+                                    <span className="text-sm font-medium">{formatToVND(cartSummary.finalAmount)}</span>
                                 </div>
                             </div>
 
                             {/* Payment Methods */}
                             <div className="flex flex-col gap-3 border border-[#E4E4E4] py-[38px] px-[41px]">
-                                <label className="flex items-center space-x-2">
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="bank"
-                                        checked={selectedPayment === "bank"}
-                                        onChange={(e) => setSelectedPayment(e.target.value)}
-                                        className="accent-[#222]"
-                                    />
-                                    <span className="text-base font-normal">Direct bank transfer</span>
-                                </label>
-                                <p className="text-sm font-normal">
-                                    Make your payment directly into our bank account. Please use your Order ID as the
-                                    payment reference. Your order will not be shipped until the funds have cleared in our account.
-                                </p>
-                                <label className="flex items-center space-x-2">
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="check"
-                                        checked={selectedPayment === "check"}
-                                        onChange={(e) => setSelectedPayment(e.target.value)}
-                                        className="accent-[#222]"
-                                    />
-                                    <span className="text-base font-normal">Check payments</span>
-                                </label>
+
                                 <label className="flex items-center space-x-2">
                                     <input
                                         type="radio"
@@ -214,17 +293,7 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                                     />
                                     <span className="text-base font-normal">Cash on delivery</span>
                                 </label>
-                                {/* <label className="flex items-center space-x-2">
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="paypal"
-                                        checked={selectedPayment === "paypal"}
-                                        onChange={(e) => setSelectedPayment(e.target.value)}
-                                        className="accent-[#222]"
-                                    />
-                                    <span className="text-base font-normal">PayPal</span>
-                                </label> */}
+
                                 <p className="text-xs">
                                     Your personal data will be used to process your order, support your
                                     experience throughout this website, and for other purposes
@@ -232,13 +301,14 @@ const Checkout = ({ setStep, cartSummary }: checkoutProps) => {
                                 </p>
                             </div>
 
+
                             <ButtomCommon title="PLACE ORDER" onClick={HandelSubmitOrder} />
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Checkout
+export default Checkout;

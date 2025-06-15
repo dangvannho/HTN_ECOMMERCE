@@ -1,4 +1,4 @@
-import { IAddToCartData, ICartResponse, IUpdateCartData, IRemoveCartData, AddToCartResponse } from "../types/cart.types";
+import { IAddToCartData, ICartResponse, IUpdateCartData, IRemoveCartData, AddToCartResponse, ResponseUpdateCart } from "../types/cart.types";
 import { axiosInstance } from "@/config/axios";
 
 const CART_ENDPOINT = {
@@ -27,10 +27,10 @@ const cartApi = {
         }
     },
 
-    updateCart: async (data: IUpdateCartData) => {
+    updateCart: async (data: IUpdateCartData): Promise<ResponseUpdateCart> => {
         try {
             const response = await axiosInstance.put(CART_ENDPOINT.UPDATE_CART, data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error;
         }
