@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { ICartItem } from '@/services/cart/types/cart.types';
 import { formatToVND } from '@/utils/format';
 import { Link } from 'react-router-dom';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface CartItemProps {
     item: ICartItem;
@@ -9,6 +11,30 @@ interface CartItemProps {
 }
 
 const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
+    const [localQuantity, setLocalQuantity] = useState(item.quantity);
+
+    // Cập nhật localQuantity khi item.quantity thay đổi từ props
+    useEffect(() => {
+        setLocalQuantity(item.quantity);
+    }, [item.quantity]);
+
+    // Debounce update quantity
+    const debouncedUpdate = useDebounce((newQuantity: number) => {
+        const change = newQuantity - item.quantity;
+        if (change !== 0) {
+            onUpdateQuantity(item._id, change);
+        }
+    }, 500);
+
+    const handleQuantityChange = (change: number) => {
+        const newQuantity = localQuantity + change;
+        if (newQuantity < 1) return;
+
+        // Cập nhật UI ngay lập tức
+        setLocalQuantity(newQuantity);
+        debouncedUpdate(newQuantity);
+    };
+
     return (
         <div className="border-b relative">
             <div className="p-4 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
@@ -29,13 +55,13 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
                     >
                         {item.productId?.name || 'Product'}
                     </Link>
-                    <p className="text-sm text-[#767676] flex items-center gap-2">
+                    <div className="text-sm text-[#767676] flex items-center gap-2">
                         Color:
                         <div
                             className="w-4 h-4 rounded-full border-2 border-white"
                             style={{ backgroundColor: item.variantId?.color || 'N/A' }}
                         ></div>
-                    </p>
+                    </div>
                     <p className="text-sm text-[#767676]">
                         Size: {item.variantId?.size || 'N/A'}
                     </p>
@@ -52,16 +78,16 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
                     <div className="flex items-center">
                         <button
                             className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50"
-                            onClick={() => onUpdateQuantity(item._id, -1)}
+                            onClick={() => handleQuantityChange(-1)}
                         >
                             -
                         </button>
                         <div className="w-10 h-8 border-t border-b flex items-center justify-center">
-                            {item.quantity}
+                            {localQuantity}
                         </div>
                         <button
                             className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50"
-                            onClick={() => onUpdateQuantity(item._id, 1)}
+                            onClick={() => handleQuantityChange(1)}
                         >
                             +
                         </button>
@@ -72,7 +98,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
                 <div className="sm:col-span-2 flex items-center justify-between">
                     <span className="sm:hidden font-medium mr-2">Subtotal:</span>
                     <span className="whitespace-nowrap">
-                        {formatToVND((item.productId?.finalPrice || 0) * (item.quantity || 1))}
+                        {formatToVND((item.productId?.finalPrice || 0) * localQuantity)}
                     </span>
                     <button
                         onClick={() => onRemoveItem(item)}

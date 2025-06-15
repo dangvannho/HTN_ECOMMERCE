@@ -18,6 +18,7 @@ export interface IAddressFormData {
   districtName: string;
   wardName: string;
   isDefault: boolean;
+
 }
 
 export interface AddressCardProps {

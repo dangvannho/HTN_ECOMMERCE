@@ -19,61 +19,74 @@ interface BagShoppingProps {
 }
 
 const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
-    const [selectedShipping, setSelectedShipping] = useState<string>("");
+    const [selectedShipping, setSelectedShipping] = useState<string>("free");
     const { cartItems, fetchCart } = useCartStore();
+    const [cartTotals, setCartTotals] = useState<{
+        totalPrice?: number;
+        discountAmount?: number;
+        finalAmount?: number;
+    }>({});
+    const [appliedVoucherCode, setAppliedVoucherCode] = useState<string | undefined>(undefined);
+
+    const fetchAndSetCart = async () => {
+        const response = await cartApi.getCart();
+        const cartData = response?.data?.data;
+        if (cartData) {
+            setCartTotals({
+                totalPrice: cartData.totalPrice,
+                discountAmount: cartData.discountAmount,
+                finalAmount: cartData.finalAmount,
+            });
+            setAppliedVoucherCode(cartData.cart?.appliedVoucher?.code);
+        }
+        await fetchCart();
+    };
 
     useEffect(() => {
-        fetchCart();
+        fetchAndSetCart();
     }, []);
 
     const getShippingCost = (method: string) => {
         switch (method) {
             case "flat-rate":
-                return 49;
+                return 49000;
             case "local-pickup":
-                return 8;
+                return 8000;
             default:
                 return 0;
         }
     };
 
-    // Sửa lại cách tính subtotal với kiểm tra null
-    const subtotal = cartItems.reduce((sum, item) => {
-        if (!item?.productId?.finalPrice || !item.quantity) return sum;
-        return sum + (item.productId.finalPrice * item.quantity);
-    }, 0);
-
     const shippingCost = getShippingCost(selectedShipping);
-    const vat = 19;
-    const total = subtotal + vat + shippingCost;
 
     const updateQuantity = async (itemId: string, change: number) => {
         try {
             const item = cartItems.find((item) => item._id === itemId);
             if (!item) return;
 
-            // Tính toán quantity mới
             const newQuantity = item.quantity + change;
-
-            // Không cho phép quantity < 1
             if (newQuantity < 1) return;
 
-            // Gọi API update cart
-            await cartApi.updateCart({
+
+            const response = await cartApi.updateCart({
                 productId: item.productId._id,
                 variantId: item.variantId._id,
                 quantity: newQuantity
             });
 
-            // Fetch lại cart để cập nhật UI
-            await fetchCart();
+            setCartTotals({
+                totalPrice: response.totalPrice,
+                discountAmount: response.discountAmount,
+                finalAmount: response.finalAmount,
+            });
+
         } catch (error) {
             console.error('Error updating cart:', error);
         }
     };
 
     const handleProceedToCheckout = () => {
-        if (!cartItems.length) return;
+        if (!cartItems.length || !cartTotals.finalAmount) return;
 
         setCartSummary({
             items: cartItems.map(item => ({
@@ -84,11 +97,11 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                 color: item.variantId?.color || 'N/A',
                 size: item.variantId?.size || 'N/A'
             })),
-            subtotal,
-            vat,
-            total,
+            finalAmount: cartTotals.finalAmount!,
             selectedShipping,
-            shippingCost
+            shippingCost,
+            totalPrice: cartTotals.totalPrice!,
+            discountAmount: cartTotals.discountAmount!
         });
         setStep("checkout");
     };
@@ -99,12 +112,22 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                 productId: item.productId._id,
                 variantId: item.variantId._id
             });
-
-            // Fetch lại cart để cập nhật UI
             await fetchCart();
         } catch (error) {
             console.error('Error removing item from cart:', error);
         }
+    };
+
+    const handleVoucherApplied = (data: { finalAmount: number; discountAmount: number; totalPrice: number } | null) => {
+        if (data === null) {
+            fetchAndSetCart();
+            return;
+        }
+        setCartTotals({
+            finalAmount: data.finalAmount,
+            discountAmount: data.discountAmount,
+            totalPrice: data.totalPrice
+        });
     };
 
     return (
@@ -123,18 +146,25 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                             />
                         ))}
                     </div>
-                    <CartActions />
+                    <CartActions
+                        totalPrice={cartTotals.totalPrice}
+                        onVoucherApplied={handleVoucherApplied}
+                        appliedVoucherCode={appliedVoucherCode}
+                    />
                 </div>
 
                 <CartTotals
-                    subtotal={subtotal}
-                    total={total}
+                    totalPrice={cartTotals.totalPrice}
+                    finalAmount={cartTotals.finalAmount}
+                    discountAmount={cartTotals.discountAmount}
                     selectedShipping={selectedShipping}
                     setSelectedShipping={setSelectedShipping}
                     onProceedToCheckout={handleProceedToCheckout}
                 />
             </div>
+
         </>
+
     );
 };
 

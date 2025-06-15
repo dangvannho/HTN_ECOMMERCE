@@ -9,9 +9,7 @@ const CartLayout = () => {
     const [step, setStep] = useState("bag")
     const [cartSummary, setCartSummary] = useState<CartSummary>({
         items: [],
-        subtotal: 0,
-        vat: 0,
-        total: 0,
+        finalAmount: 0,
         selectedShipping: "",
         shippingCost: 0,
     })
