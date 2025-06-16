@@ -5,10 +5,10 @@ const CATEGORY_ENDPOINT = {
     GET_ALL_CATEGORIES: '/categories',
 };
 export const categoryApi = {
-  getAllCategories: async (): Promise<Category[]> => {
+  getAllCategories: async (): Promise<CategoryResponse> => {
     try {
-      const response = await axiosInstance.get<CategoryResponse>(CATEGORY_ENDPOINT.GET_ALL_CATEGORIES);
-      return response.data.data;
+      const response = await axiosInstance.get(CATEGORY_ENDPOINT.GET_ALL_CATEGORIES);
+      return response.data;
     } catch (error) {
       console.error('Error fetching categories:', error);
       throw error;
