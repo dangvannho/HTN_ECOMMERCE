@@ -125,7 +125,7 @@ const ProductInfomation = ({
       try {
         const response = await favoriteApi.deleteFavorite(
           productData?._id || ""
-        );
+        ); 
         toast.success(response.message);
         setIsFavorite(false);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

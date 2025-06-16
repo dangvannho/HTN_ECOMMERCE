@@ -1,4 +1,9 @@
 import { axiosInstance } from "@/config/axios";
+import {
+  GetFavoriteResponse,
+  AddFavoriteResponse,
+  DeleteFavoriteResponse,
+} from "../types/favorite.type";
 
 const FAVORITE_ENDPOINT = {
   ADD_FAVORITE: "/favorites/:id",
@@ -7,7 +12,7 @@ const FAVORITE_ENDPOINT = {
 };
 
 const favoriteApi = {
-  addFavorite: async (id: string) => {
+  addFavorite: async (id: string): Promise<AddFavoriteResponse> => {
     try {
       const response = await axiosInstance.post(
         FAVORITE_ENDPOINT.ADD_FAVORITE.replace(":id", id)
@@ -19,7 +24,7 @@ const favoriteApi = {
     }
   },
 
-  deleteFavorite: async (id: string) => {
+  deleteFavorite: async (id: string): Promise<DeleteFavoriteResponse> => {
     try {
       const response = await axiosInstance.delete(
         FAVORITE_ENDPOINT.DELETE_FAVORITE.replace(":id", id)
@@ -31,7 +36,7 @@ const favoriteApi = {
     }
   },
 
-  getFavorites: async () => {
+  getFavorites: async (): Promise<GetFavoriteResponse> => {
     try {
       const response = await axiosInstance.get(FAVORITE_ENDPOINT.GET_FAVORITES);
       return response.data;

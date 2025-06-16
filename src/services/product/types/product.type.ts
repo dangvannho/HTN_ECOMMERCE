@@ -89,3 +89,8 @@ export type RelatedProductResponse = {
   message: string;
   data: Product[];
 };
+
+export type FavoriteResponse = {
+  statusCode: number;
+  products: Product[];
+};
