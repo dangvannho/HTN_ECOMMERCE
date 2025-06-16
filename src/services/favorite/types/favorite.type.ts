@@ -8,5 +8,8 @@ export type DeleteFavoriteResponse = AddFavoriteResponse;
 
 export type GetFavoriteResponse = {
   statusCode: number;
-  productId: Product;
+  data: {
+    products: Product[];
+  };
 };
+
