@@ -1,44 +1,26 @@
-const orders = [
-  {
-    orderId: "2418",
-    date: "2020-10-27",
-    status: "On hold",
-    total: 1200.65,
-    itemCount: 3,
-  },
-  {
-    orderId: "2419",
-    date: "2020-10-28",
-    status: "Shipped",
-    total: 850.3,
-    itemCount: 2,
-  },
-  {
-    orderId: "2420",
-    date: "2020-10-29",
-    status: "Delivered",
-    total: 450.0,
-    itemCount: 1,
-  },
-];
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import type { Order } from "@/services/order/types/order.type";
+import orderApi from "@/services/order/api/order.api";
+import { formatToVND, formatDate } from "@/utils/format";
+import routePath from "@/config/route";
 
 const Order = () => {
-  // Hàm định dạng ngày
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  const [orders, setOrders] = useState<Order[]>([]);
+  const navigate = useNavigate();
 
-  // Hàm định dạng tiền tệ
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount);
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+  const fetchOrders = async () => {
+    try {
+      const response = await orderApi.getListOrder();
+      if (response.status == 200) {
+        setOrders(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
   };
 
   return (
@@ -63,31 +45,38 @@ const Order = () => {
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={4} className="text-center py-4 text-gray-500">
+                <td colSpan={5} className="text-center py-4 text-gray-500">
                   No orders found
                 </td>
               </tr>
             ) : (
               orders.map((order) => (
                 <tr
-                  key={order.orderId}
+                  key={order._id}
                   className="border-t h-14 hover:bg-gray-50 transition"
                 >
                   <td className="px-6 py-8 text-sm text-[#222] underline">
-                    #{order.orderId}
+                    #{order.orderCode}
                   </td>
                   <td className="px-6 py-4 text-sm text-[#222]">
-                    {formatDate(order.date)}
+                    {formatDate(order.createdAt)}
                   </td>
                   <td className="px-6 py-4 text-sm text-[#222]">
                     {order.status}
                   </td>
                   <td className="px-6 py-4 text-sm text-[#222]">
-                    {formatCurrency(order.total)} for {order.itemCount}{" "}
-                    {order.itemCount > 1 ? "items" : "item"}
+                    {formatToVND(order.totalAmount)} for {order.totalItems}{" "}
+                    {order.totalItems > 1 ? "products" : "product"}
                   </td>
                   <td className="w-[153px]">
-                    <button className="px-[45px] py-[10px] bg-[#222] text-white text-sm font-medium">
+                    <button
+                      className="px-[45px] py-[10px] bg-[#222] text-white text-sm font-medium"
+                      onClick={() =>
+                        navigate(
+                          routePath.orderDetail.replace(":id", order._id)
+                        )
+                      }
+                    >
                       VIEW
                     </button>
                   </td>
