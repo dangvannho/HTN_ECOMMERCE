@@ -3,16 +3,18 @@ import { X } from 'lucide-react';
 import ProductCategory from './product-category';
 import FilterCategory from './filter-category/filter-category';
 import PriceCategory from './price-category';
-import { FilterProductParams } from '@/services/product/types/product.type';
+import type { FilterProductParams, Category  } from '@/services/product/types/product.type'; 
+
 
 interface SidebarCategoryProps {
   filter: FilterProductParams;
-  setFilter: React.Dispatch<React.SetStateAction<FilterProductParams>>;
+  setFilter: React.Dispatch<React.SetStateAction<FilterProductParams>>;  
+  categories: Category[];
 }
 
 const DEFAULT_PRICE: [number, number] = [100000, 1000000];
 
-const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter }) => {
+const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, categories }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState<[number, number]>([
     filter.minPrice ?? DEFAULT_PRICE[0],
@@ -61,7 +63,8 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter }) 
       </div>
       <ProductCategory 
         selectedCategory={filter.category || null}
-        onCategorySelect={handleCategory}
+        onCategorySelect={handleCategory} 
+        categories={categories}
       />
       <PriceCategory
         selectedPrice={price}

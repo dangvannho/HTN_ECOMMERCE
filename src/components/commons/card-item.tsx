@@ -13,7 +13,7 @@ interface CardItemProps {
 // item trong section trending
 const CardItem = ({ product }: CardItemProps) => {
   const navigate = useNavigate();
-
+  
   return (
     <div className="w-full cursor-pointer">
       <div className="relative bg-[#F3F3F3] aspect-[1/1] group">
@@ -84,10 +84,14 @@ const CardItem = ({ product }: CardItemProps) => {
               {formatToVND(product.price)}
             </span>
           )}
+          
         </div>
       </div>
     </div>
   );
+
+
 };
+
 
 export default CardItem;
