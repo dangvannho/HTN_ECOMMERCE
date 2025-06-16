@@ -15,6 +15,8 @@ import Wishlist from "@/pages/wishlist";
 import Addresses from "@/pages/addresses";
 import ForgotPassword from "@/pages/auth/forgot-password";
 import ResetPassword from "@/pages/auth/reset-password";
+import OrderDetail from "@/pages/order-detail";
+import NotFound from "@/pages/not-found";
 
 const listRoute: Route[] = [
   {
@@ -73,6 +75,16 @@ const listRoute: Route[] = [
     path: routePath.address,
     component: <Addresses />,
     layout: AccountLayout,
+  },
+  {
+    path: routePath.orderDetail,
+    component: <OrderDetail />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.notFound,
+    component: <NotFound />,
+    layout: MainLayout,
   },
 ];
 
