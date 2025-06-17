@@ -7,7 +7,7 @@ import TestimonialsCarousel from "./_components/section-testimonial/testimonial"
 const Home = () => {
   const [activeTab, setActiveTab] = useState("ALL");
 
-  const tabs = ["ALL", "WOMEN", "MEN", "KIDS"];
+  const tabs = ["ALL", "WOMEN", "MEN", "KIDS", "UNISEX"];
 
   return (
     <div className="bg-[#FAF9F8] ">
@@ -37,7 +37,7 @@ const Home = () => {
             </a>
           ))}
         </div>
-        <ListTrending />
+        <ListTrending type={activeTab} />
       </div>
       <div className="bg-[#FAF9F8]">
         <section className="mx-auto px-4 lg:px-0 xl:max-w-5xl 2xl:max-w-7xl">

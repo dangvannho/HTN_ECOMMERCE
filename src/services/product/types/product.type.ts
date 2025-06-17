@@ -90,6 +90,12 @@ export type RelatedProductResponse = {
   data: Product[];
 };
 
+export type TrendingProductResponse = {
+  statusCode: number;
+  message: string;
+  data: Product[];
+};
+
 export type FavoriteResponse = {
   statusCode: number;
   products: Product[];

@@ -5,6 +5,7 @@ import {
   FilterProductParams,
   FilterProductResponse,
   RelatedProductResponse,
+  TrendingProductResponse,
 } from "../types/product.type";
 
 const PRODUCT_ENDPOINT = {
@@ -12,6 +13,7 @@ const PRODUCT_ENDPOINT = {
   GET_ALL_PRODUCTS: "/products",
   FILTER_PRODUCTS: "/products/filter",
   GET_RELATED_PRODUCTS: "products/related/:slug",
+  GET_TRENDING_PRODUCTS: "/products/trending",
 };
 
 const productApi = {
@@ -71,6 +73,18 @@ const productApi = {
       return response.data;
     } catch (error) {
       console.error("Error fetching related products:", error);
+      throw error;
+    }
+  },
+
+  getTrendingProducts: async (type?: string): Promise<TrendingProductResponse> => {
+    try {
+      const response = await axiosInstance.get(PRODUCT_ENDPOINT.GET_TRENDING_PRODUCTS, {
+        params: { type }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching trending products:", error);
       throw error;
     }
   },
