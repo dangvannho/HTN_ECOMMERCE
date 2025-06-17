@@ -1,28 +1,8 @@
-import { useEffect, useState } from "react";
 import CardBanner from "@/components/commons/card-banner";
-import { collectionApi } from "@/services/collection/api/collection.api";
-import { Collection } from "@/services/collection/types/collection.types";
+import useCollection from "@/services/collection/hooks/useCollection";
 
 const PromoBanners = () => {
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        const response = await collectionApi.getAllCollections();
-        if (response.statusCode === 200) {
-          setCollections(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching collections:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchCollections();
-  }, []);
+  const { collections, loading } = useCollection();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -43,7 +23,6 @@ const PromoBanners = () => {
               ? "md:row-[4/6] md:col-[1/2]"
               : "md:row-[3/6] md:col-[2/3]"
           } h-[300px] md:h-auto`}
-          // subheading={collection.subTitle}
           title={collection.name || collection.title}
           image={collection.images[0]}
         />
