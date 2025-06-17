@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  
+
   const handleLinkClick = () => {
     setIsOpen(false);
   };
@@ -67,22 +67,24 @@ const Header = () => {
                 >
                   <div className="flex items-center gap-1">
                     {item.name}
-                    <ChevronRight className="transition-transform duration-500 group-hover:rotate-90" />
+                    <ChevronRight className="transition-transform duration-500 rotate-90 ml-1 group-hover:-rotate-90" />
                   </div>
                   <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
-                  
+
                   {/* Collection Dropdown */}
-                  <div 
+                  <div
                     className={`absolute top-full left-0 w-full h-2 bg-transparent transition-opacity duration-500 ${
-                      isCollectionHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                      isCollectionHovered
+                        ? "opacity-100"
+                        : "opacity-0 pointer-events-none"
                     }`}
                     onMouseEnter={() => setIsCollectionHovered(true)}
                   />
-                  <div 
+                  <div
                     className={`absolute top-[calc(100%+0.5rem)] left-0 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition-all duration-500 ${
-                      isCollectionHovered 
-                        ? 'opacity-100 translate-y-0' 
-                        : 'opacity-0 -translate-y-2 pointer-events-none'
+                      isCollectionHovered
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 -translate-y-2 pointer-events-none"
                     }`}
                     onMouseEnter={() => setIsCollectionHovered(true)}
                     onMouseLeave={() => setIsCollectionHovered(false)}
@@ -189,25 +191,27 @@ const Header = () => {
               >
                 {item.name === "COLLECTION" ? (
                   <div className="w-full ">
-                    <div 
+                    <div
                       className="text-base font-medium text-[#222] relative group flex items-center justify-between "
-                      onClick={() => setIsCollectionHovered(!isCollectionHovered)}
+                      onClick={() =>
+                        setIsCollectionHovered(!isCollectionHovered)
+                      }
                     >
                       {item.name}
-                      <ChevronRight 
+                      <ChevronRight
                         className={`transition-transform duration-500 ${
-                          isCollectionHovered ? 'rotate-90' : ''
-                        }`} 
+                          isCollectionHovered ? "rotate-90" : ""
+                        }`}
                       />
                       <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/6"></span>
                     </div>
-                    
+
                     {/* Mobile Collection Dropdown */}
-                    <div 
+                    <div
                       className={`mt-2 ml-4 transition-all duration-500 ${
-                        isCollectionHovered 
-                          ? 'opacity-100 max-h-[500px]' 
-                          : 'opacity-0 max-h-0 overflow-hidden'
+                        isCollectionHovered
+                          ? "opacity-100 max-h-[500px]"
+                          : "opacity-0 max-h-0 overflow-hidden"
                       }`}
                     >
                       {collections.map((collection) => (
@@ -240,8 +244,8 @@ const Header = () => {
         </nav>
 
         <div className="border-t border-[#E4E4E4] py-3 flex items-center">
-          <Link 
-            to={routePath.accountDetail} 
+          <Link
+            to={routePath.accountDetail}
             onClick={handleLinkClick}
             className="uppercase flex gap-2 text-sm font-medium"
           >

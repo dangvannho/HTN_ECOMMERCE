@@ -2,7 +2,8 @@ import React from "react";
 import Pagination from "./pagination-category";
 import CardItem from "@/components/commons/card-item";
 import { Product } from "@/services/product/types/product.type";
-import Loading from "@/components/commons/loading";
+import Loading from "@/components/commons/loading"; 
+
 
 interface ListCardCategoryProps {
   filteredProducts?: Product[];
@@ -27,7 +28,9 @@ const ListCardCategory: React.FC<ListCardCategoryProps> = ({
     return (
       <div className="w-full text-center py-10 text-gray-500 text-lg">Không có sản phẩm phù hợp.</div>
     );
-  }
+  } 
+
+ 
 
   return (
     <>
