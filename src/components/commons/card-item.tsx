@@ -1,6 +1,5 @@
 import HeartIcon from "@/components/icons/heart";
 import Eye from "@/components/icons/eye";
-import Cart from "@/components/icons/cart";
 import { Link, useNavigate } from "react-router-dom";
 import routePath from "@/config/route";
 import { Product } from "@/services/product/types/product.type";

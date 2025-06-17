@@ -63,7 +63,7 @@ const AddressForm: FC<AddressFormProps> = ({
             target: {
                 ...e.target,
                 name,
-                value: !formData.isDefault
+                value: String(!formData.isDefault)
             }
         });
     };

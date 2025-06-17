@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import bannerSliderApi from '@/services/banner-slider/api/banner-slider.api';
 import type { BannerSlider } from '@/services/banner-slider/types/banner-slider.types';
 

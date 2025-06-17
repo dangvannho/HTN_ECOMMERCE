@@ -1,4 +1,3 @@
-
 export type OrderProduct = {
         productName: string; 
         price: number; 
@@ -10,8 +9,9 @@ export type Order = {
     address: string;
     status: string;
     paymentMethod: string;
-    totalAmount: number;
-    discount: number;
+    originalTotal: number;
+    discountAmount: number;
+    finalAmount: number;
     orderCode: string;
     createdAt: string;  
     totalItems: number;
@@ -28,4 +28,26 @@ export type GetOrderDetailResponse = {
     status: number;
     message: string;
     data: Order
+}
+
+export type CreateOrderRequest = {
+    addressId: string;
+    paymentMethod: string;
+};
+
+export type CreateOrderResponse = {
+    status: number;
+    message: string;
+    data: {
+        _id: string;
+    };
+};
+
+export interface IBuyNow {
+    productId: string;
+    variantId: string;
+    quantity: number;
+}
+export interface BuyNowResponse {
+    statusCode: number; 
 }

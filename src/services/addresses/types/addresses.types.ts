@@ -1,5 +1,5 @@
 export interface IAddress {
-  _id?: string;
+  _id: string;
   userId?: string;
   fullname: string;
   phoneNumber: string;
@@ -11,6 +11,7 @@ export interface IAddress {
 }
 
 export interface IAddressFormData {
+  
   fullname: string;
   phoneNumber: string;
   address: string;
@@ -18,7 +19,6 @@ export interface IAddressFormData {
   districtName: string;
   wardName: string;
   isDefault: boolean;
-
 }
 
 export interface AddressCardProps {

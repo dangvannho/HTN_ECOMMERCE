@@ -84,11 +84,11 @@ const OrderDetail = () => {
               </p>
               <p>
                 <span className="font-medium">Discount:</span>{" "}
-                {formatToVND(orderData?.discount || 0)}
+                {formatToVND(orderData?.discountAmount || 0)}
               </p>
               <p className="text-lg font-semibold text-primary">
                 <span className="font-medium">Total Amount:</span>{" "}
-                {formatToVND(orderData?.totalAmount || 0)}
+                {formatToVND(orderData?.finalAmount || 0)}
               </p>
             </div>
           </div>

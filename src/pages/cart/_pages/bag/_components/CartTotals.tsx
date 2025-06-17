@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import addressesApi from "@/services/addresses/api/addresses.api";
 import { IAddress } from "@/services/addresses/types/addresses.types";
+import { IVoucher } from "@/services/vourcher/types/vourcher.types";
+import voucherApi from "@/services/vourcher/api/vourcher.api";
+
 
 interface CartTotalsProps {
     totalPrice?: number;
@@ -12,6 +15,15 @@ interface CartTotalsProps {
     setSelectedShipping: (shipping: string) => void;
     onProceedToCheckout: () => void;
     discountAmount?: number;
+    checktotal: boolean;
+    onVoucherApplied: (data: {
+        finalAmount: number;
+        discountAmount: number;
+        totalPrice: number;
+    } | null) => void;
+    appliedVoucherCode?: string;
+    isVoucherDialogOpen: boolean;
+    setIsVoucherDialogOpen: (open: boolean) => void;
 }
 
 const CartTotals = ({
@@ -20,10 +32,14 @@ const CartTotals = ({
     selectedShipping,
     setSelectedShipping,
     onProceedToCheckout,
-    discountAmount
+    discountAmount,
+    checktotal,
+    appliedVoucherCode,
+    setIsVoucherDialogOpen
 }: CartTotalsProps) => {
     const navigate = useNavigate();
     const [defaultAddress, setDefaultAddress] = useState<IAddress | null>(null);
+    const [appliedVoucherInfo, setAppliedVoucherInfo] = useState<IVoucher | null>(null);
 
     useEffect(() => {
         const fetchDefaultAddress = async () => {
@@ -39,6 +55,26 @@ const CartTotals = ({
         fetchDefaultAddress();
     }, []);
 
+    useEffect(() => {
+        const fetchVoucherInfo = async () => {
+            if (appliedVoucherCode) {
+                try {
+                    const response = await voucherApi.getAllVouchers();
+                    const voucher = response.data.find(v => v.code === appliedVoucherCode);
+                    if (voucher) {
+                        setAppliedVoucherInfo(voucher);
+                    }
+                } catch (error) {
+                    console.error('Error fetching voucher info:', error);
+                }
+            } else {
+                setAppliedVoucherInfo(null);
+            }
+        };
+
+        fetchVoucherInfo();
+    }, [appliedVoucherCode]);
+
     const handleChangeAddress = () => {
         navigate('/address');
     };
@@ -50,7 +86,16 @@ const CartTotals = ({
     return (
         <div className="w-full lg:w-[35%]">
             <div className="border p-4 sm:p-6">
-                <h2 className="text-base font-medium mb-6">CART TOTALS</h2>
+                <div className="flex justify-between">
+                    <h2 className="text-base font-medium mb-6">CART TOTALS</h2>
+                    <button
+                        onClick={() => setIsVoucherDialogOpen(true)}
+                        className="block text-sm font-medium uppercase mt-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-[50%] mb-6"
+                    >
+                        Select Voucher
+                    </button>
+
+                </div>
                 <table className="w-full">
                     <tbody>
                         <tr className="border-b">
@@ -62,7 +107,7 @@ const CartTotals = ({
 
                         <tr>
                             <td className="py-4 align-top text-sm font-medium">SHIPPING</td>
-                            <td className="py-4 pl-[120px]">
+                            <td className="py-4 pl-[100px]">
                                 <div className="space-y-3">
                                     <label className="flex items-center text-gray-600 text-sm font-normal">
                                         <input
@@ -112,19 +157,37 @@ const CartTotals = ({
                                         >
                                             Change address
                                         </button>
+
                                     </div>
                                 </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className='py-4 text-sm font-medium'>VOUCHER</td>
+                            <td className='py-4 text-left pl-[100px]'>
+                                {appliedVoucherInfo ? (
+                                    <p className="text-sm font-normal text-gray-600">
+                                        {appliedVoucherInfo.name} - {appliedVoucherInfo.discountValue}%
+                                    </p>
+                                ) : (
+                                    <p className="text-sm font-normal text-gray-500">
+                                        No vouchers have been applied yet
+                                    </p>
+                                )}
                             </td>
                         </tr>
 
-                        {discountAmount && discountAmount > 0 && (
-                            <tr>
-                                <td className="py-4 text-sm font-medium ">DISCOUNT</td>
-                                <td className="py-4 text-left pl-[100px] ">
-                                    {formatToVND(discountAmount)}
-                                </td>
-                            </tr>
-                        )}
+                        <tr>
+                            <td className="py-4 text-sm font-medium ">DISCOUNT</td>
+                            <td className='py-4 text-left pl-[100px] flex flex-col'>
+                                {discountAmount && discountAmount > 0 && (
+                                    <td className="py-4 text-left ">
+                                        {formatToVND(discountAmount)}
+                                    </td>
+                                )}
+                            </td>
+                        </tr>
 
                         <tr>
                             <td className="py-4 text-sm font-medium">TOTAL</td>
@@ -148,6 +211,7 @@ const CartTotals = ({
                 title="PROCEED TO CHECKOUT"
                 onClick={onProceedToCheckout}
                 className="w-full"
+                disabled={!checktotal}
             />
         </div>
     );
