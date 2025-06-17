@@ -5,7 +5,7 @@ import PromoBanners from "./_components/section-promo-banners";
 import TestimonialsCarousel from "./_components/section-testimonial/testimonial";
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState("WOMEN");
+  const [activeTab, setActiveTab] = useState("ALL");
 
   const tabs = ["ALL", "WOMEN", "MEN", "KIDS"];
 

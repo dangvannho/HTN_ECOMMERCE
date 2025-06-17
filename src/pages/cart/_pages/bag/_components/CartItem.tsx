@@ -8,9 +8,10 @@ interface CartItemProps {
     item: ICartItem;
     onUpdateQuantity: (itemId: string, change: number) => void;
     onRemoveItem: (item: ICartItem) => void;
+    onSelectItem: (itemId: string, selected: boolean) => void;
 }
 
-const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
+const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartItemProps) => {
     const [localQuantity, setLocalQuantity] = useState(item.quantity);
 
     // Cập nhật localQuantity khi item.quantity thay đổi từ props
@@ -38,11 +39,21 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
     return (
         <div className="border-b relative">
             <div className="p-4 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                {/* Select checkbox */}
+                <div className="sm:col-span-1 flex items-center justify-center">
+                    <input
+                        type="checkbox"
+                        checked={item.selected}
+                        onChange={(e) => onSelectItem(item._id, e.target.checked)}
+                        className="w-4 h-4 accent-black cursor-pointer"
+                    />
+                </div>
+
                 {/* Product image */}
-                <div className="sm:col-span-3">
+                <div className="sm:col-span-2">
                     <img
-                        src={item.variantId?.images?.[0] || '/placeholder-image.jpg'}
-                        alt={item.productId?.name || 'Product'}
+                        src={item.product.avatar || '/placeholder-image.jpg'}
+                        alt={item.product.name || 'Product'}
                         className='w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] object-cover'
                     />
                 </div>
@@ -50,27 +61,27 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
                 {/* Product info */}
                 <div className="sm:col-span-3">
                     <Link
-                        to={`/product-detail/${item.productId?.slug}`}
-                        className="block text-base font-normal truncate max-w-[200px] sm:max-w-[300px]  transition-colors"
+                        to={`/product-detail/${item.product.name}`}
+                        className="block text-base font-normal truncate max-w-[200px] sm:max-w-[300px] transition-colors"
                     >
-                        {item.productId?.name || 'Product'}
+                        {item.product.name || 'Product'}
                     </Link>
                     <div className="text-sm text-[#767676] flex items-center gap-2">
                         Color:
                         <div
                             className="w-4 h-4 rounded-full border-2 border-white"
-                            style={{ backgroundColor: item.variantId?.color || 'N/A' }}
+                            style={{ backgroundColor: item.variant.color || 'N/A' }}
                         ></div>
                     </div>
                     <p className="text-sm text-[#767676]">
-                        Size: {item.variantId?.size || 'N/A'}
+                        Size: {item.variant.size || 'N/A'}
                     </p>
                 </div>
 
                 {/* Price */}
                 <div className="sm:col-span-2 flex items-center">
                     <span className="sm:hidden font-medium mr-2">Price:</span>
-                    {formatToVND(item.productId?.finalPrice || 0)}
+                    {formatToVND(item.product.price || 0)}
                 </div>
 
                 {/* Quantity */}
@@ -98,7 +109,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
                 <div className="sm:col-span-2 flex items-center justify-between">
                     <span className="sm:hidden font-medium mr-2">Subtotal:</span>
                     <span className="whitespace-nowrap">
-                        {formatToVND((item.productId?.finalPrice || 0) * localQuantity)}
+                        {formatToVND(item.finalPrice)}
                     </span>
                     <button
                         onClick={() => onRemoveItem(item)}

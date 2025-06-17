@@ -1,18 +1,39 @@
 import ProgressStepper from "@/pages/cart/_common/progress-stepper"
 import BagShopping from "./_pages/bag/bag-shopping"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Checkout from "@/pages/cart/_pages/checkout/checkout"
 import Order from "./_pages/order-received/order"
 import { CartSummary } from "@/services/cart/types/cart.types"
+import { useSearchParams } from "react-router-dom"
 
 const CartLayout = () => {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const stepQuery = searchParams.get("step");
     const [step, setStep] = useState("bag")
     const [cartSummary, setCartSummary] = useState<CartSummary>({
         items: [],
         finalAmount: 0,
         selectedShipping: "",
         shippingCost: 0,
+        totalPrice: 0,
+        discountAmount: 0
     })
+
+    useEffect(() => {
+        if (stepQuery) {
+            setStep(stepQuery);
+        }
+    }, [stepQuery]);
+
+    const handleSetStep = (newStep: string) => {
+        if (step === "order" && newStep === "bag") {
+            window.location.href = '/cart?step=bag';
+            return;
+        }
+
+        setSearchParams({ step: newStep });
+    };
 
     return (
         <div className="container mx-auto lg:max-w-7xl mt-8 sm:mt-14 mb-12 sm:mb-24">
@@ -21,10 +42,10 @@ const CartLayout = () => {
                 {step === "checkout" && "SHIPPING AND CHECKOUT"}
                 {step === "order" && "ORDER RECEIVED"}
             </h2>
-            {<ProgressStepper step={step} setStep={setStep} />}
+            {<ProgressStepper step={step} setStep={handleSetStep} />}
             <main>
-                {step === "bag" && <BagShopping setStep={setStep} setCartSummary={setCartSummary} />}
-                {step === "checkout" && <Checkout setStep={setStep} cartSummary={cartSummary} />}
+                {step === "bag" && <BagShopping setStep={handleSetStep} setCartSummary={setCartSummary} />}
+                {step === "checkout" && <Checkout setStep={handleSetStep} cartSummary={cartSummary} />}
                 {step === "order" && <Order />}
             </main>
         </div>

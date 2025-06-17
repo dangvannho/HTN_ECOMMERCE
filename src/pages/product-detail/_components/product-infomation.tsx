@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react"; 
 import { Plus, Minus } from "lucide-react";
-import ChevronLeft from "@/components/icons/chevronleft";
-import ChevronRight from "@/components/icons/chevronright";
 import Heart from "@/components/icons/heart";
 import Share from "@/components/icons/share";
 import BreadCrumb from "@/components/commons/bread-crumb";
@@ -10,9 +8,14 @@ import type { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
 import { useCartStore } from "@/stores/cart.store"
 import cartApi from "@/services/cart/api/cart.api"
+import orderApi from "@/services/order/api/order.api"
+import { useNavigate } from "react-router-dom";
+
 import { IAddToCartData } from "@/services/cart/types/cart.types";
 import toast from "react-hot-toast"; 
 import favoriteApi from "@/services/favorite/api/favorite.api";
+import { IBuyNow } from "@/services/order/types/order.type";
+import routePath from "@/config/route";
 
 
 interface ProductInfomationProps {
@@ -32,6 +35,7 @@ const ProductInfomation = ({
   const [currentId, setCurrentId] = useState("");
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
+  const navigate = useNavigate();
   const { fetchCart } = useCartStore(); 
   
 
@@ -79,6 +83,25 @@ const ProductInfomation = ({
       const response = await cartApi.addToCart(data); 
       if(response.statusCode === 200){
         toast.success(response.message);
+        fetchCart(); 
+      }
+       
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      toast.error(error.data.response.message);
+    }
+    
+  }
+  const handleBuyNow = async () => { 
+    try {
+      const data: IBuyNow = {
+        productId: productData?._id || "",
+        variantId: currentId,
+        quantity: quantity,
+      };
+      const response = await orderApi.buyNow(data); 
+      if(response.statusCode === 200){
+        navigate(routePath.cart)
         fetchCart(); 
       }
        
@@ -269,6 +292,9 @@ const ProductInfomation = ({
         </div>
         <button className="bg-black text-white px-6 py-2 w-[280px] text-sm " onClick={() => handleAddToCart()}>
           ADD TO CART
+        </button>
+        <button className="bg-black text-white px-6 py-2 w-[280px] text-sm " onClick={() => handleBuyNow()}>
+          BUY NOW
         </button>
       </div>
 

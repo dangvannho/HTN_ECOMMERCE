@@ -1,38 +1,54 @@
 import { Progress } from "@/components/ui/progress"
-import { CartSummary } from "@/services/cart/types/cart.types"
 import { formatToVND } from "@/utils/format"
 import addressesApi from "@/services/addresses/api/addresses.api";
 import { IAddress } from "@/services/addresses/types/addresses.types";
 import { useEffect, useState } from "react";
-
-interface OrderData {
-    cartSummary: CartSummary;
-    paymentMethod: string;
-    billingDetails: {
-        firstName: string;
-        lastName: string;
-        orderNumber: string;
-        date: string;
-    };
-}
+import orderApi from "@/services/order/api/order.api";
+import { Order as OrderType } from "@/services/order/types/order.type";
 
 const Order = () => {
-    const orderData: OrderData = JSON.parse(localStorage.getItem('orderData') || '{}');
-    const { cartSummary, paymentMethod, billingDetails } = orderData;
     const [defaultAddress, setDefaultAddress] = useState<IAddress | null>(null);
+    const [orderDetails, setOrderDetails] = useState<OrderType | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchDefaultAddress = async () => {
+        const fetchData = async () => {
             try {
-                const response = await addressesApi.getMyAddresses();
-                const defaultAddr = response.data.find((addr: IAddress) => addr.isDefault);
+                setLoading(true);
+                // Fetch addresses
+                const addressResponse = await addressesApi.getMyAddresses();
+                const defaultAddr = addressResponse.data.find((addr: IAddress) => addr.isDefault);
                 setDefaultAddress(defaultAddr || null);
+
+                // Fetch order details
+                const orderId = localStorage.getItem('orderId');
+                if (orderId) {
+                    const orderResponse = await orderApi.getOrderDetail(orderId);
+                    setOrderDetails(orderResponse.data);
+                }
             } catch (error) {
-                // Có thể log hoặc bỏ qua
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
-        fetchDefaultAddress();
+        fetchData();
     }, []);
+
+    const handleReturnToCart = () => {
+        // Clear the orderId from localStorage
+        localStorage.removeItem('orderId');
+        // Navigate to cart page with step=bag and reload the page
+        window.location.href = '/cart?step=bag';
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!orderDetails) {
+        return <div>Order not found</div>;
+    }
 
     return (
         <>
@@ -52,19 +68,19 @@ const Order = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Order Number</p>
-                            <p className="text-base font-medium">{billingDetails?.orderNumber}</p>
+                            <p className="text-base font-medium">{orderDetails.orderCode}</p>
                         </div>
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Date</p>
-                            <p className="text-base font-medium">{billingDetails?.date}</p>
+                            <p className="text-base font-medium">{new Date(orderDetails.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Total</p>
-                            <p className="text-base font-medium">{formatToVND(cartSummary.finalAmount)}</p>
+                            <p className="text-base font-medium">{formatToVND(orderDetails.finalAmount)}</p>
                         </div>
                         <div>
                             <p className="text-[#767676] text-sm font-medium">Payment Method</p>
-                            <p className="text-base font-medium">{paymentMethod}</p>
+                            <p className="text-base font-medium">{orderDetails.paymentMethod}</p>
                         </div>
                     </div>
                 </div>
@@ -77,11 +93,11 @@ const Order = () => {
                             <p className="text-sm font-medium">SUBTOTAL</p>
                         </div>
 
-                        {cartSummary?.items?.map((item) => (
-                            <div key={item.id} className="flex justify-between items-center">
+                        {orderDetails.items.map((item) => (
+                            <div key={item.productName} className="flex justify-between items-center">
                                 <div className="basis-1/2 overflow-hidden whitespace-nowrap truncate">
                                     <p className="text-sm font-medium text-[#767676]">
-                                        {item.name} {item.quantity > 1 ? `x${item.quantity}` : ''}
+                                        {item.productName} {item.quantity > 1 ? `x${item.quantity}` : ''}
                                     </p>
                                 </div>
                                 <div className="basis-1/2 text-right">
@@ -94,7 +110,7 @@ const Order = () => {
 
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">SUBTOTAL</p>
-                            <p className="text-sm font-medium">{formatToVND(cartSummary?.totalPrice)}</p>
+                            <p className="text-sm font-medium">{formatToVND(orderDetails.originalTotal)}</p>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
@@ -117,23 +133,28 @@ const Order = () => {
 
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">PAYMENT METHOD</p>
-                            <p className="text-sm font-medium">{paymentMethod}</p>
+                            <p className="text-sm font-medium">{orderDetails.paymentMethod}</p>
                         </div>
 
-                        {cartSummary?.discountAmount && cartSummary.discountAmount > 0 && (
-                            <div className="flex justify-between items-center border-t pt-5">
-                                <p className="text-sm font-medium">DISCOUNT</p>
-                                <p className="text-sm font-medium">
-                                    {formatToVND(cartSummary.discountAmount)}
-                                </p>
-                            </div>
-                        )}
+                        <div className="flex justify-between items-center border-t pt-5">
+                            <p className="text-sm font-medium">DISCOUNT</p>
+                            <p className="text-sm font-medium">{formatToVND(orderDetails.discountAmount)}</p>
+                        </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
                             <p className="text-sm font-medium">TOTAL</p>
-                            <p className="text-sm font-medium">{formatToVND(cartSummary?.finalAmount)}</p>
+                            <p className="text-sm font-medium">{formatToVND(orderDetails.finalAmount)}</p>
                         </div>
                     </div>
+                </div>
+
+                <div className="mt-8 text-center">
+                    <button
+                        onClick={handleReturnToCart}
+                        className="bg-[#222] text-white px-8 py-4 rounded hover:bg-[#333] transition-colors duration-200"
+                    >
+                        Return to Cart
+                    </button>
                 </div>
             </div>
         </>

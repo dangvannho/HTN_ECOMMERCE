@@ -65,7 +65,7 @@ const Order = () => {
                     {order.status}
                   </td>
                   <td className="px-6 py-4 text-sm text-[#222]">
-                    {formatToVND(order.totalAmount)} for {order.totalItems}{" "}
+                    {formatToVND(order.finalAmount)} for {order.totalItems}{" "}
                     {order.totalItems > 1 ? "products" : "product"}
                   </td>
                   <td className="w-[153px]">

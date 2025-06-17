@@ -1,58 +1,50 @@
 export interface IProduct {
     _id: string;
     name: string;
-    slug: string;
-    avatar: string;
     price: number;
-    finalPrice: number;
-    discountType: string | null;
-    discount: number;
-    UNISEXTYPE: string;
-    color: null;
-    size: null;
-    variants: string[];
+    avatar: string;
 }
 
 export interface IVariant {
     _id: string;
     color: string;
     size: string;
-    sku: string;
-    Products: string;
-    images: string[];
 }
 
 export interface ICartItem {
     _id: string;
-    productId: IProduct;
-    variantId: IVariant;
+    selected: boolean;
     quantity: number;
+    product: IProduct;
+    variant: IVariant;
+    finalPrice: number;
 }
 
 export interface ICart {
     _id: string;
-    userId: string;
     items: ICartItem[];
-    updatedAt: string;
-    __v: number;
-    appliedVoucher?: ICartAppliedVoucher; 
+}
+
+export interface IVoucherInfo {
+    voucherId: string;
+    code: string;
+    discountValue: number;
 }
 
 export interface ICartResponse {
-    data: {
+    data:{
+        statusCode: number;
+        message: string;
         data: {
             cart: ICart;
-            totalQuantity: number;
             item: number;
             totalPrice: number;
+            selectedItemsCount: number;
             discountAmount: number;
             finalAmount: number;
-            voucherInfo?: {
-                voucherId: string;
-                code: string;
-                discountValue: number;
-            };
+            voucherInfo: IVoucherInfo | null;
         }
+        
     }
 }
 
@@ -85,9 +77,13 @@ export interface IUpdateCartData {
 }
 
 export interface ResponseUpdateCart {
-    totalPrice: number
-    discountAmount: number
-    finalAmount: number
+    statusCode: number;
+    message: string;
+    data: {
+        totalPrice: number;
+        discountAmount: number;
+        finalAmount: number;
+    }
 }
 
 export interface IRemoveCartData {
@@ -96,19 +92,37 @@ export interface IRemoveCartData {
 } 
 
 export interface AddToCartResponse {
-   statusCode: number; 
-   message: string;
+    statusCode: number; 
+    message: string;
 }
 
 export interface ICartAppliedVoucher {
-    voucherId: {
-        _id: string;
-        code: string;
-        name: string;
-        discountValue: number;
-    };
+    voucherId: string;
     code: string;
     discountValue: number;
+}
+
+export interface IUpdateItemSelectionData {
+    itemId: string;
+    selected: boolean;
+}
+
+export interface IUpdateItemSelectionResponse {
+    data: {
+        cart: {
+            _id: string;
+            items: Array<{
+                _id: string;
+                selected: boolean;
+            }>;
+        };
+        selectedItemIds: string[];
+        selectedItemsCount: number;
+        totalPrice: number;
+        discountAmount: number;
+        finalAmount: number;
+        voucherInfo: IVoucherInfo | null;
+    }
 }
 
 

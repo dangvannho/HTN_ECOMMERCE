@@ -1,4 +1,5 @@
-import { IAddToCartData, ICartResponse, IUpdateCartData, IRemoveCartData, AddToCartResponse, ResponseUpdateCart } from "../types/cart.types";
+
+import { IAddToCartData, ICartResponse, IUpdateCartData, IRemoveCartData, AddToCartResponse, ResponseUpdateCart, IUpdateItemSelectionData, IUpdateItemSelectionResponse } from "../types/cart.types";
 import { axiosInstance } from "@/config/axios";
 
 const CART_ENDPOINT = {
@@ -6,6 +7,7 @@ const CART_ENDPOINT = {
     ADD_TO_CART: "/cart/add-to-cart",
     REMOVE_CART: "/cart/remove-item",
     UPDATE_CART: "/cart/update-cart",
+    UPDATE_ITEM_SELECTION: "/cart/update-item-selection",
 }
 
 const cartApi = {
@@ -45,6 +47,14 @@ const cartApi = {
         }
     },
 
+    updateSelect: async(data: IUpdateItemSelectionData) : Promise<IUpdateItemSelectionResponse> =>{
+        try {
+            const response = await axiosInstance.put(CART_ENDPOINT.UPDATE_ITEM_SELECTION, data);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 
 };
 

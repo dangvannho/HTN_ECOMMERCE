@@ -13,6 +13,7 @@ import CartItem from './_components/CartItem';
 import CartActions from './_components/CartActions';
 import CartTotals from './_components/CartTotals';
 
+
 interface BagShoppingProps {
     setStep: (step: string) => void
     setCartSummary: React.Dispatch<React.SetStateAction<CartSummary>>;
@@ -27,17 +28,19 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
         finalAmount?: number;
     }>({});
     const [appliedVoucherCode, setAppliedVoucherCode] = useState<string | undefined>(undefined);
+    const [checktotal, setChecktotal] = useState<boolean>(false);
+    const [isVoucherDialogOpen, setIsVoucherDialogOpen] = useState(false);
 
     const fetchAndSetCart = async () => {
         const response = await cartApi.getCart();
-        const cartData = response?.data?.data;
+        const cartData = response?.data.data;
         if (cartData) {
             setCartTotals({
                 totalPrice: cartData.totalPrice,
                 discountAmount: cartData.discountAmount,
                 finalAmount: cartData.finalAmount,
             });
-            setAppliedVoucherCode(cartData.cart?.appliedVoucher?.code);
+            setAppliedVoucherCode(cartData.voucherInfo?.code);
         }
         await fetchCart();
     };
@@ -67,37 +70,42 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
             const newQuantity = item.quantity + change;
             if (newQuantity < 1) return;
 
-
-            const response = await cartApi.updateCart({
-                productId: item.productId._id,
-                variantId: item.variantId._id,
+            await cartApi.updateCart({
+                productId: item.product._id,
+                variantId: item.variant._id,
                 quantity: newQuantity
             });
 
-            setCartTotals({
-                totalPrice: response.totalPrice,
-                discountAmount: response.discountAmount,
-                finalAmount: response.finalAmount,
-            });
 
+            await fetchAndSetCart();
         } catch (error) {
             console.error('Error updating cart:', error);
         }
     };
 
+    useEffect(() => {
+        if (!cartTotals.finalAmount || cartTotals.finalAmount <= 0) {
+            setChecktotal(false);
+        } else {
+            setChecktotal(true);
+        }
+    }, [cartTotals.finalAmount]);
+
     const handleProceedToCheckout = () => {
-        if (!cartItems.length || !cartTotals.finalAmount) return;
+        if (!cartTotals.finalAmount || cartTotals.finalAmount <= 0) {
+            return;
+        }
 
         setCartSummary({
             items: cartItems.map(item => ({
                 id: item._id,
-                name: item.productId?.name || 'Product',
-                price: item.productId?.finalPrice || 0,
+                name: item.product?.name || 'Product',
+                price: item.finalPrice || 0,
                 quantity: item.quantity || 0,
-                color: item.variantId?.color || 'N/A',
-                size: item.variantId?.size || 'N/A'
+                color: item.variant?.color || 'N/A',
+                size: item.variant?.size || 'N/A'
             })),
-            finalAmount: cartTotals.finalAmount!,
+            finalAmount: cartTotals.finalAmount,
             selectedShipping,
             shippingCost,
             totalPrice: cartTotals.totalPrice!,
@@ -109,10 +117,10 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
     const handleRemoveItem = async (item: ICartItem) => {
         try {
             await cartApi.removeCart({
-                productId: item.productId._id,
-                variantId: item.variantId._id
+                productId: item.product._id,
+                variantId: item.variant._id
             });
-            await fetchCart();
+            await fetchAndSetCart();
         } catch (error) {
             console.error('Error removing item from cart:', error);
         }
@@ -128,6 +136,18 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
             discountAmount: data.discountAmount,
             totalPrice: data.totalPrice
         });
+        setIsVoucherDialogOpen(false);
+        fetchAndSetCart();
+    };
+
+    const handleSelectItem = async (itemId: string, selected: boolean) => {
+        try {
+            await cartApi.updateSelect({ itemId, selected });
+            // Fetch lại cart sau khi update selection
+            await fetchAndSetCart();
+        } catch (error) {
+            console.error('Error selecting item:', error);
+        }
     };
 
     return (
@@ -143,10 +163,13 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                                 item={item}
                                 onUpdateQuantity={updateQuantity}
                                 onRemoveItem={handleRemoveItem}
+                                onSelectItem={handleSelectItem}
                             />
                         ))}
                     </div>
                     <CartActions
+                        isOpen={isVoucherDialogOpen}
+                        onClose={() => setIsVoucherDialogOpen(false)}
                         totalPrice={cartTotals.totalPrice}
                         onVoucherApplied={handleVoucherApplied}
                         appliedVoucherCode={appliedVoucherCode}
@@ -160,11 +183,16 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                     selectedShipping={selectedShipping}
                     setSelectedShipping={setSelectedShipping}
                     onProceedToCheckout={handleProceedToCheckout}
+                    checktotal={checktotal}
+                    onVoucherApplied={handleVoucherApplied}
+                    appliedVoucherCode={appliedVoucherCode}
+                    isVoucherDialogOpen={isVoucherDialogOpen}
+                    setIsVoucherDialogOpen={setIsVoucherDialogOpen}
                 />
+
+
             </div>
-
         </>
-
     );
 };
 
