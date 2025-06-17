@@ -148,7 +148,7 @@ const ProductInfomation = ({
     <div className="lg:px-0 px-4">
       <div className="hidden xl:flex justify-between items-center">
         <BreadCrumb />
-        <div className="flex gap-4 text-sm uppercase font-medium ">
+        {/* <div className="flex gap-4 text-sm uppercase font-medium ">
           <div className="flex items-center gap-1">
             <ChevronLeft className="size-3" />
             <a href="#" className="text-black hover:underline">
@@ -161,7 +161,7 @@ const ProductInfomation = ({
             </a>
             <ChevronRight className="size-3" />
           </div>
-        </div>
+        </div> */}
       </div>
       <h3 className="text-xl lg:text-[26px] font-normal text-[#222] mt-0 lg:mt-10">
         {productData?.name}

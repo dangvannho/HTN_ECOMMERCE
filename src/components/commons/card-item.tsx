@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import routePath from "@/config/route";
 import { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
+import favoriteApi from "@/services/favorite/api/favorite.api";
+import { toast } from "react-hot-toast";
 
 interface CardItemProps {
   product: Product;
@@ -13,7 +15,20 @@ interface CardItemProps {
 // item trong section trending
 const CardItem = ({ product }: CardItemProps) => {
   const navigate = useNavigate();
-  
+
+  const handleAddFavorite = async (productId: string) => {
+    try {
+      const response = await favoriteApi.addFavorite(productId);
+      if (response.statusCode === 201) {
+        toast.success(response.message);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response.data.message);
+    }
+  };
+
   return (
     <div className="w-full cursor-pointer">
       <div className="relative bg-[#F3F3F3] aspect-[1/1] group">
@@ -21,6 +36,9 @@ const CardItem = ({ product }: CardItemProps) => {
           src={product.avatar}
           alt={product.name}
           className="size-full object-cover transition-transform duration-300"
+          onClick={() =>
+            navigate(routePath.productDetail.replace(":slug", product.slug))
+          }
         />
         {product.tag && (
           <div
@@ -38,9 +56,9 @@ const CardItem = ({ product }: CardItemProps) => {
 
         {/* hover cart của ảnh */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
+          {/* <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
             <Cart />
-          </button>
+          </button> */}
 
           <button
             className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors"
@@ -51,7 +69,10 @@ const CardItem = ({ product }: CardItemProps) => {
             <Eye />
           </button>
 
-          <button className="size-10 rounded-full bg-red-400 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+          <button
+            className="size-10 rounded-full bg-red-400 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors"
+            onClick={() => handleAddFavorite(product._id)}
+          >
             <HeartIcon />
           </button>
         </div>
@@ -84,14 +105,10 @@ const CardItem = ({ product }: CardItemProps) => {
               {formatToVND(product.price)}
             </span>
           )}
-          
         </div>
       </div>
     </div>
   );
-
-
 };
-
 
 export default CardItem;
