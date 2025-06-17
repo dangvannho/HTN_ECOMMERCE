@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import bannerSliderApi from '@/services/banner-slider/api/banner-slider.api';
 import type { BannerSlider } from '@/services/banner-slider/types/banner-slider.types';
 
 const BannerCategory = () => {
   const [active, setActive] = useState(0);
   const [banners, setBanners] = useState<BannerSlider[]>([]);
+  
 
   useEffect(() => {
     const fetchBanners = async () => {

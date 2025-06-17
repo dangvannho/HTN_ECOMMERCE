@@ -13,6 +13,7 @@ const routePath = {
   wishlist: "/wishlist",
   address: "/address", 
   notFound: "*",
+  collection: "/collections/:slug",
 };
 
 export default routePath;

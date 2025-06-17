@@ -17,6 +17,7 @@ import ForgotPassword from "@/pages/auth/forgot-password";
 import ResetPassword from "@/pages/auth/reset-password";
 import OrderDetail from "@/pages/order-detail";
 import NotFound from "@/pages/not-found";
+import Collection from "@/pages/collection";
 
 const listRoute: Route[] = [
   {
@@ -86,6 +87,11 @@ const listRoute: Route[] = [
     component: <NotFound />,
     layout: MainLayout,
   },
+  {
+    path: routePath.collection,
+    component: <Collection />,
+    layout: MainLayout,
+  }
 ];
 
 export default listRoute;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Facebook, Twitter, Instagram, ArrowLeft, ArrowRight, MessageSquareHeart } from 'lucide-react';
+import { Facebook, Twitter, Instagram, MessageSquareHeart } from 'lucide-react';
 import heroimage from "@/assets/heroimg.svg"
 import profileGit from "@/assets/profleGit.jpg"
 

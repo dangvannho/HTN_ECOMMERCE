@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/config/axios';
-import { Category, CategoryResponse } from '../types/category.types';
+import  type {  CategoryResponse } from '../types/category.types';
 
 const CATEGORY_ENDPOINT = {
     GET_ALL_CATEGORIES: '/categories',

@@ -43,7 +43,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
     setPrice(DEFAULT_PRICE);
   };
 
-  const handleRemoveFilter = (type: string, value: string) => {
+  const handleRemoveFilter = (type: string) => {
     if (type === 'category') {
       setFilter(prev => ({ ...prev, category: undefined }));
     }
