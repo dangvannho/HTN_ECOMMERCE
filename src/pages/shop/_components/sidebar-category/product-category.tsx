@@ -4,7 +4,7 @@ import type { Category  } from '@/services/product/types/product.type';
 
 interface ProductCategoryProps {
   selectedCategory: string | null;
-  onCategorySelect: (category: string) => void; 
+  onCategorySelect: (categorySlug: string) => void; 
   categories: Category[]
 }
 
@@ -35,9 +35,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategory, onC
               <li key={cat._id}>
                 <button
                   className={`py-1.5 px-2 rounded hover:bg-gray-100 text-left text-[.96rem] w-full text-[#222] text-sm not-italic font-normal leading-[30px]${
-                    selectedCategory === cat.name ? " bg-gray-200" : ""
+                    selectedCategory === cat.slug ? " bg-gray-200" : ""
                   }`}
-                  onClick={() => onCategorySelect(cat.name)}
+                  onClick={() => onCategorySelect(cat.slug)}
                 >
                   {cat.name}
                 </button>

@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { X } from "lucide-react";
 import { formatToVND } from '@/utils/format';
 
@@ -9,9 +9,10 @@ interface FilterState {
 
 interface SelectedFiltersProps {
   filters: FilterState;
-  resetAll: () => void;
+  resetAll: () => void; 
   onRemoveFilter?: (type: string, value: string) => void;
   isPriceActive?: boolean;
+  onCategorySelect?: (cat: string) => void;
 }
 
 // Helper component for filter tags
@@ -34,12 +35,20 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
   filters, 
   resetAll,
   onRemoveFilter,
-  isPriceActive
+  isPriceActive,
+  onCategorySelect
 }) => {
   // Check if any filters are applied
   const hasFilters = 
-    (filters.category !== null && filters.category !== undefined) ||
+    (filters.category !== null && filters.category !== undefined && filters.category.toLowerCase() !== 'all') ||
     (isPriceActive);
+
+  useEffect(() => {
+    if (!hasFilters && onCategorySelect) {
+      onCategorySelect('all');
+    }
+    // eslint-disable-next-line
+  }, [hasFilters]);
 
   if (!hasFilters) return null;
 
@@ -47,13 +56,19 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
     if (onRemoveFilter) {
       onRemoveFilter(type, value);
     }
+    // Kiểm tra nếu sau khi xóa tag này sẽ không còn filter nào
+    const isLastCategory = type === 'category' && !isPriceActive && filters.category && filters.category.toLowerCase() !== 'all';
+    const isLastPrice = type === 'price' && (!filters.category || filters.category.toLowerCase() === 'all') && isPriceActive;
+    if ((isLastCategory || isLastPrice) && resetAll) {
+       resetAll(); // Đảm bảo state cập nhật xong mới reset
+    }
   };
 
   return (
     <div className="border-t border-gray-200 pt-4">
       <div className="flex flex-wrap mb-2">
         {/* Category */}
-        {filters.category && (
+        {filters.category && filters.category.toLowerCase() !== 'all' && (
           <FilterTag
             key={`category-${filters.category}`}
             label={filters.category}

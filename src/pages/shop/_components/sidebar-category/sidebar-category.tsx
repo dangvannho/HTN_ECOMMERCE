@@ -4,23 +4,43 @@ import ProductCategory from './product-category';
 import FilterCategory from './filter-category/filter-category';
 import PriceCategory from './price-category';
 import type { FilterProductParams, Category  } from '@/services/product/types/product.type'; 
-
+import { useDebounce } from '@/hooks/useDebounce';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface SidebarCategoryProps {
   filter: FilterProductParams;
   setFilter: React.Dispatch<React.SetStateAction<FilterProductParams>>;  
   categories: Category[];
+  onCategorySelect?: (category: string) => void;
+  selectedCategory?: string | null;
+  onPriceChange?: (price: [number, number]) => void;
 }
 
 const DEFAULT_PRICE: [number, number] = [100000, 1000000];
 
-const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, categories }) => {
+const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, categories, onCategorySelect, selectedCategory, onPriceChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState<[number, number]>([
     filter.minPrice ?? DEFAULT_PRICE[0],
     filter.maxPrice ?? DEFAULT_PRICE[1],
   ]);
   const isPriceActive = price[0] !== DEFAULT_PRICE[0] || price[1] !== DEFAULT_PRICE[1];
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Debounce cập nhật filter (gọi API) khi đổi giá
+  const debouncedSetFilter = useDebounce((newPrice: [number, number]) => {
+    if (onPriceChange) {
+      onPriceChange(newPrice);
+    } else {
+      setFilter(prev => ({
+        ...prev,
+        minPrice: newPrice[0],
+        maxPrice: newPrice[1],
+      }));
+    }
+  }, 300);
 
   const handleCategory = (category: string) => {
     setFilter(prev => ({
@@ -30,54 +50,80 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
   };
 
   const handlePrice = (newPrice: [number, number]) => {
-    setPrice(newPrice);
-    setFilter(prev => ({
-      ...prev,
-      minPrice: newPrice[0],
-      maxPrice: newPrice[1],
-    }));
+    setPrice(newPrice); // UI slider mượt
+    debouncedSetFilter(newPrice); // filter đổi sau 300ms
   };
 
   const resetAll = () => {
     setFilter({});
     setPrice(DEFAULT_PRICE);
+    if (onCategorySelect) {
+      onCategorySelect('all');
+    }
   };
 
   const handleRemoveFilter = (type: string) => {
     if (type === 'category') {
-      setFilter(prev => ({ ...prev, category: undefined }));
+      setFilter(prev => {
+        const newFilter = { ...prev, category: undefined };
+        // Cập nhật URL
+        const params = new URLSearchParams(location.search);
+        params.delete('category');
+        if (newFilter.minPrice && newFilter.maxPrice) {
+          params.set('minPrice', newFilter.minPrice.toString());
+          params.set('maxPrice', newFilter.maxPrice.toString());
+          navigate({ pathname: '/shop/all', search: params.toString() }, { replace: true });
+        } else {
+          navigate('/shop/all', { replace: true });
+        }
+        return newFilter;
+      });
     }
     if (type === 'price') {
-      setFilter(prev => ({ ...prev, minPrice: DEFAULT_PRICE[0], maxPrice: DEFAULT_PRICE[1] }));
+      setFilter(prev => {
+        const newFilter = { ...prev, minPrice: undefined, maxPrice: undefined };
+        // Cập nhật URL
+        if (newFilter.category) {
+          navigate(`/shop/${newFilter.category}`, { replace: true });
+        } else {
+          navigate('/shop/all', { replace: true });
+        }
+        return newFilter;
+      });
       setPrice(DEFAULT_PRICE);
     }
   };
 
-  const FilterContent = () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between md:hidden">
-        <h2 className="text-lg font-medium">FILTER BY</h2>
-        <button onClick={() => setIsOpen(false)} className="p-1">
-          <X size={24} />
-        </button>
+  const FilterContent = () => {
+    // Lấy category name từ slug nếu có
+    const selectedCategoryObj = categories.find(cat => cat.slug === (filter.category || ''));
+    const selectedCategoryName = selectedCategoryObj ? selectedCategoryObj.name : (filter.category === 'all' ? 'all' : null);
+    return (
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center justify-between md:hidden">
+          <h2 className="text-lg font-medium">FILTER BY</h2>
+          <button onClick={() => setIsOpen(false)} className="p-1">
+            <X size={24} />
+          </button>
+        </div>
+        <ProductCategory 
+          selectedCategory={selectedCategory !== undefined  ? selectedCategory : (filter.category || null)}
+          onCategorySelect={onCategorySelect || handleCategory} 
+          categories={categories}
+        />
+        <PriceCategory
+          selectedPrice={price}
+          onPriceSelect={handlePrice}
+        />
+        <FilterCategory 
+          filters={{ category: selectedCategoryName, price }}
+          resetAll={resetAll}
+          onRemoveFilter={handleRemoveFilter}
+          isPriceActive={isPriceActive}
+        />
       </div>
-      <ProductCategory 
-        selectedCategory={filter.category || null}
-        onCategorySelect={handleCategory} 
-        categories={categories}
-      />
-      <PriceCategory
-        selectedPrice={price}
-        onPriceSelect={handlePrice}
-      />
-      <FilterCategory 
-        filters={{ category: filter.category || null, price }}
-        resetAll={resetAll}
-        onRemoveFilter={handleRemoveFilter}
-        isPriceActive={isPriceActive}
-      />
-    </div>
-  );
+    );
+  };
 
   return (
     <>

@@ -82,7 +82,7 @@ const productApi = {
       const response = await axiosInstance.get(PRODUCT_ENDPOINT.GET_TRENDING_PRODUCTS, {
         params: { type }
       });
-      return response.data;
+      return { data: response.data.data };
     } catch (error) {
       console.error("Error fetching trending products:", error);
       throw error;
