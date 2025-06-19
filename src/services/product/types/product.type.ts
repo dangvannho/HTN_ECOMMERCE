@@ -31,7 +31,7 @@ export type Product = {
   finalPrice: number;
   discountType: "PERCENTAGE" | null;
   discount: number;
-  UNISEXTYPE: string;
+  type: string;
   variants: Variant[];
   featured: boolean;
   categories: Category[];
@@ -39,6 +39,7 @@ export type Product = {
   //needAdd
   tag: string;
   tagColor: string;
+  totalSold?: number;
 };
 
 export type ProductDetailResponse = {
@@ -71,7 +72,7 @@ export type FilterProductParams = {
 export type FilterProductResponse = {
   EC: number;
   EM: string;
-  data: {
+
     data: {
       meta: {
         currentPage: number;
@@ -81,7 +82,7 @@ export type FilterProductResponse = {
       };
       result: Product[];
     };
-  };
+
 };
 
 export type RelatedProductResponse = {
@@ -91,8 +92,6 @@ export type RelatedProductResponse = {
 };
 
 export type TrendingProductResponse = {
-  statusCode: number;
-  message: string;
   data: Product[];
 };
 

@@ -29,6 +29,5 @@ createRoot(document.getElementById("root")!).render(
         </ToastBar>
       )}
     </Toaster>
-    ;
   </StrictMode>
 );

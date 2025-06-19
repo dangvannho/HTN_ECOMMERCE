@@ -11,9 +11,10 @@ interface FilterCategoryProps {
   resetAll: () => void;
   onRemoveFilter: (type: string, value: string) => void;
   isPriceActive?: boolean;
+  onCategorySelect?: (cat: string) => void;
 }
 
-const FilterCategory: React.FC<FilterCategoryProps> = ({ filters, resetAll, onRemoveFilter, isPriceActive }) => {
+const FilterCategory: React.FC<FilterCategoryProps> = ({ filters, resetAll, onRemoveFilter, isPriceActive, onCategorySelect }) => {
   return (
     <div className="mt-2 mb-1">
       <SelectedFilters 
@@ -21,6 +22,7 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({ filters, resetAll, onRe
         resetAll={resetAll} 
         onRemoveFilter={onRemoveFilter}
         isPriceActive={isPriceActive}
+        onCategorySelect={onCategorySelect}
       />
     </div>
   );

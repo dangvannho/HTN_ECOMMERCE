@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import User from "../icons/user";
 import ShoppingBag from "../icons/shopping-bag";
 import Menu from "../icons/menu";
-import Search from "../icons/search";
+// import Search from "../icons/search";
 import X from "../icons/x";
 import ChevronRight from "../icons/chevronright";
 import routePath from "@/config/route";
@@ -14,11 +14,11 @@ import useCollection from "@/services/collection/hooks/useCollection";
 
 const LINKS = [
   { name: "HOME", href: routePath.home },
-  { name: "SHOP", href: routePath.shop },
+  { name: "SHOP", href: routePath.shop.replace(":category", "all") },
   { name: "COLLECTION", href: "/" },
-  { name: "JOURNAL", href: "/" },
-  { name: "LOOKBOOK", href: "/" },
-  { name: "PAGES", href: "/" },
+  // { name: "JOURNAL", href: "/" },
+  // { name: "LOOKBOOK", href: "/" },
+  // { name: "PAGES", href: "/" },
 ];
 
 const Header = () => {
@@ -113,14 +113,14 @@ const Header = () => {
           ))}
         </nav>
         <div className="flex ml-auto gap-4 items-center">
-          <div className="relative h-full">
+          {/* <div className="relative h-full">
             <input
               type="text"
               className="w-[300px] bg-white py-1 pl-3 pr-8 border rounded-[3px] outline-none text-sm "
               placeholder="Search products..."
             />
             <Search className="size-4 absolute top-1/2 -translate-y-1/2 right-2" />
-          </div>
+          </div> */}
 
           <Account
             isAuthenticated={isAuthenticated}
@@ -135,9 +135,9 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <div>
+          {/* <div>
             <Menu className="size-5" />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -173,14 +173,14 @@ const Header = () => {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             className="w-full bg-white py-2 pl-3 pr-8 border rounded-[3px] outline-none text-sm "
             placeholder="Search products..."
           />
           <Search className="size-4 absolute top-1/2 -translate-y-1/2 right-2" />
-        </div>
+        </div> */}
 
         <nav className="flex flex-col space-y-6 mt-6 flex-1">
           {LINKS.map((item) => {

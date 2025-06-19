@@ -2,7 +2,7 @@ import ListTrending from "@/pages/home/_components/section-trending/list-trendin
 import { useState } from "react";
 import Hero from "./_components/hero/hero";
 import PromoBanners from "./_components/section-promo-banners";
-import TestimonialsCarousel from "./_components/section-testimonial/testimonial";
+// import TestimonialsCarousel from "./_components/section-testimonial/testimonial";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("ALL");
@@ -43,7 +43,7 @@ const Home = () => {
         <section className="mx-auto px-4 lg:px-0 xl:max-w-5xl 2xl:max-w-7xl">
           <PromoBanners />
         </section>
-        <TestimonialsCarousel />
+        {/* <TestimonialsCarousel /> */}
       </div>
     </div>
   );
