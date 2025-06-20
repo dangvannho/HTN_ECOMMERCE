@@ -11,13 +11,13 @@ const SIDEBAR_ITEMS = [
 
 const SidebarAccount = () => {
   return (
-    <aside className="flex lg:flex-col gap-6 lg:mt-0 mt-[80px]">
+    <aside className="flex lg:flex-col md:justify-start justify-between gap-0 md:gap-6 lg:mt-0 mt-[80px]">
       {SIDEBAR_ITEMS.map((item, index) => (
         <NavLink
           key={index}
           to={item.href}
           className={({ isActive }) =>
-            `text-sm font-medium relative group w-max ${
+            `text-[11px] md:text-sm font-medium relative group w-max ${
               isActive ? "text-[#C32929]" : "text-[#222] hover:text-[#C32929]"
             }`
           }
