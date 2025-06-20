@@ -14,7 +14,7 @@ const Home = () => {
       {/* Hero panner */}
       <Hero />
       {/* Section Trending */}
-      <div className="pt-24">
+      <div className="pt-24 ">
         <h3 className="text-center text-[35px] not-italic font-normal">
           TRENDING
         </h3>
@@ -40,7 +40,7 @@ const Home = () => {
         <ListTrending type={activeTab} />
       </div>
       <div className="bg-[#FAF9F8]">
-        <section className="mx-auto px-4 lg:px-0 xl:max-w-5xl 2xl:max-w-7xl">
+        <section className="mx-auto px-4 xl:px-0 xl:max-w-5xl 2xl:max-w-7xl">
           <PromoBanners />
         </section>
         {/* <TestimonialsCarousel /> */}
