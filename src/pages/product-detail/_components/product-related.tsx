@@ -14,7 +14,7 @@ const ProductRelated = ({ slug }: ProductRelatedProps) => {
 
   useEffect(() => {
     fetchProductData();
-  }, []);
+  }, [slug]);
 
   const fetchProductData = async () => {
     try {
