@@ -56,11 +56,14 @@ const ListTrending = ({ type }: ListTrendingProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 container max-w-7xl mx-auto">
-      {trendingProducts.map((product) => (
-        <CardItem key={product._id} product={product} />
-      ))}
-    </div>
+    <section className="xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] px-4 xl:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 ">
+        {trendingProducts.map((product) => (
+          <CardItem key={product._id} product={product} />
+        ))}
+      </div>
+
+    </section>
   );
 };
 

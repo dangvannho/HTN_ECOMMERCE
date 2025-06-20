@@ -50,7 +50,7 @@ const Header = () => {
   return (
     <header className="fixed left-0 top-0 w-full bg-white z-50">
       {/* Desktop Header */}
-      <div className="hidden lg:flex xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center ">
+      <div className="hidden lg:flex xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center px-4 xl:px-0 ">
         <div className="flex items-center space-x-2">
           <Link to={routePath.home}>
             <img src="/logo.svg" alt="" />
