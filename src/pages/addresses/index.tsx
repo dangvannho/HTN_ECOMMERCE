@@ -1,23 +1,16 @@
 import { useState, useEffect } from "react";
-import { IAddressFormData, IAddress } from "@/services/addresses/types/addresses.types";
+import { IAddress } from "@/services/addresses/types/addresses.types";
 import AddressForm from "@/pages/addresses/_components/AddressesForm";
 import AddressCard from "@/pages/addresses/_components/address-card";
 import addressesApi from "@/services/addresses/api/addresses.api";
+import { AddressFormInputs } from "@/schemas/addresses";
 import toast from 'react-hot-toast';
 
 const Addresses = () => {
   const [showForm, setShowForm] = useState(false);
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<IAddressFormData>({
-    fullname: "",
-    phoneNumber: "",
-    address: "",
-    provinceName: "",
-    districtName: "",
-    wardName: "",
-    isDefault: false
-  });
+  const [editingData, setEditingData] = useState<Partial<AddressFormInputs> | undefined>(undefined);
 
   const fetchAddresses = async () => {
     try {
@@ -37,16 +30,8 @@ const Addresses = () => {
     fetchAddresses();
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   const handleEdit = (address: IAddress) => {
-    setFormData({
+    const editData = {
       fullname: address.fullname,
       phoneNumber: address.phoneNumber,
       address: address.address,
@@ -54,41 +39,25 @@ const Addresses = () => {
       districtName: address.districtName,
       wardName: address.wardName,
       isDefault: address.isDefault
-    });
+    };
+    setEditingData(editData);
     setEditingId(address._id as string);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (data: AddressFormInputs) => {
     try {
       if (editingId) {
-        await addressesApi.updateAddress(editingId, {
-          fullname: formData.fullname,
-          phoneNumber: formData.phoneNumber,
-          address: formData.address,
-          provinceName: formData.provinceName,
-          districtName: formData.districtName,
-          wardName: formData.wardName,
-          isDefault: formData.isDefault
-        });
+        await addressesApi.updateAddress(editingId, data);
         toast.success('Address updated successfully!');
       } else {
-        await addressesApi.createAddress(formData);
+        await addressesApi.createAddress(data);
         toast.success('Address added successfully!');
       }
       setShowForm(false);
       setEditingId(null);
-      setFormData({
-        fullname: "",
-        phoneNumber: "",
-        address: "",
-        provinceName: "",
-        districtName: "",
-        wardName: "",
-        isDefault: false
-      });
+      setEditingData(undefined);
       fetchAddresses();
     } catch (error) {
       console.error("Error saving address:", error);
@@ -99,15 +68,13 @@ const Addresses = () => {
   const handleCancel = () => {
     setShowForm(false);
     setEditingId(null);
-    setFormData({
-      fullname: "",
-      phoneNumber: "",
-      address: "",
-      provinceName: "",
-      districtName: "",
-      wardName: "",
-      isDefault: false
-    });
+    setEditingData(undefined);
+  };
+
+  const handleAddNew = () => {
+    setEditingData(undefined);
+    setEditingId(null);
+    setShowForm(true);
   };
 
   return (
@@ -123,7 +90,7 @@ const Addresses = () => {
           </p>
           {!showForm && (
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleAddNew}
               className="bg-[#222] text-white px-4 py-2 rounded hover:bg-[#333]"
             >
               Add New Address
@@ -152,10 +119,9 @@ const Addresses = () => {
 
         {showForm && (
           <AddressForm
-            formData={formData}
+            initialData={editingData}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            onChange={handleInputChange}
             isEditing={!!editingId}
           />
         )}

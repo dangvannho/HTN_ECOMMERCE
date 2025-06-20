@@ -3,6 +3,7 @@ import { ICartItem } from '@/services/cart/types/cart.types';
 import { formatToVND } from '@/utils/format';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '@/hooks/useDebounce';
+import { toast } from 'react-hot-toast';
 
 interface CartItemProps {
     item: ICartItem;
@@ -13,6 +14,7 @@ interface CartItemProps {
 
 const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartItemProps) => {
     const [localQuantity, setLocalQuantity] = useState(item.quantity);
+    const isMaxStock = localQuantity >= item.variant.stock;
 
     // Cập nhật localQuantity khi item.quantity thay đổi từ props
     useEffect(() => {
@@ -25,11 +27,22 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
         if (change !== 0) {
             onUpdateQuantity(item._id, change);
         }
-    }, 500);
+    }, 200);
 
     const handleQuantityChange = (change: number) => {
         const newQuantity = localQuantity + change;
-        if (newQuantity < 1) return;
+
+        // Kiểm tra số lượng tối thiểu
+        if (newQuantity < 1) {
+            toast.error('Số lượng tối thiểu là 1');
+            return;
+        }
+
+        // Kiểm tra số lượng không vượt quá stock
+        if (newQuantity > item.variant.stock) {
+            toast.error(`Số lượng đã đạt tối đa ${item.variant.stock} sản phẩm`);
+            return;
+        }
 
         // Cập nhật UI ngay lập tức
         setLocalQuantity(newQuantity);
@@ -61,7 +74,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                 {/* Product info */}
                 <div className="sm:col-span-3">
                     <Link
-                        to={`/product-detail/${item.product.name}`}
+                        to={`/product-detail/${item.product.slug}`}
                         className="block text-base font-normal truncate max-w-[200px] sm:max-w-[300px] transition-colors"
                     >
                         {item.product.name || 'Product'}
@@ -76,6 +89,11 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                     <p className="text-sm text-[#767676]">
                         Size: {item.variant.size || 'N/A'}
                     </p>
+                    {isMaxStock && (
+                        <p className="text-xs text-red-500 mt-1">
+                            Đã đạt số lượng tối đa trong kho ({item.variant.stock})
+                        </p>
+                    )}
                 </div>
 
                 {/* Price */}
@@ -88,8 +106,9 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                 <div className="sm:col-span-2">
                     <div className="flex items-center">
                         <button
-                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50"
+                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             onClick={() => handleQuantityChange(-1)}
+                            disabled={localQuantity <= 1}
                         >
                             -
                         </button>
@@ -97,8 +116,10 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                             {localQuantity}
                         </div>
                         <button
-                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50"
+                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             onClick={() => handleQuantityChange(1)}
+                            disabled={isMaxStock}
+                            title={isMaxStock ? `Đã đạt số lượng tối đa (${item.variant.stock})` : undefined}
                         >
                             +
                         </button>
