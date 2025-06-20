@@ -76,12 +76,14 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                 return;
             }
 
+            // Gọi API updateCart
             await cartApi.updateCart({
                 productId: item.product._id,
                 variantId: item.variant._id,
                 quantity: newQuantity
             });
 
+            // Sau khi update thành công, gọi lại API getCart để cập nhật dữ liệu mới nhất
             await fetchAndSetCart();
         } catch (error: any) {
             console.error('Error updating cart:', error);

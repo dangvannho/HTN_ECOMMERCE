@@ -63,9 +63,9 @@ const Hero = () => {
         <div className="bg-[#fff] px-4 ">
             <div className=" flex flex-col lg:flex-row justify-center overflow-hidden xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px]">
                 {/* cột trái  */}
-                <div className="w-full lg:w-1/2 flex flex-col justify-center lg:justify-around ">
+                <div className="w-full lg:w-1/2 flex flex-col justify-center lg:justify-around sm:pb-0 pb-4">
                     <div className="mb-12 lg:mb-0">
-                        <h1 className="text-[70px] sm:text-5xl lg:text-6xl font-normal text-gray-900 mb-3 sm:mb-4">
+                        <h1 className="text-[50px] sm:text-2xl lg:text-6xl font-normal text-gray-900 mb-3 sm:mb-4">
                             {currentBanner?.title}
                         </h1>
 
@@ -83,7 +83,7 @@ const Hero = () => {
 
                     {/* Bottom Slider */}
                     <div className="flex items-center gap-4 sm:gap-6 text-xs uppercase text-gray-500 tracking-wider mt-8 lg:mt-0">
-                        <button onClick={prevImage} className="flex items-center gap-2 group hover:text-gray-900 transition-colors hover:scale-120">
+                        <button onClick={prevImage} className="flex items-center gap-2 group hover:text-gray-900 transition-colors">
                             Prev
                             <span className="block w-6 sm:w-8 h-px bg-gray-400 group-hover:bg-gray-900 transition-colors"></span>
                         </button>

@@ -30,4 +30,4 @@ const ButtomCommon = ({ title, onClick, className = "", disabled, loading }: But
     )
 }
 
-export default ButtomCommon
+export default ButtomCommon;

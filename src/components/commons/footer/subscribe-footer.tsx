@@ -6,7 +6,7 @@ const SubscribeFooter = () => {
         Be the first to get the latest news about trends, promotions, and much
         more!
       </p>
-      <div className="flex mt-3">
+      {/* <div className="flex mt-3">
         <input
           type="email"
           placeholder="Your email address"
@@ -15,7 +15,7 @@ const SubscribeFooter = () => {
         <button className="bg-white text-[#222] px-3 text-sm font-medium">
           JOIN
         </button>
-      </div>
+      </div> */}
       <h4 className="text-sm font-medium mt-8">Secure payments</h4>
       <img src="/payments_logo.svg" alt="" className="mt-4" />
     </div>
