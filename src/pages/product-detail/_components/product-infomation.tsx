@@ -225,7 +225,11 @@ const ProductInfomation = ({
                 disabled={sizeItem.stock === 0}
                 className={`w-[32px] h-[32px] flex items-center justify-center border text-sm font-normal relative 
                   ${sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"}
-                  ${selectedSize === sizeItem.size && sizeItem.stock > 0 ? "border-1 border-black" : ""}
+                  ${
+                    selectedSize === sizeItem.size && sizeItem.stock > 0
+                      ? "border-1 border-black"
+                      : ""
+                  }
                 `}
               >
                 {sizeItem.size}
@@ -316,15 +320,19 @@ const ProductInfomation = ({
           </button>
         </div>
         <button
-        disabled={!currentStock}
-          className={`bg-black text-white px-6 py-2 w-[280px] text-sm hover:bg-black/80 ${!currentStock && "cursor-not-allowed opacity-50 hover:bg-black"}`}
+          disabled={!currentStock}
+          className={`bg-black text-white px-6 py-2 w-[280px] text-sm hover:bg-black ${
+            !currentStock && "cursor-not-allowed opacity-50 hover:bg-black"
+          }`}
           onClick={() => handleAddToCart()}
         >
           ADD TO CART
         </button>
         <button
-        disabled={!currentStock}
-          className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${!currentStock && "cursor-not-allowed opacity-50 hover:bg-red-600"} `}
+          disabled={!currentStock}
+          className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${
+            !currentStock && "cursor-not-allowed opacity-50 hover:bg-red-600"
+          } `}
           onClick={() => handleBuyNow()}
         >
           BUY NOW

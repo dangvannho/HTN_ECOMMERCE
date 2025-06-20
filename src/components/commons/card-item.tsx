@@ -21,8 +21,8 @@ const CardItem = ({ product }: CardItemProps) => {
     if (product) {
       setIsFavorite(product.isFavorite);
     }
-  }, [product]); 
-  
+  }, [product]);
+
   const handleFavorite = async () => {
     if (isFavorite) {
       try {
@@ -56,17 +56,9 @@ const CardItem = ({ product }: CardItemProps) => {
             navigate(routePath.productDetail.replace(":slug", product.slug))
           }
         />
-        {product.tag && (
-          <div
-            className={`absolute top-3 ${
-              product.tag === "New" || product.tag === "Sale"
-                ? "left-3"
-                : "right-3"
-            } ${
-              product.tagColor
-            } px-3 py-1 text-sm not-italic font-normal md:text-sm`}
-          >
-            {product.tag}
+        {product.discount > 0 && (
+          <div className="absolute top-2 right-3 bg-red-500 text-white px-2 rounded-sm">
+            -{product.discount}%
           </div>
         )}
 
