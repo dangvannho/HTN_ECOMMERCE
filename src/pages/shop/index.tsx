@@ -90,6 +90,7 @@
               setProducts(res.data?.result || []);
               setTotalPages(res.data?.meta?.totalPages || 1);
             }
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (e) {
             setProducts([]);
             setTotalPages(1);
@@ -101,7 +102,7 @@
       }, [filter.category, filter.minPrice, filter.maxPrice, page]); 
 
       return (
-        <div className='max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto block md:flex gap-6'>
+        <div className=' block md:flex gap-6'>
           <SidebarCategory filter={filter} setFilter={setFilter} categories={categories} onCategorySelect={handleCategorySelect} selectedCategory={filter.category || 'all'} onPriceChange={handlePriceChange} />
           <MainCategory
             filteredProducts={products}

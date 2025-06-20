@@ -6,8 +6,6 @@ import orderApi from "@/services/order/api/order.api";
 
 const OrderDetail = () => {
   const { id } = useParams();
-  console.log(id);
-
   const [orderData, setOrderData] = useState<Order | null>(null);
 
   useEffect(() => {
@@ -25,18 +23,18 @@ const OrderDetail = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "completed":
-        return "bg-green-100 text-green-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  // const getStatusColor = (status: string) => {
+  //   switch (status) {
+  //     case "pending":
+  //       return "bg-yellow-100 text-yellow-800";
+  //     case "completed":
+  //       return "bg-green-100 text-green-800";
+  //     case "cancelled":
+  //       return "bg-red-100 text-red-800";
+  //     default:
+  //       return "bg-gray-100 text-gray-800";
+  //   }
+  // };
 
   return (
     <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto p-4">
@@ -45,13 +43,13 @@ const OrderDetail = () => {
         <div className="border-b pb-4 mb-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold">Order Details</h1>
-            <span
+            {/* <span
               className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
                 orderData?.status || ""
               )}`}
             >
               {orderData?.status}
-            </span>
+            </span> */}
           </div>
           <p className="text-gray-600 mt-2">Order ID: {orderData?.orderCode}</p>
         </div>

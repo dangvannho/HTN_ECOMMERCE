@@ -12,6 +12,7 @@ const BannerCategory = () => {
       try {
         const res = await bannerSliderApi.getAllBannerSlider();
         setBanners(res.data || []);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         setBanners([]);
       }
@@ -29,10 +30,10 @@ const BannerCategory = () => {
 
   return (
     <div className="flex flex-1 h-[260px] md:h-[290px] xl:h-[340px] transition-shadow shadow-banner overflow-hidden mb-8 animate-fade-scroll bg-[#F5E6E0]">
-      <div className="bg-bannerLeft w-[40%] h-full flex flex-col justify-center items-start px-2 lg:px-14">
+      <div className="bg-bannerLeft w-[40%] h-full flex flex-col gap-3 justify-center items-start px-2 lg:px-14">
         <h1 className="text-xl lg:text-2xl md:text-3xl font-bold uppercase tracking-tight mb-2">{banners[active].title}</h1>
         <p className="max-w-md text-[1rem] text-accentBlack/70">{banners[active].description}</p>
-        <div className="flex mt-6 gap-4 items-center">
+        <div className="flex mt-6 gap-2 sm:gap-4 items-center ">
           {banners.map((_, i) => (
             <button
               key={i}

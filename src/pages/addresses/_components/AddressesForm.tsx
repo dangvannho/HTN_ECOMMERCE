@@ -1,4 +1,8 @@
-import { Province, District, Ward } from "@/services/addresses/types/addresses.types";
+import {
+  Province,
+  District,
+  Ward,
+} from "@/services/addresses/types/addresses.types";
 import { FC, useEffect, useState } from "react";
 import provinces from "./select-provices/vietnam-provinces.json";
 import { useForm } from "react-hook-form";
@@ -23,14 +27,11 @@ const AddressForm: FC<AddressFormProps> = ({
   const [provinces] = useState<Province[]>(vietnamProvinces);
   const [districts, setDistricts] = useState<District[]>([]);
   const [wards, setWards] = useState<Ward[]>([]);
-  const [isDone, setIsDone] = useState(false);
-
-  console.log("initialData:", initialData);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     reset,
     formState: { errors, isSubmitting },
@@ -47,14 +48,46 @@ const AddressForm: FC<AddressFormProps> = ({
     },
   });
 
-  const watchProvince = watch("provinceName");
-  const watchDistrict = watch("districtName");
-
-  // Reset form and load districts/wards when initialData changes
+  // Load districts and wards when initialData is provided
   useEffect(() => {
-    console.log("Resetting form with initialData:", initialData);
-    if (initialData) {
-      // Reset form with initialData
+    console.log("Dữ liệu khởi tạo", initialData);
+
+    if (initialData?.provinceName) {
+      const selectedProvince = provinces.find(
+        (province) => province.name === initialData.provinceName
+      );
+      if (selectedProvince) {
+        const newDistricts = selectedProvince.districts || [];
+        setDistricts(newDistricts);
+
+        if (initialData.districtName) {
+          const selectedDistrict = newDistricts.find(
+            (district) => district.name === initialData.districtName
+          );
+          if (selectedDistrict) {
+            setWards(selectedDistrict.wards);
+          } else {
+            setWards([]);
+          }
+        } else {
+          setWards([]);
+        }
+      } else {
+        setDistricts([]);
+        setWards([]);
+      }
+      setIsDataLoaded(true);
+    } else {
+      setDistricts([]);
+      setWards([]);
+      setIsDataLoaded(true);
+    }
+  }, [initialData, provinces]);
+
+  // Fill form with initialData after districts and wards are loaded
+  useEffect(() => {
+    console.log("Sau khi khởi tạo", initialData);
+    if (isDataLoaded && initialData) {
       reset({
         fullname: initialData.fullname || "",
         phoneNumber: initialData.phoneNumber || "",
@@ -64,33 +97,8 @@ const AddressForm: FC<AddressFormProps> = ({
         wardName: initialData.wardName || "",
         isDefault: initialData.isDefault ?? false,
       });
-
-      // Load districts and wards for initial province
-      if (initialData.provinceName) {
-        const selectedProvince = provinces.find(
-          (province) => province.name === initialData.provinceName
-        );
-        if (selectedProvince) {
-          const newDistricts = selectedProvince.districts || [];
-          setDistricts(newDistricts);
-          setIsDone(true);
-          if (initialData.districtName) {
-            setValue("districtName", initialData.districtName);
-            const selectedDistrict = newDistricts.find(
-              (district) => district.name === initialData.districtName
-            );
-            if (selectedDistrict) {
-              const newWards = selectedDistrict.wards || [];
-              setWards(newWards);
-              if (initialData.wardName) {
-                setValue("wardName", initialData.wardName);
-              }
-            }
-          }
-        }
-      }
-    } else {
-      // Clear form when no initialData
+      setIsDataLoaded(false);
+    } else if (isDataLoaded && !initialData) {
       reset({
         fullname: "",
         phoneNumber: "",
@@ -100,57 +108,54 @@ const AddressForm: FC<AddressFormProps> = ({
         wardName: "",
         isDefault: false,
       });
-      setDistricts([]);
-      setWards([]);
-      setIsDone(false);
+      setIsDataLoaded(false);
     }
-  }, [initialData, reset, setValue, provinces]);
+  }, [isDataLoaded, initialData, reset]);
 
-  // Update districts when province changes (user interaction)
-  useEffect(() => {
-    console.log("watchProvince changed:", watchProvince);
-    if (watchProvince && (!initialData || watchProvince !== initialData.provinceName)) {
+  // Handle province change
+  const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const provinceName = e.target.value;
+    setValue("provinceName", provinceName, { shouldValidate: true });
+
+    if (provinceName) {
       const selectedProvince = provinces.find(
-        (province) => province.name === watchProvince
+        (province) => province.name === provinceName
       );
       if (selectedProvince) {
         setDistricts(selectedProvince.districts || []);
-        setValue("districtName", "");
-        setValue("wardName", "");
+        setValue("districtName", "", { shouldValidate: true });
+        setValue("wardName", "", { shouldValidate: true });
         setWards([]);
-        setIsDone(true);
       }
+    } else {
+      setDistricts([]);
+      setValue("districtName", "", { shouldValidate: true });
+      setValue("wardName", "", { shouldValidate: true });
+      setWards([]);
     }
-  }, [watchProvince, provinces, setValue, initialData]);
+  };
 
-  // Update wards when district changes (user interaction)
-  useEffect(() => {
-    console.log("watchDistrict changed:", watchDistrict);
-    if (watchDistrict && districts.length > 0 && (!initialData || watchDistrict !== initialData.districtName)) {
+  // Handle district change
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const districtName = e.target.value;
+    setValue("districtName", districtName, { shouldValidate: true });
+
+    if (districtName) {
       const selectedDistrict = districts.find(
-        (district) => district.name === watchDistrict
+        (district) => district.name === districtName
       );
       if (selectedDistrict) {
         setWards(selectedDistrict.wards || []);
-        setValue("wardName", "");
+        setValue("wardName", "", { shouldValidate: true });
       } else {
         setWards([]);
-        setValue("wardName", "");
+        setValue("wardName", "", { shouldValidate: true });
       }
+    } else {
+      setWards([]);
+      setValue("wardName", "", { shouldValidate: true });
     }
-  }, [watchDistrict, districts, setValue, initialData]);
-
-  // Re-render districts when isDone changes
-  useEffect(() => {
-    if (isDone && watchProvince) {
-      const selectedProvince = provinces.find(
-        (province) => province.name === watchProvince
-      );
-      if (selectedProvince) {
-        setDistricts(selectedProvince.districts || []);
-      }
-    }
-  }, [isDone, watchProvince, provinces]);
+  };
 
   const handleFormSubmit = handleSubmit((data: AddressFormInputs) => {
     onSubmit(data);
@@ -170,13 +175,16 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("fullname")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.fullname
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
+                errors.fullname
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
+              }`}
             />
             {errors.fullname && (
-              <p className="mt-1 text-sm text-red-600">{errors.fullname.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.fullname.message}
+              </p>
             )}
           </div>
 
@@ -187,13 +195,16 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("phoneNumber")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.phoneNumber
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
+                errors.phoneNumber
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
+              }`}
             />
             {errors.phoneNumber && (
-              <p className="mt-1 text-sm text-red-600">{errors.phoneNumber.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.phoneNumber.message}
+              </p>
             )}
           </div>
 
@@ -204,13 +215,16 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("address")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.address
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
+                errors.address
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
+              }`}
             />
             {errors.address && (
-              <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.address.message}
+              </p>
             )}
           </div>
 
@@ -220,20 +234,27 @@ const AddressForm: FC<AddressFormProps> = ({
             </label>
             <select
               {...register("provinceName")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 ${errors.provinceName
+              onChange={handleProvinceChange}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 ${
+                errors.provinceName
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
+              }`}
             >
               <option value="">Chọn tỉnh/thành phố</option>
               {provinces.map((province, index) => (
-                <option key={province.code || `province-${index}`} value={province.name}>
+                <option
+                  key={province.code || `province-${index}`}
+                  value={province.name}
+                >
                   {province.name}
                 </option>
               ))}
             </select>
             {errors.provinceName && (
-              <p className="mt-1 text-sm text-red-600">{errors.provinceName.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.provinceName.message}
+              </p>
             )}
           </div>
 
@@ -243,21 +264,28 @@ const AddressForm: FC<AddressFormProps> = ({
             </label>
             <select
               {...register("districtName")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${errors.districtName
+              onChange={handleDistrictChange}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${
+                errors.districtName
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
-              disabled={!watchProvince}
+              }`}
+              disabled={!districts.length}
             >
               <option value="">Chọn quận/huyện</option>
               {districts.map((district, index) => (
-                <option key={district.code || `district-${index}`} value={district.name}>
+                <option
+                  key={district.code || `district-${index}`}
+                  value={district.name}
+                >
                   {district.name}
                 </option>
               ))}
             </select>
             {errors.districtName && (
-              <p className="mt-1 text-sm text-red-600">{errors.districtName.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.districtName.message}
+              </p>
             )}
           </div>
 
@@ -267,11 +295,12 @@ const AddressForm: FC<AddressFormProps> = ({
             </label>
             <select
               {...register("wardName")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${errors.wardName
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${
+                errors.wardName
                   ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
                   : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-                }`}
-              disabled={!watchDistrict}
+              }`}
+              disabled={!wards.length}
             >
               <option value="">Chọn phường/xã</option>
               {wards.map((ward, index) => (
@@ -281,7 +310,9 @@ const AddressForm: FC<AddressFormProps> = ({
               ))}
             </select>
             {errors.wardName && (
-              <p className="mt-1 text-sm text-red-600">{errors.wardName.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.wardName.message}
+              </p>
             )}
           </div>
 
@@ -319,8 +350,8 @@ const AddressForm: FC<AddressFormProps> = ({
                   ? "Updating..."
                   : "Saving..."
                 : isEditing
-                  ? "Update Address"
-                  : "Save Address"}
+                ? "Update Address"
+                : "Save Address"}
             </button>
           </div>
         </div>

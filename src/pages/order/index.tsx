@@ -32,7 +32,7 @@ const Order = () => {
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-[#E4E4E4] h-12">
-              {["ORDER", "DATE", "STATUS", "TOTAL", "ACTIONS"].map((header) => (
+              {["ORDER", "DATE", "TOTAL", "ACTIONS"].map((header) => (
                 <th
                   key={header}
                   className="text-[#222] text-sm font-medium px-6 py-3 text-left last:pl-0"
@@ -61,9 +61,9 @@ const Order = () => {
                   <td className="px-6 py-4 text-sm text-[#222]">
                     {formatDate(order.createdAt)}
                   </td>
-                  <td className="px-6 py-4 text-sm text-[#222]">
+                  {/* <td className="px-6 py-4 text-sm text-[#222]">
                     {order.status}
-                  </td>
+                  </td> */}
                   <td className="px-6 py-4 text-sm text-[#222]">
                     {formatToVND(order.finalAmount)} for {order.totalItems}{" "}
                     {order.totalItems > 1 ? "products" : "product"}
