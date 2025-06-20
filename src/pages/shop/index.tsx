@@ -102,16 +102,19 @@
       }, [filter.category, filter.minPrice, filter.maxPrice, page]); 
 
       return (
-        <div className=' block md:flex gap-6'>
-          <SidebarCategory filter={filter} setFilter={setFilter} categories={categories} onCategorySelect={handleCategorySelect} selectedCategory={filter.category || 'all'} onPriceChange={handlePriceChange} />
-          <MainCategory
-            filteredProducts={products}
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            loading={loading}
-          />
-        </div>
+   <div className='xl:max-w-5xl 2xl:max-w-7xl mx-auto items-center px-4 xl:px-0'>
+          
+          <div className=' block md:flex gap-6'>
+            <SidebarCategory filter={filter} setFilter={setFilter} categories={categories} onCategorySelect={handleCategorySelect} selectedCategory={filter.category || 'all'} onPriceChange={handlePriceChange} />
+            <MainCategory
+              filteredProducts={products}
+              page={page}
+              totalPages={totalPages}
+              setPage={setPage}
+              loading={loading}
+            />
+          </div>
+   </div>
       );
     };
 

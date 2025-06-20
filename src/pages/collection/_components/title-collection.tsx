@@ -9,7 +9,7 @@ const sections = [
 
 const TitleCollection = ({ onScrollToSection }: TitleCollectionProps) => {
   return (
-      <div className="flex justify-center gap-5 text-[#7f7f7f] text-[12px] md:text-[20px] pb-5">
+      <div className="flex justify-center gap-5 text-[#7f7f7f] text-[12px] sm:text-[20px] pd-0 sm:pb-5">
       {sections.map((section) => (
         <button
           key={section.id}

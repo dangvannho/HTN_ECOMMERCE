@@ -52,7 +52,7 @@ const CollectionPage = () => {
   return (
     <>
       <div className="bg-[#f9f9f9]">
-        <div className=" flex items-center gap-2 uppercase xl:max-w-5xl 2xl:max-w-7xl mx-auto py-3 mb-5">
+        <div className=" flex items-center gap-2 uppercase xl:max-w-5xl 2xl:max-w-7xl mx-auto py-3 mb-5 px-4 xl:px-0">
           <a className="font-medium" href="/">
             home
           </a>
@@ -66,7 +66,7 @@ const CollectionPage = () => {
 
         <TitleCollection onScrollToSection={scrollToSection} />
 
-        <div className="flex items-center justify-center mt-14 mb-4">
+        <div className="flex items-center justify-center mt-8 lg:mt-14 mb-4">
           <img src="/logo.svg" alt="logo" />
         </div>
 

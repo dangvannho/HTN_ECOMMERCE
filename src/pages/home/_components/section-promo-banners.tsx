@@ -9,7 +9,7 @@ const PromoBanners = () => {
   }
 
   return (
-    <div className="grid md:grid-cols-2 grid-cols-1 md:grid-rows-[1fr_1fr_1fr_1fr_1fr] grid-rows-4 gap-[30px] my-[100px] md:h-[600px]">
+    <div className="grid md:grid-cols-2 grid-cols-1 md:grid-rows-[1fr_1fr_1fr_1fr_1fr] grid-rows-4 gap-[30px] my-[50px] md:my-[80px] md:h-[600px]">
       {collections.slice(0, 4).map((collection, index) => (
         <CardBanner
           key={collection._id}
