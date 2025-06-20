@@ -82,16 +82,15 @@ const Addresses = () => {
       <h4 className="text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
         My Addresses
       </h4>
-
       <div>
         <div className="flex justify-between items-center mb-3">
-          <p className="text-[#222] text-sm not-italic font-normal leading-[24px]">
+          <p className="flex-1 text-[#222] text-xs sm:text-sm not-italic font-normal">
             The following addresses will be used on the checkout page by default.
           </p>
           {!showForm && (
             <button
               onClick={handleAddNew}
-              className="bg-[#222] text-white px-4 py-2 rounded hover:bg-[#333]"
+              className="bg-[#222] text-white px-2 sm:px-4 text-[10px] sm:text-[14px] py-2 rounded hover:bg-[#333]"
             >
               Add New Address
             </button>

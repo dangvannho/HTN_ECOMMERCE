@@ -36,7 +36,7 @@ const CartLayout = () => {
     };
 
     return (
-        <div className="container mx-auto lg:max-w-7xl mt-8 sm:mt-14 mb-12 sm:mb-24">
+        <div className=" xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center px-4 xl:px-0">
             <h2 className="text-2xl sm:text-[35px] not-italic font-bold px-4 sm:px-0">
                 {step === "bag" && "CART"}
                 {step === "checkout" && "SHIPPING AND CHECKOUT"}
@@ -50,6 +50,6 @@ const CartLayout = () => {
             </main>
         </div>
     )
-}
+};
 
-export default CartLayout
+export default CartLayout;
