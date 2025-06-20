@@ -10,9 +10,10 @@ interface ProductImageProps {
 }
 
 const ProductImage = ({ productData, images }: ProductImageProps) => {
-  const defaultImages = productData?.images && productData.images.length > 0
-    ? productData.images
-    : [ImageProduct];
+  const defaultImages =
+    productData?.images && productData.images.length > 0
+      ? productData.images
+      : [ImageProduct];
 
   const displayImages = images || defaultImages;
 
@@ -44,7 +45,7 @@ const ProductImage = ({ productData, images }: ProductImageProps) => {
             <img
               src={image}
               alt={`Thumbnail ${index + 1}`}
-              className="size-full object-cover"
+              className="size-full object-cover hover:scale-100"
               onError={(e) => (e.currentTarget.src = ImageProduct)}
             />
           </div>

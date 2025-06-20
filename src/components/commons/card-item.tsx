@@ -1,6 +1,7 @@
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import HeartIcon from "@/components/icons/heart";
 import Eye from "@/components/icons/eye";
-import { Link, useNavigate } from "react-router-dom";
 import routePath from "@/config/route";
 import { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
@@ -13,18 +14,34 @@ interface CardItemProps {
 
 // item trong section trending
 const CardItem = ({ product }: CardItemProps) => {
+  const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
-  const handleAddFavorite = async (productId: string) => {
-    try {
-      const response = await favoriteApi.addFavorite(productId);
-      if (response.statusCode === 201) {
+  useEffect(() => {
+    if (product) {
+      setIsFavorite(product.isFavorite);
+    }
+  }, [product]); 
+  
+  const handleFavorite = async () => {
+    if (isFavorite) {
+      try {
+        const response = await favoriteApi.deleteFavorite(product?._id || "");
         toast.success(response.message);
+        setIsFavorite(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response.data.message);
+    } else {
+      try {
+        const response = await favoriteApi.addFavorite(product?._id || "");
+        toast.success(response.message);
+        setIsFavorite(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -69,10 +86,12 @@ const CardItem = ({ product }: CardItemProps) => {
           </button>
 
           <button
-            className="size-10 rounded-full bg-red-400 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors"
-            onClick={() => handleAddFavorite(product._id)}
+            className={`size-10 rounded-full ${
+              isFavorite ? "bg-red-500" : "bg-white"
+            } flex items-center justify-center hover:bg-red-600  transition-colors`}
+            onClick={() => handleFavorite()}
           >
-            <HeartIcon />
+            <HeartIcon fill={isFavorite ? "white" : "black"} />
           </button>
         </div>
       </div>

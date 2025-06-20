@@ -11,11 +11,13 @@ import "./style.css";
 const ProductDetail = () => {
   const { slug } = useParams();
   const [productData, setProductData] = useState<Product | null>(null);
-  const [currentImages, setCurrentImages] = useState<string[]>([]);
+  const [currentImages, setCurrentImages] = useState<string[]>([]); 
+  
+  
 
   useEffect(() => {
     fetchProductData();
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     if (productData?.variants && productData.variants.length > 0) {
