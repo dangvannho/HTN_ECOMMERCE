@@ -26,6 +26,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
     const [showAddressModal, setShowAddressModal] = useState(false);
     const [myAddresses, setMyAddresses] = useState<IAddress[]>([]);
     const [cartData, setCartData] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         fullname: "",
@@ -119,6 +120,8 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
             toast.error("Vui lòng chọn địa chỉ giao hàng!");
             return;
         }
+
+        setIsLoading(true); // Start loading
         try {
             const response = await orderApi.createOrder({
                 addressId: defaultAddress._id,
@@ -131,6 +134,8 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
         } catch (error) {
             toast.error("Đặt hàng thất bại!");
             console.error(error);
+        } finally {
+            setIsLoading(false); // End loading regardless of success/failure
         }
     };
 
@@ -196,7 +201,8 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                             <div className="space-y-6">
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
-                                    <input
+                                    <input 
+                                    disabled
                                         type="text"
                                         name="fullname"
                                         value={formData.fullname}
@@ -208,7 +214,8 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
 
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
-                                    <input
+                                    <input 
+                                     disabled
                                         type="tel"
                                         name="phoneNumber"
                                         value={formData.phoneNumber}
@@ -218,21 +225,12 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none"
-                                        required
-                                    />
-                                </div>
+
 
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">Address</label>
-                                    <input
+                                    <input 
+                                     disabled
                                         type="text"
                                         name="address"
                                         value={formData.address}
@@ -244,7 +242,8 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
 
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">Province/City</label>
-                                    <select
+                                    <select 
+                                     disabled
                                         name="provinceName"
                                         value={formData.provinceName}
                                         onChange={handleProvinceChange}
@@ -263,12 +262,13 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">District</label>
                                     <select
+                                     disabled
                                         name="districtName"
                                         value={formData.districtName}
                                         onChange={handleDistrictChange}
                                         className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400"
                                         required
-                                        disabled={!formData.provinceName}
+                                        // disabled={!formData.provinceName}
                                     >
                                         <option value="">Select District</option>
                                         {districts.map((district) => (
@@ -282,12 +282,13 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">Ward</label>
                                     <select
+                                     disabled
                                         name="wardName"
                                         value={formData.wardName}
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400"
                                         required
-                                        disabled={!formData.districtName}
+                                        // disabled={!formData.districtName}
                                     >
                                         <option value="">Select Ward</option>
                                         {wards.map((ward) => (
@@ -315,7 +316,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                         <span className="text-sm font-medium text-[#767676]">
                                             {item.product.name}
                                             {item.variant && ` - ${item.variant.size}`}
-                                            
+
                                         </span>
                                         <span className="text-sm font-medium text-[#767676]">
                                             {formatToVND(item.finalPrice)}
@@ -383,7 +384,12 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                             </div>
 
 
-                            <ButtomCommon title="PLACE ORDER" onClick={HandelSubmitOrder} />
+                            <ButtomCommon
+                                title="PLACE ORDER"
+                                onClick={HandelSubmitOrder}
+                                loading={isLoading}
+                                disabled={isLoading}
+                            />
                         </div>
                     </div>
                 </div>

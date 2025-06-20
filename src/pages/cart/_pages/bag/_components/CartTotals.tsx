@@ -105,7 +105,7 @@ const CartTotals = ({
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr className='border-b'>
                             <td className="py-4 align-top text-sm font-medium">SHIPPING</td>
                             <td className="py-4 pl-[100px]">
                                 <div className="space-y-3">
@@ -118,25 +118,9 @@ const CartTotals = ({
                                         />
                                         Free shipping
                                     </label>
-                                    <label className="flex items-center text-sm font-normal text-gray-600">
-                                        <input
-                                            type="radio"
-                                            className="mr-3 w-4 h-4"
-                                            checked={selectedShipping === "flat-rate"}
-                                            onChange={() => setSelectedShipping("flat-rate")}
-                                        />
-                                        Flat rate: {formatToVND(49000)}
-                                    </label>
-                                    <label className="flex items-center text-sm font-normal text-gray-600">
-                                        <input
-                                            type="radio"
-                                            className="mr-3 w-4 h-4"
-                                            checked={selectedShipping === "local-pickup"}
-                                            onChange={() => setSelectedShipping("local-pickup")}
-                                        />
-                                        Local pickup: {formatToVND(8000)}
-                                    </label>
-                                    <div className="pt-2 border-t">
+                                    
+                                    
+                                    <div className="pt-2">
                                         {defaultAddress ? (
                                             <div>
                                                 <p className="text-sm font-normal text-gray-600">

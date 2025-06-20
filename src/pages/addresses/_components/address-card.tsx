@@ -7,6 +7,7 @@ import DeleteConfirmModal from '@/pages/addresses/_components/popup-delete';
 const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+
     const handleEdit = () => {
         onEdit({
             fullname: address.fullname,
@@ -18,6 +19,7 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
             isDefault: address.isDefault,
             _id: address._id
         });
+
     };
 
     const handleDelete = async () => {
@@ -53,12 +55,15 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
                         >
                             Edit
                         </button>
-                        <button
-                            onClick={() => setShowDeleteModal(true)}
-                            className="text-red-500 hover:underline"
-                        >
-                            Delete
-                        </button>
+                        {
+                            !address.isDefault && <button
+                                onClick={() => setShowDeleteModal(true)}
+                                className="text-red-500 hover:underline"
+                            >
+                                Delete
+                            </button>
+                        }
+
                     </div>
                 </div>
 

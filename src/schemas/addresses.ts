@@ -1,0 +1,24 @@
+import { z } from "zod";
+
+import { nameValidate, phoneNumberValidate } from "./auth";
+
+// Schema cho address form
+export const addressSchema = z.object({
+  fullname: nameValidate,
+  phoneNumber: phoneNumberValidate, 
+  address: z.string().min(1, "Vui lòng nhập địa chỉ"),
+  provinceName: z.string().min(1, "Vui lòng chọn tỉnh/thành phố"),
+  districtName: z.string().min(1, "Vui lòng chọn quận/huyện"),
+  wardName: z.string().min(1, "Vui lòng chọn phường/xã"),
+  isDefault: z.boolean(),
+});
+
+// Types cho form inputs
+export type AddressFormInputs = z.infer<typeof addressSchema>;
+
+// Schema cho update address (có thể không bắt buộc isDefault)
+export const updateAddressSchema = addressSchema.partial({
+  isDefault: true
+});
+
+export type UpdateAddressFormInputs = z.infer<typeof updateAddressSchema>;

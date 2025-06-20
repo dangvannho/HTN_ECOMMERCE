@@ -1,14 +1,17 @@
 export interface IProduct {
     _id: string;
     name: string;
-    price: number;
+    slug: string;
     avatar: string;
+    price: number;
+    finalPrice: number;
 }
 
 export interface IVariant {
     _id: string;
     color: string;
     size: string;
+    stock: number;
 }
 
 export interface ICartItem {
@@ -80,6 +83,18 @@ export interface ResponseUpdateCart {
     statusCode: number;
     message: string;
     data: {
+        cart: {
+            _id: string;
+            userId: string;
+            items: {
+                productId: IProduct;
+                variantId: IVariant
+                quantity: number;
+                selected: boolean;
+                _id: string;
+            };
+            
+        };
         totalPrice: number;
         discountAmount: number;
         finalAmount: number;

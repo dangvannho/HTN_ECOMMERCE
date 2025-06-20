@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState } from 'react';
 
 import { Progress } from '@/components/ui/progress';
@@ -12,7 +11,7 @@ import CartHeader from './_components/CartHeader';
 import CartItem from './_components/CartItem';
 import CartActions from './_components/CartActions';
 import CartTotals from './_components/CartTotals';
-
+import toast from 'react-hot-toast';
 
 interface BagShoppingProps {
     setStep: (step: string) => void
@@ -31,9 +30,10 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
     const [checktotal, setChecktotal] = useState<boolean>(false);
     const [isVoucherDialogOpen, setIsVoucherDialogOpen] = useState(false);
 
+
     const fetchAndSetCart = async () => {
         const response = await cartApi.getCart();
-        const cartData = response?.data.data;
+        const cartData = response.data.data;
         if (cartData) {
             setCartTotals({
                 totalPrice: cartData.totalPrice,
@@ -70,16 +70,22 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
             const newQuantity = item.quantity + change;
             if (newQuantity < 1) return;
 
+            // Check if new quantity exceeds stock
+            if (newQuantity > item.variant.stock) {
+                toast.error(`Số lượng đã đạt tối đa ${item.variant.stock} sản phẩm`);
+                return;
+            }
+
             await cartApi.updateCart({
                 productId: item.product._id,
                 variantId: item.variant._id,
                 quantity: newQuantity
             });
 
-
             await fetchAndSetCart();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error updating cart:', error);
+            toast.error(error.response.data.message);
         }
     };
 
@@ -189,8 +195,6 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
                     isVoucherDialogOpen={isVoucherDialogOpen}
                     setIsVoucherDialogOpen={setIsVoucherDialogOpen}
                 />
-
-
             </div>
         </>
     );
