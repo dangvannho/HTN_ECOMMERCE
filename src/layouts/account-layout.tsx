@@ -2,6 +2,8 @@ import Header from "@/components/commons/header";
 import Footer from "@/components/commons/footer/footer";
 import SidebarAccount from "@/components/commons/sidebar-account";
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
+  // Những trang được bọc layout này có phải là protected layout không
+  // Nếu có hiện tại chưa đăng nhập vẫn vào đây đựợc
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

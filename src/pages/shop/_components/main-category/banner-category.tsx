@@ -22,6 +22,7 @@ const BannerCategory = () => {
 
   useEffect(() => {
     if (banners.length === 0) return;
+    // Tại vì sao không sử lý ở fetchBanners
     const timer = setTimeout(() => setActive((i) => (i + 1) % banners.length), 4000);
     return () => clearTimeout(timer);
   }, [active, banners.length]);

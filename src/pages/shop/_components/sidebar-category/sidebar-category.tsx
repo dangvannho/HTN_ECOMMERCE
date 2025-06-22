@@ -79,6 +79,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
         return newFilter;
       });
     }
+    // thiếu else, vì nếu không có else thì lúc nào nó cũng phải đi kiểm tra type === 'category' và type === 'price'
     if (type === 'price') {
       setFilter(prev => {
         const newFilter = { ...prev, minPrice: undefined, maxPrice: undefined };

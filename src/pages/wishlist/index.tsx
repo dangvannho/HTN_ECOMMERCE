@@ -30,6 +30,7 @@ const Wishlist = () => {
 
       if (response.statusCode == 200) {
         toast.success(response.message);
+        // Khúc này đơn giản là setState lại thay vì 1 lần gọi lại api
         fetchWishlist();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

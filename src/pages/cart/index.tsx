@@ -21,6 +21,7 @@ const CartLayout = () => {
     })
 
     useEffect(() => {
+        // Sử dụng: const [step, setStep] = useState(stepQuery)
         if (stepQuery) {
             setStep(stepQuery);
         }

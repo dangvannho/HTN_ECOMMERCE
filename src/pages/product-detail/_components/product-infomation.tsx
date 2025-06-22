@@ -145,6 +145,7 @@ const ProductInfomation = ({
   };
 
   const handleFavorite = async () => {
+    // function này nên xử dụng debounce, để user có thể click nhiều lần, và chỉ nhận lần cuối cùng rồi gọi api thôi
     if (isFavorite) {
       try {
         const response = await favoriteApi.deleteFavorite(
