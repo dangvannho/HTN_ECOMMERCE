@@ -104,7 +104,6 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                             className="w-4 h-4 accent-black cursor-pointer"
                         />
                     </div>
-
                     {/* Product image */}
                     <div className="flex-shrink-0">
                         <img
