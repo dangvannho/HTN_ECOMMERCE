@@ -1,3 +1,5 @@
+// Kiểm tra lại mấy text content thử, lúc Việt lúc Anh nhìn nó kì
+// Tiếng anh hết, hoặc tiếng Việt hết
 import { Fragment } from "react/jsx-runtime";
 import {
   createBrowserRouter,

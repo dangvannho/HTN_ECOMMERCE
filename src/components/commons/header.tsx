@@ -31,6 +31,7 @@ const Header = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      // fetchUser đã được sử dụng ở OAuthHandler, vậy tại sao chỗ này lại cần fetchUser nữa?
       fetchUser();
       fetchCart();
     }

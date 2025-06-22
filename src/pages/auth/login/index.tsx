@@ -36,6 +36,7 @@ const Login = () => {
 
   // Kiểm tra trạng thái đăng nhập khi component mount
   useEffect(() => {
+    // Funnction check authen này đã sử dụng ở OAuthHandler, Header tại MainLayout, vậy tại sao phải tiếp tục dùng ở đây
     if (isAuthenticated) {
       navigate("/");
     } else if (localStorage.getItem("accessToken")) {

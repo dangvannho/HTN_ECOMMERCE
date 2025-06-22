@@ -19,11 +19,14 @@ const CardItem = ({ product }: CardItemProps) => {
 
   useEffect(() => {
     if (product) {
+      // Không nên dùng product.isFavorite ở đây, thừa, có thể dùng ở dòng 17
+      //   const [isFavorite, setIsFavorite] = useState(product.isFavorite);
       setIsFavorite(product.isFavorite);
     }
   }, [product]);
 
   const handleFavorite = async () => {
+    // function này nên xử dụng debounce, để user có thể click nhiều lần, và chỉ nhận lần cuối cùng rồi gọi api thôi
     if (isFavorite) {
       try {
         const response = await favoriteApi.deleteFavorite(product?._id || "");

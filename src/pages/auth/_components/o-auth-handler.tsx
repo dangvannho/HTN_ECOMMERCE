@@ -12,6 +12,7 @@ const OAuthHandler = () => {
     const accessToken = params.get("accessToken");
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
+      // Khúc này chưa rõ lắm, nếu api lỗi thì cũng redirect về trang chủ hay sao
       fetchUser().then(() => {
         navigate("/", { replace: true });
       });
