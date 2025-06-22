@@ -43,7 +43,13 @@ const Addresses = () => {
     setEditingData(editData);
     setEditingId(address._id as string);
     setShowForm(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      const formElement = document.getElementById('address-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   const handleSubmit = async (data: AddressFormInputs) => {
@@ -75,6 +81,13 @@ const Addresses = () => {
     setEditingData(undefined);
     setEditingId(null);
     setShowForm(true);
+
+    setTimeout(() => {
+      const formElement = document.getElementById('address-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   return (

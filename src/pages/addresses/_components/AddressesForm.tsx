@@ -162,7 +162,7 @@ const AddressForm: FC<AddressFormProps> = ({
   });
 
   return (
-    <div className="mt-8 border rounded-lg p-8 bg-white shadow-sm">
+    <div id="address-form" className="mt-8 border rounded-lg p-8 bg-white shadow-sm transform transition-all duration-500 opacity-0 translate-y-4 animate-slide-up">
       <h3 className="text-2xl font-bold mb-6 text-gray-800">
         {isEditing ? "EDIT ADDRESS" : "ADD NEW ADDRESS"}
       </h3>
@@ -175,11 +175,10 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("fullname")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
-                errors.fullname
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.fullname
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
             />
             {errors.fullname && (
               <p className="mt-1 text-sm text-red-600">
@@ -195,11 +194,10 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("phoneNumber")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
-                errors.phoneNumber
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.phoneNumber
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
             />
             {errors.phoneNumber && (
               <p className="mt-1 text-sm text-red-600">
@@ -215,11 +213,10 @@ const AddressForm: FC<AddressFormProps> = ({
             <input
               type="text"
               {...register("address")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${
-                errors.address
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none ${errors.address
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
             />
             {errors.address && (
               <p className="mt-1 text-sm text-red-600">
@@ -235,11 +232,10 @@ const AddressForm: FC<AddressFormProps> = ({
             <select
               {...register("provinceName")}
               onChange={handleProvinceChange}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 ${
-                errors.provinceName
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 ${errors.provinceName
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
             >
               <option value="">Chọn tỉnh/thành phố</option>
               {provinces.map((province, index) => (
@@ -265,11 +261,10 @@ const AddressForm: FC<AddressFormProps> = ({
             <select
               {...register("districtName")}
               onChange={handleDistrictChange}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${
-                errors.districtName
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${errors.districtName
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
               disabled={!districts.length}
             >
               <option value="">Chọn quận/huyện</option>
@@ -295,11 +290,10 @@ const AddressForm: FC<AddressFormProps> = ({
             </label>
             <select
               {...register("wardName")}
-              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${
-                errors.wardName
-                  ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
-              }`}
+              className={`w-full px-4 py-2.5 rounded border transition-all duration-200 outline-none bg-white appearance-none cursor-pointer hover:border-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed ${errors.wardName
+                ? "border-red-300 focus:ring-1 focus:ring-red-200 focus:border-red-400"
+                : "border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400"
+                }`}
               disabled={!wards.length}
             >
               <option value="">Chọn phường/xã</option>
@@ -350,8 +344,8 @@ const AddressForm: FC<AddressFormProps> = ({
                   ? "Updating..."
                   : "Saving..."
                 : isEditing
-                ? "Update Address"
-                : "Save Address"}
+                  ? "Update Address"
+                  : "Save Address"}
             </button>
           </div>
         </div>
