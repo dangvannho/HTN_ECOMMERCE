@@ -13,11 +13,11 @@ const LINKS : { name: string; href: string }[] = [
 ];
 
 const COMPANY : { name: string; href: string }[] = [
-  { name: "About Us", href: "/" },
-  { name: "Careers", href: "/" },
-  { name: "Affiliates", href: "/" },
-  { name: "Blog", href: "/" },
-  { name: "Contact Us", href: "/" },
+  { name: "Hướng dẫn đặt hàng", href: "/huong-dan-dat-hang" },
+  // { name: "Careers", href: "/" },
+  // { name: "Affiliates", href: "/" },
+  // { name: "Blog", href: "/" },
+  // { name: "Contact Us", href: "/" },
 ];
 
 const HELP : { name: string; href: string }[] = [
@@ -39,7 +39,7 @@ const Footer = () => {
         <BannerFooter />
         <div className="col-[1/1] md:col-[2/5] grid grid-cols-2 md:grid-cols-3 gap-8">
           <LinkFooter
-            title="COMPANY"
+            title="SUPPORT"
             links={COMPANY}
           />
 

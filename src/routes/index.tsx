@@ -18,6 +18,7 @@ import ResetPassword from "@/pages/auth/reset-password";
 import OrderDetail from "@/pages/order-detail";
 import NotFound from "@/pages/not-found";
 import Collection from "@/pages/collection";
+import Instruct from "@/pages/instruct"
 
 const listRoute: Route[] = [
   {
@@ -90,6 +91,11 @@ const listRoute: Route[] = [
   {
     path: routePath.collection,
     component: <Collection />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.instruct,
+    component: <Instruct />,
     layout: MainLayout,
   }
 ];

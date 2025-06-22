@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ICartItem } from '@/services/cart/types/cart.types';
 import { formatToVND } from '@/utils/format';
 import { Link } from 'react-router-dom';
@@ -14,21 +14,33 @@ interface CartItemProps {
 
 const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartItemProps) => {
     const [localQuantity, setLocalQuantity] = useState(item.quantity);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const previousQuantityRef = useRef(item.quantity);
     const isMaxStock = localQuantity >= item.variant.stock;
 
-    // Cập nhật localQuantity khi item.quantity thay đổi từ props
+    // Cập nhật localQuantity khi item.quantity thay đổi từ props và không trong quá trình update
     useEffect(() => {
-        setLocalQuantity(item.quantity);
-    }, [item.quantity]);
-
-    // Debounce update quantity
-    const debouncedUpdate = useDebounce((newQuantity: number) => {
-        const change = newQuantity - item.quantity;
-        if (change !== 0) {
-            onUpdateQuantity(item._id, change);
+        if (!isUpdating && item.quantity !== previousQuantityRef.current) {
+            setLocalQuantity(item.quantity);
+            previousQuantityRef.current = item.quantity;
         }
-    }, 1000);
+    }, [item.quantity, isUpdating]);
 
+    // Debounce update quantity cho cả input và buttons
+    const debouncedUpdate = useDebounce(async (newQuantity: number) => {
+        try {
+            setIsUpdating(true);
+            const change = newQuantity - previousQuantityRef.current;
+            if (change !== 0) {
+                await onUpdateQuantity(item._id, change);
+                previousQuantityRef.current = newQuantity;
+            }
+        } finally {
+            setIsUpdating(false);
+        }
+    }, 500);
+
+    // Xử lý thay đổi số lượng từ buttons
     const handleQuantityChange = (change: number) => {
         const newQuantity = localQuantity + change;
 
@@ -49,13 +61,41 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
         debouncedUpdate(newQuantity);
     };
 
-    return (
-        <div className="border-b relative">
-            <div className="p-4 flex flex-col sm:grid sm:grid-cols-12 gap-4 items-start sm:items-center">
-                {/* Select checkbox */}
+    // Xử lý thay đổi số lượng từ input
+    const handleInputChange = (value: string) => {
+        if (value === "") {
+            setLocalQuantity(0);
+            return;
+        }
 
+        const numValue = parseInt(value);
+        if (!isNaN(numValue)) {
+            if (numValue <= 0) {
+                setLocalQuantity(1);
+                debouncedUpdate(1);
+            } else if (numValue <= item.variant.stock) {
+                setLocalQuantity(numValue);
+                debouncedUpdate(numValue);
+            } else {
+                toast.error(`Chỉ còn ${item.variant.stock} sản phẩm trong kho`);
+                setLocalQuantity(item.variant.stock);
+                debouncedUpdate(item.variant.stock);
+            }
+        }
+    };
+
+    // Xử lý khi input mất focus
+    const handleInputBlur = (value: string) => {
+        if (value === "" || localQuantity === 0) {
+            setLocalQuantity(previousQuantityRef.current);
+        }
+    };
+
+    return (
+        <div className="border-b">
+            <div className="py-4 px-4 flex flex-col sm:grid sm:grid-cols-12 gap-4 items-start sm:items-center">
                 {/* Product image and info container */}
-                <div className="flex items-center gap-4 sm:pl-0 sm:col-span-5">
+                <div className="flex items-center gap-5 sm:gap-9 sm:pl-0 sm:col-span-3">
                     <div className="sm:static sm:col-span-1 flex items-center justify-center">
                         <input
                             type="checkbox"
@@ -69,7 +109,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                         <img
                             src={item.product.avatar || '/placeholder-image.jpg'}
                             alt={item.product.name || 'Product'}
-                            className="w-[100px] h-[100px] object-cover"
+                            className="w-[80px] h-[80px] object-cover"
                         />
                     </div>
 
@@ -77,18 +117,18 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                     <div className="flex flex-col gap-2">
                         <Link
                             to={`/product-detail/${item.product.slug}`}
-                            className="text-base font-normal truncate max-w-[200px] transition-colors hover:text-gray-600"
+                            className="text-sm font-normal truncate max-w-[150px] sm:max-w-[100px] transition-colors underline-offset-4 hover:underline"
                         >
                             {item.product.name || 'Product'}
                         </Link>
-                        <div className="text-sm text-[#767676] flex items-center gap-2">
+                        <div className="text-xs text-[#767676] flex items-center gap-2">
                             Color:
                             <div
-                                className="w-4 h-4 rounded-full border-2 border-white"
+                                className="w-3 h-3 rounded-full border border-gray-200"
                                 style={{ backgroundColor: item.variant.color || 'N/A' }}
                             ></div>
                         </div>
-                        <p className="text-sm text-[#767676]">
+                        <p className="text-xs text-[#767676]">
                             Size: {item.variant.size || 'N/A'}
                         </p>
                         {isMaxStock && (
@@ -99,20 +139,23 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                     </div>
                 </div>
 
+                {/* Empty space */}
+                <div className="hidden sm:block sm:col-span-2"></div>
+
                 {/* Price */}
-                <div className="w-full sm:w-auto sm:col-span-2 flex items-center justify-between sm:justify-start mt-4 sm:mt-0">
+                <div className="w-full sm:w-auto sm:col-span-2 sm:ml-auto flex items-center justify-between sm:justify-end">
                     <span className="text-sm font-medium sm:hidden">Giá:</span>
                     <span className="text-sm">{formatToVND(item.product.price || 0)}</span>
                 </div>
 
                 {/* Quantity */}
-                <div className="w-full sm:w-auto sm:col-span-2 flex items-center justify-between sm:justify-start mt-4 sm:mt-0">
+                <div className="w-full sm:w-auto sm:col-span-2  flex items-center justify-between sm:justify-end">
                     <span className="text-sm font-medium sm:hidden">Số lượng:</span>
                     <div className="flex items-center">
                         <button
-                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                            className="size-6 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             onClick={() => handleQuantityChange(-1)}
-                            disabled={localQuantity <= 1}
+                            disabled={localQuantity <= 1 || isUpdating}
                         >
                             -
                         </button>
@@ -120,41 +163,18 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                         <input
                             type="number"
                             value={localQuantity === 0 ? "" : localQuantity}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                if (value === "") {
-                                    setLocalQuantity(0);
-                                } else {
-                                    const numValue = parseInt(value);
-                                    if (!isNaN(numValue) && numValue > 0) {
-                                        if (numValue <= item.variant.stock) {
-                                            setLocalQuantity(numValue);
-                                            // Tính toán sự thay đổi số lượng
-                                            const change = numValue - item.quantity;
-                                            if (change !== 0) {
-                                                onUpdateQuantity(item._id, change);
-                                            }
-                                        } else {
-                                            toast.error(`chỉ còn ${item.variant.stock} sản phẩm trong kho trong kho`);
-                                            setLocalQuantity(item.variant.stock);
-                                        }
-                                    }
-                                }
-                            }}
-                            onBlur={(e) => {
-                                if (e.target.value === "") {
-                                    setLocalQuantity(item.quantity);
-                                }
-                            }}
-                            className="w-8 text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            onChange={(e) => handleInputChange(e.target.value)}
+                            onBlur={(e) => handleInputBlur(e.target.value)}
+                            disabled={isUpdating}
+                            className="w-8 text-center outline-none text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:bg-gray-50"
                             min="1"
                             max={item.variant.stock}
                         />
 
                         <button
-                            className="w-8 h-8 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                            className="size-6 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             onClick={() => handleQuantityChange(1)}
-                            disabled={isMaxStock}
+                            disabled={isMaxStock || isUpdating}
                             title={isMaxStock ? `Đã đạt số lượng tối đa (${item.variant.stock})` : undefined}
                         >
                             +
@@ -163,7 +183,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                 </div>
 
                 {/* Subtotal and Remove button */}
-                <div className="w-full sm:w-auto sm:col-span-2 flex items-center justify-between mt-4 sm:mt-0">
+                <div className="w-full sm:w-auto sm:col-span-3 sm:ml-[125px] flex items-center justify-between sm:justify-end">
                     <span className="text-sm font-medium sm:hidden">Tổng tiền:</span>
                     <div className="flex items-center gap-4">
                         <span className="text-sm whitespace-nowrap">
@@ -171,7 +191,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                         </span>
                         <button
                             onClick={() => onRemoveItem(item)}
-                            className="text-gray-400 hover:text-gray-600 text-xl"
+                            className="text-gray-400 hover:text-gray-600 text-lg pl-2"
                         >
                             ×
                         </button>
