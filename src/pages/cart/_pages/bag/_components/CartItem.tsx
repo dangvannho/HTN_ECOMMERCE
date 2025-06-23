@@ -27,7 +27,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
         if (change !== 0) {
             onUpdateQuantity(item._id, change);
         }
-    }, 1000);
+    }, 500);
 
     const handleQuantityChange = (change: number) => {
         const newQuantity = localQuantity + change;

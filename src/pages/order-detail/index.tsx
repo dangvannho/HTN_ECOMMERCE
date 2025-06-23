@@ -95,7 +95,7 @@ const OrderDetail = () => {
         {/* Order Items */}
         <div>
           <h2 className="text-lg font-semibold mb-3">Ordered Items</h2>
-          <div className="border rounded-lg overflow-hidden">
+          <div className="border rounded-lg overflow-hidden hidden md:block">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -116,8 +116,8 @@ const OrderDetail = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {orderData?.items.map((item, index) => (
                   <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900 break-all">
                         {item.productName}
                       </div>
                     </td>
@@ -140,6 +140,37 @@ const OrderDetail = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="block md:hidden space-y-4">
+            {orderData?.items.map((item, index) => (
+              <div
+                key={index}
+                className="border rounded-lg p-3 flex gap-3 items-center bg-white shadow"
+              >
+                <div className="flex-1 flex flex-col gap-2">
+                  <div className="font-medium text-[#222]">
+                    {item.productName}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Quantity:{" "}
+                    <span className="font-semibold">{item.quantity}</span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Unit Price:{" "}
+                    <span className="font-semibold">
+                      {formatToVND(item.price)}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {" "}
+                    Total:{" "}
+                    <span className="font-semibold">
+                      {formatToVND(item.price * item.quantity)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
