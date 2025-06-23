@@ -93,7 +93,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
 
     return (
         <div className="border-b">
-            <div className="py-4 px-4 flex flex-col sm:grid sm:grid-cols-12 gap-4 items-start sm:items-center">
+            <div className="py-4 px-3 flex flex-col sm:grid sm:grid-cols-12 gap-4 items-start sm:items-center">
                 {/* Product image and info container */}
                 <div className="flex items-center gap-5 sm:gap-9 sm:pl-0 sm:col-span-3">
                     <div className="sm:static sm:col-span-1 flex items-center justify-center">
@@ -149,7 +149,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                 </div>
 
                 {/* Quantity */}
-                <div className="w-full sm:w-auto sm:col-span-2  flex items-center justify-between sm:justify-end">
+                <div className="w-full sm:w-auto sm:ml-[100px] sm:col-span-2  flex items-center justify-between sm:justify-end">
                     <span className="text-sm font-medium sm:hidden">Số lượng:</span>
                     <div className="flex items-center">
                         <button
@@ -183,7 +183,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                 </div>
 
                 {/* Subtotal and Remove button */}
-                <div className="w-full sm:w-auto sm:col-span-3 sm:ml-[125px] flex items-center justify-between sm:justify-end">
+                <div className="w-full sm:w-auto sm:col-span-3 sm:ml-[100px] flex items-center justify-between sm:justify-end">
                     <span className="text-sm font-medium sm:hidden">Tổng tiền:</span>
                     <div className="flex items-center gap-4">
                         <span className="text-sm whitespace-nowrap">

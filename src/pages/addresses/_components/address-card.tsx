@@ -36,7 +36,7 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
 
     return (
         <>
-            <div className={`bg-gray-50 rounded sm:p-6 mb-8 sm:mb-4 ${address.isDefault}`}>
+            <div className={`bg-gray-50 rounded p-3 sm:p-6 mb-8 sm:mb-4 ${address.isDefault}`}>
                 <div className="flex justify-between items-center mb-3">
                     <div className="flex items-center gap-2">
                         <h5 className="font-medium text-base">

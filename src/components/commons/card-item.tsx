@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HeartIcon from "@/components/icons/heart";
 import Eye from "@/components/icons/eye";
@@ -14,14 +14,8 @@ interface CardItemProps {
 
 // item trong section trending
 const CardItem = ({ product }: CardItemProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(product.isFavorite);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (product) {
-      setIsFavorite(product.isFavorite);
-    }
-  }, [product]);
 
   const handleFavorite = async () => {
     if (isFavorite) {

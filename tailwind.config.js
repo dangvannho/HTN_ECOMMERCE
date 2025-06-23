@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         jost: ["Jost", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
