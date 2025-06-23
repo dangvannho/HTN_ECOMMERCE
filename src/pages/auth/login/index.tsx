@@ -6,7 +6,7 @@ import Tab from "../_components/tab";
 import FloatingInput from "@/components/commons/float-input";
 import { loginSchema, type LoginFormInputs } from "@/schemas/auth";
 import { useAuthStore } from "@/stores/auth.store";
-import Facebook from "@/components/icons/facebook";
+// import Facebook from "@/components/icons/facebook";
 import Google from "@/components/icons/google";
 
 const Login = () => {
@@ -14,13 +14,11 @@ const Login = () => {
   const {
     login,
     loginGoogle,
-    loginFacebook,
+    // loginFacebook,
     isLoading,
     isAuthenticated,
     fetchUser,
   } = useAuthStore();
-
-  
 
   const {
     register,
@@ -117,7 +115,7 @@ const Login = () => {
         </div>
 
         <div className="flex gap-4">
-          <button
+          {/* <button
             type="button"
             onClick={() => {
               loginFacebook();
@@ -126,7 +124,7 @@ const Login = () => {
           >
             <Facebook className="w-5 h-5" color="#fff" />
             Facebook
-          </button>
+          </button> */}
 
           <button
             type="button"

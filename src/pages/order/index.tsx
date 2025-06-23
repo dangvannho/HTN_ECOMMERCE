@@ -28,7 +28,7 @@ const Order = () => {
       <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
         Orders
       </h4>
-      <div className="border overflow-hidden">
+      <div className="border overflow-hidden hidden md:block">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-[#E4E4E4] h-12">
@@ -51,12 +51,18 @@ const Order = () => {
               </tr>
             ) : (
               orders.map((order) => (
-                <tr
-                  key={order._id}
-                  className="border-t h-14 hover:bg-gray-50 transition"
-                >
-                  <td className="px-6 py-8 text-sm text-[#222] underline">
-                    #{order.orderCode}
+                <tr key={order._id} className="border-t h-14 ">
+                  <td className="px-6 py-8 text-sm text-[#222]">
+                    <p
+                      className="cursor-pointer hover:underline"
+                      onClick={() =>
+                        navigate(
+                          routePath.orderDetail.replace(":id", order._id)
+                        )
+                      }
+                    >
+                      {order.orderCode}
+                    </p>
                   </td>
                   <td className="px-6 py-4 text-sm text-[#222]">
                     {formatDate(order.createdAt)}
@@ -85,6 +91,41 @@ const Order = () => {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="block md:hidden space-y-4">
+        {orders.length === 0 ? (
+          <div className="text-center py-4 text-gray-500">No orders found</div>
+        ) : (
+          orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white rounded-xl shadow p-4 border"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold text-[#222]">
+                  {order.orderCode}
+                </span>
+              </div>
+              <div className="text-sm text-[#222] mb-1">
+                {formatDate(order.createdAt)}
+              </div>
+              <div className="text-sm text-[#222] mb-1">
+                Total ({order.totalItems} product):{" "}
+                <span className="font-bold">
+                  {formatToVND(order.finalAmount)}
+                </span>
+              </div>
+              <button
+                className="mt-2 w-full border border-[#FF5722] text-[#FF5722] hover:bg-[#FF5722] hover:text-white  rounded py-2 font-medium"
+                onClick={() =>
+                  navigate(routePath.orderDetail.replace(":id", order._id))
+                }
+              >
+                View
+              </button>
+            </div>
+          ))
+        )}
       </div>
     </>
   );
