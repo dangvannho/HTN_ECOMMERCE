@@ -14,7 +14,7 @@ const routePath = {
   address: "/address", 
   notFound: "*",
   collection: "/collections/:slug",
-  instruct: "/huong-dan-dat-hang",
+  instruct: "/ordering-instructions",
 };
 
 export default routePath;

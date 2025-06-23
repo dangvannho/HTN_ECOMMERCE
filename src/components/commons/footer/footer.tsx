@@ -6,14 +6,14 @@ import SubscribeFooter from "./subscribe-footer";
 
 const LINKS : { name: string; href: string }[] = [
   // { name: "New Arrivals", href: "/" },
-  { name: "Quần Âu", href: routePath.shop.replace(":category", "trousers")},
-  { name: "Áo Khoác", href: routePath.shop.replace(":category", "jumpers-and-cardigans") },
-  { name: "Váy đầm", href: routePath.shop.replace(":category", "dresses") },
-  { name: "Sản phẩm", href: routePath.shop.replace(":category", "all") },
+  { name: "Trousers", href: routePath.shop.replace(":category", "trousers")},
+  { name: "Jumpers and Cardigans", href: routePath.shop.replace(":category", "jumpers-and-cardigans") },
+  { name: "Dresses", href: routePath.shop.replace(":category", "dresses") },
+  // { name: "Sản phẩm", href: routePath.shop.replace(":category", "all") },
 ];
 
 const COMPANY : { name: string; href: string }[] = [
-  { name: "Hướng dẫn đặt hàng", href: "/huong-dan-dat-hang" },
+  { name: "Ordering instructions", href: "/ordering-instructions" },
   // { name: "Careers", href: "/" },
   // { name: "Affiliates", href: "/" },
   // { name: "Blog", href: "/" },
