@@ -51,14 +51,18 @@
       // Khi đổi giá, cập nhật filter và cập nhật url
       const handlePriceChange = (newPrice: [number, number]) => {
         setFilter((prev) => ({ ...prev, minPrice: newPrice[0], maxPrice: newPrice[1] }));
-        // Cập nhật URL
-        const params = new URLSearchParams(location.search);
-        params.set('minPrice', newPrice[0].toString());
-        params.set('maxPrice', newPrice[1].toString());
-        navigate({
-          pathname: category ? `/shop/${category}` : '/shop/all',
-          search: params.toString(),
-        }, { replace: true });
+        // Nếu là giá mặc định thì xóa query, ngược lại thì set query
+        if (newPrice[0] === 100000 && newPrice[1] === 10000000) {
+          navigate('/shop/all', { replace: true });
+        } else {
+          const params = new URLSearchParams(location.search);
+          params.set('minPrice', newPrice[0].toString());
+          params.set('maxPrice', newPrice[1].toString());
+          navigate({
+            pathname: category ? `/shop/${category}` : '/shop/all',
+            search: params.toString(),
+          }, { replace: true });
+        }
       };
 
       useEffect(() => {
@@ -66,6 +70,19 @@
         setFilter((prev) => ({ ...prev, category: !category || category === 'all' ? undefined : category }));
         setPage(1);
       }, [category]);
+      
+      // Thêm useEffect này để ép URL về /shop/all khi filter về mặc định
+      useEffect(() => {
+        if (
+          (!filter.category || filter.category === 'all') &&
+          (!filter.minPrice || filter.minPrice === 100000) &&
+          (!filter.maxPrice || filter.maxPrice === 10000000)
+        ) {
+          if (location.pathname !== '/shop/all' || location.search) {
+            navigate('/shop/all', { replace: true });
+          }
+        }
+      }, [filter.category, filter.minPrice, filter.maxPrice]);
 
       useEffect(() => {
         const fetchProducts = async () => {

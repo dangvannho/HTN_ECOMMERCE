@@ -7,7 +7,7 @@ const BreadCrumb = () => {
         Home
       </Link>
       <span>/</span>
-      <Link to="/shop" className="hover:underline">
+      <Link to="/shop/all" className="hover:underline">
         The Shop
       </Link>
     </div>
