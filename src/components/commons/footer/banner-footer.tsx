@@ -9,14 +9,14 @@ const BannerFooter = () => {
         <img src="/logo.svg" alt="" />
       </div>
       <p className="text-[#222] text-sm font-normal mt-10">
-        195 Trần Cao VânXuân Hà, Thanh Khê, Đà Nẵng
+        195 Trần Cao Vân, Xuân Hà, Thanh Khê, Đà Nẵng
       </p>
       <div>
         <p className="text-[#222] text-sm font-medium mt-8">hi@wiicamp.com</p>
         <p className="text-[#222] text-sm font-medium mt-2"> 0327 228 357</p>
       </div>
       <div className="flex gap-7 mt-12">
-        <a href="#">
+        <a href="https://www.facebook.com">
           <Facebook className="size-3" />
         </a>
         <a href="https://x.com/WiicampSoftware">

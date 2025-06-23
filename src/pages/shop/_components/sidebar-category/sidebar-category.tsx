@@ -16,7 +16,7 @@ interface SidebarCategoryProps {
   onPriceChange?: (price: [number, number]) => void;
 }
 
-const DEFAULT_PRICE: [number, number] = [100000, 1000000];
+const DEFAULT_PRICE: [number, number] = [100000, 10000000];
 
 const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, categories, onCategorySelect, selectedCategory, onPriceChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +57,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
   const resetAll = () => {
     setFilter({});
     setPrice(DEFAULT_PRICE);
+    navigate('/shop/all', { replace: true });
     if (onCategorySelect) {
       onCategorySelect('all');
     }

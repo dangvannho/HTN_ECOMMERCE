@@ -321,9 +321,9 @@ const ProductInfomation = ({
         </div>
         <button
           disabled={!currentStock}
-          className={`bg-black text-white px-6 py-2 w-[280px] text-sm hover:bg-black ${
-            !currentStock && "cursor-not-allowed opacity-50 hover:bg-black"
-          }`}
+          className={`bg-black text-white px-6 py-2 w-[280px] text-sm ${
+            !currentStock ? "cursor-not-allowed opacity-50 hover:bg-black" : "hover:bg-black/80"
+          } `}
           onClick={() => handleAddToCart()}
         >
           ADD TO CART

@@ -1,10 +1,12 @@
 import  { useEffect, useState } from 'react'
 import bannerSliderApi from '@/services/banner-slider/api/banner-slider.api';
 import type { BannerSlider } from '@/services/banner-slider/types/banner-slider.types';
+import { useNavigate } from 'react-router-dom';
 
 const BannerCategory = () => {
   const [active, setActive] = useState(0);
   const [banners, setBanners] = useState<BannerSlider[]>([]);
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -59,15 +61,13 @@ const BannerCategory = () => {
           ))}
         </div>
       </div>
-      <a href={banners[active].link} className="bg-bannerRight w-[60%] h-full flex items-center justify-center">
-
-        <img
+      <img
           src={banners[active].image}
           alt=""
-          className="object-cover h-full w-full"
-          draggable={false}
-          />
-      </a>
+          className="object-cover bg-bannerRight w-[60%] h-full flex items-center justify-center cursor-pointer"
+          draggable={false} 
+          onClick={() => navigate(banners[active].link, { replace: true })}
+          /> 
     </div>
   );
 };
