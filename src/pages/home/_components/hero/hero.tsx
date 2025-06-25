@@ -77,7 +77,7 @@ const Hero = () => {
                             to="/shop/all"
                             className="text-sm not-italic font-medium leading-[24px] tracking-wider text-gray-900 uppercase border-b border-gray-900 pb-1 hover:border-gray-500 hover:text-gray-500 transition-colors"
                         >
-                            Discover Now
+                            Khám Phá Ngay
                         </Link>
                     </div>
 

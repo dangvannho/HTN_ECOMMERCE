@@ -36,18 +36,16 @@ const Order = () => {
     }, []);
 
     const handleReturnToCart = () => {
-        // Clear the orderId from localStorage
         localStorage.removeItem('orderId');
-        // Navigate to cart page with step=bag and reload the page
         window.location.href = '/cart?step=bag';
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Đang tải...</div>;
     }
 
     if (!orderDetails) {
-        return <div>Order not found</div>;
+        return <div>Không tìm thấy đơn hàng</div>;
     }
 
     return (
@@ -60,37 +58,37 @@ const Order = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h2 className="text-[35px] font-normal mb-2">Your order is completed!</h2>
-                    <p className="text-sm font-normal text-[#767676]">Thank you. Your order has been received.</p>
+                    <h2 className="text-[35px] font-normal mb-2">Đơn hàng của bạn đã hoàn tất!</h2>
+                    <p className="text-sm font-normal text-[#767676]">Cảm ơn bạn. Chúng tôi đã nhận được đơn hàng của bạn.</p>
                 </div>
 
                 <div className="border border-dashed border-gray-300 p-4 sm:p-6 mb-6 sm:mb-8">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div>
-                            <p className="text-[#767676] text-sm font-medium">Order Number</p>
+                            <p className="text-[#767676] text-sm font-medium">Mã đơn hàng</p>
                             <p className="text-base font-medium">{orderDetails.orderCode}</p>
                         </div>
                         <div>
-                            <p className="text-[#767676] text-sm font-medium">Date</p>
+                            <p className="text-[#767676] text-sm font-medium">Ngày đặt</p>
                             <p className="text-base font-medium">{new Date(orderDetails.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div>
-                            <p className="text-[#767676] text-sm font-medium">Total</p>
+                            <p className="text-[#767676] text-sm font-medium">Tổng tiền</p>
                             <p className="text-base font-medium">{formatToVND(orderDetails.finalAmount)}</p>
                         </div>
                         <div>
-                            <p className="text-[#767676] text-sm font-medium">Payment Method</p>
+                            <p className="text-[#767676] text-sm font-medium">Phương thức thanh toán</p>
                             <p className="text-base font-medium">{orderDetails.paymentMethod}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="bg-white p-4 sm:p-6 border border-gray-200">
-                    <h3 className="text-base font-medium mb-8">ORDER DETAILS</h3>
+                    <h3 className="text-base font-medium mb-8">CHI TIẾT ĐƠN HÀNG</h3>
                     <div className="space-y-4">
                         <div className="flex justify-between items-center border-b pb-4">
-                            <p className="text-sm font-medium">PRODUCT</p>
-                            <p className="text-sm font-medium">SUBTOTAL</p>
+                            <p className="text-sm font-medium">SẢN PHẨM</p>
+                            <p className="text-sm font-medium">TỔNG TIỀN</p>
                         </div>
 
                         {orderDetails.items.map((item) => (
@@ -109,12 +107,12 @@ const Order = () => {
                         ))}
 
                         <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">SUBTOTAL</p>
+                            <p className="text-sm font-medium">TỔNG TIỀN HÀNG</p>
                             <p className="text-sm font-medium">{formatToVND(orderDetails.originalTotal)}</p>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">SHIPPING</p>
+                            <p className="text-sm font-medium">THÔNG TIN GIAO HÀNG</p>
                             <div className="text-sm font-normal text-right">
                                 {defaultAddress ? (
                                     <>
@@ -122,27 +120,27 @@ const Order = () => {
                                             {defaultAddress.address}, {defaultAddress.wardName}, {defaultAddress.provinceName}
                                         </div>
                                         <div>
-                                            Receiver: {defaultAddress.fullname} - {defaultAddress.phoneNumber}
+                                            Người nhận: {defaultAddress.fullname} - {defaultAddress.phoneNumber}
                                         </div>
                                     </>
                                 ) : (
-                                    <div>No default shipping address set</div>
+                                    <div>Chưa có địa chỉ giao hàng mặc định</div>
                                 )}
                             </div>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">PAYMENT METHOD</p>
+                            <p className="text-sm font-medium">PHƯƠNG THỨC THANH TOÁN</p>
                             <p className="text-sm font-medium">{orderDetails.paymentMethod}</p>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">DISCOUNT</p>
+                            <p className="text-sm font-medium">GIẢM GIÁ</p>
                             <p className="text-sm font-medium">{formatToVND(orderDetails.discountAmount)}</p>
                         </div>
 
                         <div className="flex justify-between items-center border-t pt-5">
-                            <p className="text-sm font-medium">TOTAL</p>
+                            <p className="text-sm font-medium">TỔNG THANH TOÁN</p>
                             <p className="text-sm font-medium">{formatToVND(orderDetails.finalAmount)}</p>
                         </div>
                     </div>
@@ -153,7 +151,7 @@ const Order = () => {
                         onClick={handleReturnToCart}
                         className="bg-[#222] text-white px-8 py-4 rounded hover:bg-[#333] transition-colors duration-200"
                     >
-                        Return to Cart
+                        Quay lại giỏ hàng
                     </button>
                 </div>
             </div>

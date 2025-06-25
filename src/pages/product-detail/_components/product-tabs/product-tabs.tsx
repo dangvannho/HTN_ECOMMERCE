@@ -10,9 +10,9 @@ interface ProductTabsProps {
 const ProductTabs = ({ productData }: ProductTabsProps) => {
   return (
     <div className="mt-14 lg:mt-24">
-      <Tabs defaultValue="Description" className="w-full">
+      <Tabs defaultValue="MÔ TẢ" className="w-full">
         <TabsList className="flex space-x-8 justify-center bg-transparent border-b-0">
-          {["Description", "Additional Information"].map((tab) => (
+          {["MÔ TẢ", "THÔNG TIN BỔ SUNG"].map((tab) => (
             <TabsTrigger
               key={tab}
               value={tab}
@@ -23,11 +23,11 @@ const ProductTabs = ({ productData }: ProductTabsProps) => {
           ))}
         </TabsList>
 
-        <TabsContent value="Description" className="mt-8 md:mt-[50px]">
+        <TabsContent value="MÔ TẢ" className="mt-8 md:mt-[50px]">
           <DescriptionTab description={productData?.description} />
         </TabsContent>
         <TabsContent
-          value="Additional Information"
+          value="THÔNG TIN BỔ SUNG"
           className="mt-8 md:mt-[50px]"
         >
           <AdditionalInfoTab aditionalInfo={productData?.additional_info} />

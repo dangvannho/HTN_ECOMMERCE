@@ -13,9 +13,9 @@ import { useCartStore } from "@/stores/cart.store";
 import useCollection from "@/services/collection/hooks/useCollection";
 
 const LINKS = [
-  { name: "HOME", href: routePath.home },
-  { name: "SHOP", href: routePath.shop.replace(":category", "all") },
-  { name: "COLLECTION", href: "/" },
+  { name: "TRANG CHỦ", href: routePath.home },
+  { name: "CỬA HÀNG", href: routePath.shop.replace(":category", "all") },
+  { name: "BỘ SƯU TẬP", href: "/" },
   // { name: "JOURNAL", href: "/" },
   // { name: "LOOKBOOK", href: "/" },
   // { name: "PAGES", href: "/" },
@@ -59,7 +59,7 @@ const Header = () => {
         <nav className="flex gap-4 ml-[55px] items-center">
           {LINKS.map((item) => (
             <div key={item.name} className="relative">
-              {item.name === "COLLECTION" ? (
+              {item.name === "BỘ SƯU TẬP" ? (
                 <div
                   className="text-sm font-medium text-[#222] relative group cursor-pointer"
                   onMouseEnter={() => setIsCollectionHovered(true)}
@@ -189,7 +189,7 @@ const Header = () => {
                 className="flex items-center justify-between"
                 key={item.name}
               >
-                {item.name === "COLLECTION" ? (
+                {item.name === "BỘ SƯU TẬP" ? (
                   <div className="w-full ">
                     <div
                       className="text-base font-medium text-[#222] relative group flex items-center justify-between "

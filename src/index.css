@@ -32,6 +32,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -63,5 +64,11 @@
 @layer base {
   body {
     @apply font-roboto;
+  }
+}
+
+@layer utilities {
+  .heading-element {
+    @apply  text-[20px] sm:text-[25px] md:text-[30px] lg:text-[35px] font-bold uppercase absolute left-4 xl:left-0 top-0 lg:-top-[90px];
   }
 }

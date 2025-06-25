@@ -54,7 +54,7 @@ const Login = () => {
       >
         <div>
           <FloatingInput
-            label="Username or email address *"
+            label="Tên người dùng hoặc địa chỉ email *"
             type="text"
             {...register("email")}
           />
@@ -65,7 +65,7 @@ const Login = () => {
 
         <div>
           <FloatingInput
-            label="Password *"
+            label="Mặt Khẩu *"
             type="password"
             {...register("password")}
           />
@@ -76,8 +76,8 @@ const Login = () => {
           )}
         </div>
 
-        <div className="flex justify-between">
-          <div className="flex items-center gap-[8px]">
+        <div className="flex justify-end">
+          {/* <div className="flex items-center gap-[8px]">
             <input type="checkbox" id="check" />
             <label
               htmlFor="check"
@@ -85,14 +85,14 @@ const Login = () => {
             >
               Remember me
             </label>
-          </div>
+          </div> */}
 
           <div>
             <Link
               className="underline text-[#222] text-sm not-italic font-normal leading-[24px]"
               to="/forgot-password"
             >
-              Forgot Password?
+              Quên mật khẩu?
             </Link>
           </div>
         </div>
@@ -102,7 +102,7 @@ const Login = () => {
           className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase"
           disabled={isLoading}
         >
-          {isLoading ? "Đang đăng nhập..." : "Login"}
+          {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
 
         <div className="relative">
@@ -110,7 +110,7 @@ const Login = () => {
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">LOGIN WITH</span>
+            <span className="px-2 bg-white text-gray-500">ĐĂNG NHẬP VỚI</span>
           </div>
         </div>
 
@@ -139,12 +139,12 @@ const Login = () => {
         </div>
 
         <p className="text-[#767676] text-sm not-italic font-normal leading-[24px] text-center">
-          No account yet?{" "}
+          Chưa có tài khoản?{" "}
           <Link
             className="underline text-[#222] text-sm not-italic font-normal leading-[24px]"
             to="/register"
           >
-            Create Account
+            Tạo mới tài khoản
           </Link>
         </p>
       </form>

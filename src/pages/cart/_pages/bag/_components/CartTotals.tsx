@@ -87,26 +87,26 @@ const CartTotals = ({
         <div className="w-full lg:w-[35%]">
             <div className="border p-4 sm:p-6">
                 <div className="flex justify-between">
-                    <h2 className="text-base font-medium mb-6">CART TOTALS</h2>
+                    <h2 className="text-base font-medium mb-6">HÓA ĐƠN</h2>
                     <button
                         onClick={() => setIsVoucherDialogOpen(true)}
                         className="block text-sm font-medium uppercase mt-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-[50%] mb-6"
                     >
-                        Select Voucher
+                        Chọn Mã Giảm Giá
                     </button>
 
                 </div>
                 <table className="w-full">
                     <tbody>
-                        <tr className="border-b">
-                            <td className="py-4 text-sm font-medium">SUBTOTAL</td>
-                            <td className="py-4 pl-[100px] text-left text-sm">
+                        <tr className="border-b ">
+                            <td className="py-4 text-sm font-medium w-[70px]">Tiền Hàng</td>
+                            <td className="py-4 pl-[100px] text-sm">
                                 {totalPrice && formatToVND(totalPrice)}
                             </td>
                         </tr>
 
                         <tr className='border-b'>
-                            <td className="py-4 align-top text-sm font-medium">SHIPPING</td>
+                            <td className="py-4 align-top text-sm font-medium w-[100px]">Phí vận chuyển</td>
                             <td className="py-4 pl-[100px]">
                                 <div className="space-y-3">
                                     <label className="flex items-center text-gray-600 text-sm font-normal">
@@ -116,30 +116,29 @@ const CartTotals = ({
                                             checked={selectedShipping === "free"}
                                             onChange={() => setSelectedShipping("free")}
                                         />
-                                        Free shipping
+                                        Miễn phí vận chuyển
                                     </label>
-                                    
-                                    
+
                                     <div className="pt-2">
                                         {defaultAddress ? (
                                             <div>
                                                 <p className="text-sm font-normal text-gray-600">
-                                                    Shipping to: {formatAddress(defaultAddress)}
+                                                    Địa chỉ giao hàng: {formatAddress(defaultAddress)}
                                                 </p>
                                                 <p className="text-sm font-normal text-gray-600">
-                                                    Receiver: {defaultAddress.fullname} - {defaultAddress.phoneNumber}
+                                                    Người nhận: {defaultAddress.fullname} - {defaultAddress.phoneNumber}
                                                 </p>
                                             </div>
                                         ) : (
                                             <p className="text-sm font-normal text-gray-600">
-                                                No default shipping address set
+                                                Chưa có địa chỉ giao hàng mặc định
                                             </p>
                                         )}
                                         <button
                                             onClick={handleChangeAddress}
                                             className="text-sm font-medium uppercase mt-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-[50%]"
                                         >
-                                            Change address
+                                            Thay đổi địa chỉ
                                         </button>
 
                                     </div>
@@ -147,8 +146,9 @@ const CartTotals = ({
 
                             </td>
                         </tr>
+
                         <tr>
-                            <td className='py-4 text-sm font-medium'>VOUCHER</td>
+                            <td className='py-4 text-sm font-medium'>Mã Giảm</td>
                             <td className='py-4 text-left pl-[100px]'>
                                 {appliedVoucherInfo ? (
                                     <p className="text-sm font-normal text-gray-600">
@@ -156,14 +156,14 @@ const CartTotals = ({
                                     </p>
                                 ) : (
                                     <p className="text-sm font-normal text-gray-500">
-                                        No vouchers have been applied yet
+                                        Chưa áp dụng mã giảm giá nào
                                     </p>
                                 )}
                             </td>
                         </tr>
 
                         <tr>
-                            <td className="py-4 text-sm font-medium ">DISCOUNT</td>
+                            <td className="py-4 text-sm font-medium ">Giảm Giá</td>
                             <td className='py-4 text-left pl-[100px] flex flex-col'>
                                 {discountAmount && discountAmount > 0 && (
                                     <td className="py-4 text-left ">
@@ -174,7 +174,7 @@ const CartTotals = ({
                         </tr>
 
                         <tr>
-                            <td className="py-4 text-sm font-medium">TOTAL</td>
+                            <td className="py-4 text-sm font-medium">TỔNG</td>
                             <td className="py-4 text-left pl-[100px] flex flex-col">
                                 {discountAmount && discountAmount > 0 ? (
                                     <>
@@ -192,7 +192,7 @@ const CartTotals = ({
                 </table>
             </div>
             <ButtomCommon
-                title="PROCEED TO CHECKOUT"
+                title="TIẾN HÀNH THANH TOÁN"
                 onClick={onProceedToCheckout}
                 className="w-full"
                 disabled={!checktotal}

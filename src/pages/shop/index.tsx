@@ -50,6 +50,7 @@
 
       // Khi đổi giá, cập nhật filter và cập nhật url
       const handlePriceChange = (newPrice: [number, number]) => {
+        setPage(1);
         setFilter((prev) => ({ ...prev, minPrice: newPrice[0], maxPrice: newPrice[1] }));
         // Nếu là giá mặc định thì xóa query, ngược lại thì set query
         if (newPrice[0] === 100000 && newPrice[1] === 10000000) {

@@ -92,20 +92,20 @@ const Addresses = () => {
 
   return (
     <>
-      <h4 className="text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
-        My Addresses
+      <h4 className="heading-element">
+        Địa Chỉ Của Tôi
       </h4>
       <div>
         <div className="flex justify-between items-center mb-3">
           <p className="flex-1 text-[#222] text-xs sm:text-sm not-italic font-normal">
-            The following addresses will be used on the checkout page by default.
+            Các địa chỉ sau đây sẽ được sử dụng trên trang thanh toán theo mặc định.
           </p>
           {!showForm && (
             <button
               onClick={handleAddNew}
               className="bg-[#222] text-white px-2 sm:px-4 text-[10px] sm:text-[14px] py-2 rounded hover:bg-[#333]"
             >
-              Add New Address
+              Thêm Địa Chỉ Mới
             </button>
           )}
         </div>
@@ -123,7 +123,7 @@ const Addresses = () => {
 
             {addresses.length === 0 && (
               <div className="text-center py-8 text-gray-500">
-                No addresses found. Please add a new address.
+                Không tìm thấy địa chỉ nào. Vui lòng thêm địa chỉ mới. 
               </div>
             )}
           </div>

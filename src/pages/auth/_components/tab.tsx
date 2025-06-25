@@ -12,7 +12,7 @@ const Tab = () => {
             : 'text-gray-500 hover:text-gray-700 px-2 py-1'
         }
       >
-        LOGIN
+        ĐĂNG NHẬP
       </NavLink>
       <NavLink
         to="/register"
@@ -22,7 +22,7 @@ const Tab = () => {
             : 'text-gray-500 hover:text-gray-700 px-2 py-1'
         }
       >
-        REGISTER
+        ĐĂNG KÝ 
       </NavLink>
     </div>
   )

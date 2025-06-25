@@ -1,10 +1,9 @@
 const SubscribeFooter = () => {
   return (
     <div className="flex flex-col">
-      <h3 className="text-lg font-medium">SUBSCRIBE</h3>
+      <h3 className="text-lg font-medium">ĐẶT MUA NGAY</h3>
       <p className="text-[#222] text-sm mt-10">
-        Be the first to get the latest news about trends, promotions, and much
-        more!
+        Hãy là người đầu tiên nhận được tin tức mới nhất về xu hướng, chương trình khuyến mãi và nhiều hơn thế nữa!
       </p>
       {/* <div className="flex mt-3">
         <input
@@ -16,7 +15,7 @@ const SubscribeFooter = () => {
           JOIN
         </button>
       </div> */}
-      <h4 className="text-sm font-medium mt-8">Secure payments</h4>
+      <h4 className="text-sm font-medium mt-8">Phương thức thanh toán</h4>
       <img src="/payments_logo.svg" alt="" className="mt-4" />
     </div>
   );

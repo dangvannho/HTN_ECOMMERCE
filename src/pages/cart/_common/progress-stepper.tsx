@@ -16,8 +16,8 @@ const ProgressStepper = ({ step, setStep }: ProgressStepperProps) => {
                         <p className="text-base sm:text-lg font-medium">01</p>
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-sm sm:text-lg font-medium">SHOPPING BAG</p>
-                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Manage Your Items List</p>
+                        <p className="text-sm sm:text-lg font-medium">GIỎ HÀNG</p>
+                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Quản lý danh sách sản phẩm</p>
                     </div>
                 </div>
 
@@ -28,10 +28,10 @@ const ProgressStepper = ({ step, setStep }: ProgressStepperProps) => {
                     </div>
                     <div className="flex flex-col">
                         <p className={`text-sm sm:text-lg font-medium ${step === "bag" ? "text-[#767676]" : ""}`}>
-                            <span className="sm:hidden">CHECKOUT</span>
-                            <span className="hidden sm:inline">SHIPPING AND CHECKOUT</span>
+                            <span className="sm:hidden">THANH TOÁN</span>
+                            <span className="hidden sm:inline">GIAO HÀNG VÀ THANH TOÁN</span>
                         </p>
-                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Checkout Your Items List</p>
+                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Thanh toán đơn hàng của bạn</p>
                     </div>
                 </div>
 
@@ -41,8 +41,8 @@ const ProgressStepper = ({ step, setStep }: ProgressStepperProps) => {
                         <p className={`text-base sm:text-lg font-medium ${step === "order" ? "" : "text-[#767676]"}`}>03</p>
                     </div>
                     <div className="flex flex-col">
-                        <p className={`text-sm sm:text-lg font-medium ${step === "order" ? "" : "text-[#767676]"}`}>CONFIRMATION</p>
-                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Review Your Order</p>
+                        <p className={`text-sm sm:text-lg font-medium ${step === "order" ? "" : "text-[#767676]"}`}>XÁC NHẬN</p>
+                        <p className="text-[11px] sm:text-sm font-normal text-[#767676]">Xem lại đơn hàng của bạn</p>
                     </div>
                 </div>
             </div>
