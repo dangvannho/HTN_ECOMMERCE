@@ -42,7 +42,7 @@ const OrderDetail = () => {
         {/* Order Header */}
         <div className="border-b pb-4 mb-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-semibold">Order Details</h1>
+            <h1 className="text-2xl font-semibold">Thông Tin Đơn Hàng</h1>
             {/* <span
               className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
                 orderData?.status || ""
@@ -51,41 +51,41 @@ const OrderDetail = () => {
               {orderData?.status}
             </span> */}
           </div>
-          <p className="text-gray-600 mt-2">Order ID: {orderData?.orderCode}</p>
+          <p className="text-gray-600 mt-2">Mã Đơn Hàng: {orderData?.orderCode}</p>
         </div>
 
         {/* Order Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <h2 className="text-lg font-semibold mb-3">Order Information</h2>
+            <h2 className="text-lg font-semibold mb-3">Thông Tin Đặt Hàng</h2>
             <div className="space-y-2">
               <p>
-                <span className="font-medium">Order Date: </span>
+                <span className="font-medium">Ngày Đặt: </span>
                 {formatDate(orderData?.createdAt || "")}
               </p>
               <p>
-                <span className="font-medium">Payment Method: </span>
+                <span className="font-medium">Phương Thức Thanh Toán: </span>
                 {orderData?.paymentMethod}
               </p>
               <p>
-                <span className="font-medium">Shipping Address: </span>
+                <span className="font-medium">Địa Chỉ Giao Hàng: </span>
                 {orderData?.address}
               </p>
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold mb-3">Order Summary</h2>
+            <h2 className="text-lg font-semibold mb-3">Tóm Tắt Đơn Hàng</h2>
             <div className="space-y-2">
               <p>
-                <span className="font-medium">Total Items: </span>{" "}
+                <span className="font-medium">Tổng Số Lượng: </span>{" "}
                 {orderData?.totalItems}
               </p>
               <p>
-                <span className="font-medium">Discount:</span>{" "}
+                <span className="font-medium">Giảm Giá:</span>{" "}
                 {formatToVND(orderData?.discountAmount || 0)}
               </p>
               <p className="text-lg font-semibold text-primary">
-                <span className="font-medium">Total Amount:</span>{" "}
+                <span className="font-medium">Tổng Số Tiền:</span>{" "}
                 {formatToVND(orderData?.finalAmount || 0)}
               </p>
             </div>
@@ -94,22 +94,22 @@ const OrderDetail = () => {
 
         {/* Order Items */}
         <div>
-          <h2 className="text-lg font-semibold mb-3">Ordered Items</h2>
+          <h2 className="text-lg font-semibold mb-3">Hàng Đã Đặt</h2>
           <div className="border rounded-lg overflow-hidden hidden md:block">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Product
+                    Sản Phẩm
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Quantity
+                    Số Lượng
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Unit Price
+                    Đơn Giá
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total
+                    Tổng Tiền
                   </th>
                 </tr>
               </thead>
@@ -152,18 +152,18 @@ const OrderDetail = () => {
                     {item.productName}
                   </div>
                   <div className="text-xs text-gray-500">
-                    Quantity:{" "}
+                    Tổng Số Lượng:{" "}
                     <span className="font-semibold">{item.quantity}</span>
                   </div>
                   <div className="text-xs text-gray-500">
-                    Unit Price:{" "}
+                    Đơn Giá:{" "}
                     <span className="font-semibold">
                       {formatToVND(item.price)}
                     </span>
                   </div>
                   <div className="text-xs text-gray-500">
                     {" "}
-                    Total:{" "}
+                    Tổng Số Tiền:{" "}
                     <span className="font-semibold">
                       {formatToVND(item.price * item.quantity)}
                     </span>

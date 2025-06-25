@@ -17,7 +17,7 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
 
   return (
     <div>
-      <ButtonFilter title="Price" onClick={handleClick} openCats={openCats}/>
+      <ButtonFilter title="GIÁ" onClick={handleClick} openCats={openCats}/>
       {openCats && (
         <div className="pl-1 pt-4">
           <div className="relative w-full">
@@ -46,11 +46,11 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
           </div>
           <div className="flex justify-between mt-4">
             <div className="flex items-center gap-2">
-              <span className="text-[#767676] text-sm">Min Price:</span>
+              <span className="text-[#767676] text-sm">Min:</span>
               <p className="text-[#222] text-sm">{formatToVND(selectedPrice[0])}</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[#767676] text-sm">Max Price:</span>
+              <span className="text-[#767676] text-sm">Max:</span>
               <p className="text-[#222] text-sm">{formatToVND(selectedPrice[1])}</p>
             </div>
           </div>

@@ -25,14 +25,14 @@ const Order = () => {
 
   return (
     <>
-      <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
-        Orders
+      <h4 className="heading-element">
+        ĐƠN HÀNG
       </h4>
       <div className="border overflow-hidden hidden md:block">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-[#E4E4E4] h-12">
-              {["ORDER", "DATE", "TOTAL", "ACTIONS"].map((header) => (
+              {["ĐƠN HÀNG", "NGÀY ĐẶT", "TỔNG TIỀN", "TRẠNG THÁI"].map((header) => (
                 <th
                   key={header}
                   className="text-[#222] text-sm font-medium px-6 py-3 text-left last:pl-0"
@@ -46,7 +46,7 @@ const Order = () => {
             {orders.length === 0 ? (
               <tr>
                 <td colSpan={5} className="text-center py-4 text-gray-500">
-                  No orders found
+                  Không tìm thấy đơn hàng nào
                 </td>
               </tr>
             ) : (
@@ -83,7 +83,7 @@ const Order = () => {
                         )
                       }
                     >
-                      VIEW
+                      XEM
                     </button>
                   </td>
                 </tr>
@@ -94,7 +94,7 @@ const Order = () => {
       </div>
       <div className="block md:hidden space-y-4">
         {orders.length === 0 ? (
-          <div className="text-center py-4 text-gray-500">No orders found</div>
+          <div className="text-center py-4 text-gray-500">Không tìm thấy đơn hàng nào</div>
         ) : (
           orders.map((order) => (
             <div
@@ -110,7 +110,7 @@ const Order = () => {
                 {formatDate(order.createdAt)}
               </div>
               <div className="text-sm text-[#222] mb-1">
-                Total ({order.totalItems} product):{" "}
+                Tổng Số Tiền ({order.totalItems} Sản phẩm):{" "}
                 <span className="font-bold">
                   {formatToVND(order.finalAmount)}
                 </span>
@@ -121,7 +121,7 @@ const Order = () => {
                   navigate(routePath.orderDetail.replace(":id", order._id))
                 }
               >
-                View
+                Xem
               </button>
             </div>
           ))

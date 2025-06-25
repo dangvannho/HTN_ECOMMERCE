@@ -44,7 +44,7 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
                         </h5>
                         {address.isDefault && (
                             <span className="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded">
-                                Default Address
+                                Mặc định
                             </span>
                         )}
                     </div>
@@ -53,14 +53,14 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
                             onClick={handleEdit}
                             className="text-blue-600 hover:underline"
                         >
-                            Edit
+                            Chỉnh sửa
                         </button>
                         {
                             !address.isDefault && <button
                                 onClick={() => setShowDeleteModal(true)}
                                 className="text-red-500 hover:underline"
                             >
-                                Delete
+                                Xóa
                             </button>
                         }
 
@@ -70,11 +70,11 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
                 <div className="text-gray-600 text-sm space-y-1">
                     <p>{address.address}</p>
                     <p>
-                        <span className="text-gray-500">Addresses: </span>
+                        <span className="text-gray-500">Địa Chỉ: </span>
                         {address.wardName}, {address.districtName}, {address.provinceName}
                     </p>
                     <p className="mt-3">
-                        <span className="text-gray-500">Phone: </span>
+                        <span className="text-gray-500">Số Điện Thoại: </span>
                         {address.phoneNumber}
                     </p>
                 </div>
