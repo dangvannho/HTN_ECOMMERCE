@@ -4,32 +4,32 @@ import LinkFooter from "./link-footer";
 import SubscribeFooter from "./subscribe-footer";
 
 
-const LINKS : { name: string; href: string }[] = [
+const LINKS: { name: string; href: string }[] = [
   // { name: "New Arrivals", href: "/" },
-  { name: "Trousers", href: routePath.shop.replace(":category", "trousers")},
-  { name: "Jumpers and Cardigans", href: routePath.shop.replace(":category", "jumpers-and-cardigans") },
-  { name: "Dresses", href: routePath.shop.replace(":category", "dresses") },
+  { name: "Quần", href: routePath.shop.replace(":category", "trousers") },
+  { name: "Áo Len và Cardigan", href: routePath.shop.replace(":category", "jumpers-and-cardigans") },
+  { name: "Váy", href: routePath.shop.replace(":category", "dresses") },
   // { name: "Sản phẩm", href: routePath.shop.replace(":category", "all") },
 ];
 
-const COMPANY : { name: string; href: string }[] = [
-  { name: "Ordering instructions", href: "/ordering-instructions" },
-  // { name: "Careers", href: "/" },
-  // { name: "Affiliates", href: "/" },
+const COMPANY: { name: string; href: string }[] = [
+  { name: "Hướng Dẫn Đặt Hàng", href: "/ordering-instructions" },
+  // { name: "Tuyển dụng", href: "/" },
+  // { name: "Đối tác", href: "/" },
   // { name: "Blog", href: "/" },
-  // { name: "Contact Us", href: "/" },
+  // { name: "Liên hệ", href: "/" },
 ];
 
-const HELP : { name: string; href: string }[] = [
-  // { name: "Customer Service", href: "/" },
-  { name: "My Account", href: routePath.accountDetail },
-  { name: "My Orders", href: routePath.orders },
-  { name: "My Wishlists", href: routePath.wishlist},
-  { name: "My Addresses", href: routePath.address},
-  // { name: "Find a Store", href: "/" },
-  // { name: "Legal & Privacy", href: "/" },
-  // { name: "Contact", href: "/" },
-  // { name: "Gift Card", href: "/" },
+const HELP: { name: string; href: string }[] = [
+  // { name: "Dịch vụ khách hàng", href: "/" },
+  { name: "Tài khoản của tôi", href: routePath.accountDetail },
+  { name: "Đơn đặt hàng của tôi", href: routePath.orders },
+  { name: "Danh sách yêu thích", href: routePath.wishlist },
+  { name: "Địa chỉ của tôi", href: routePath.address },
+  // { name: "Tìm cửa hàng", href: "/" },
+  // { name: "Điều khoản & Bảo mật", href: "/" },
+  // { name: "Liên hệ", href: "/" },
+  // { name: "Thẻ quà tặng", href: "/" },
 ]
 
 const Footer = () => {
@@ -39,17 +39,17 @@ const Footer = () => {
         <BannerFooter />
         <div className="col-[1/1] md:col-[2/5] grid grid-cols-2 md:grid-cols-3 gap-8">
           <LinkFooter
-            title="SUPPORT"
+            title="HỖ TRỢ"
             links={COMPANY}
           />
 
           <LinkFooter
-            title="SHOP"
+            title="CỬA HÀNG"
             links={LINKS}
           />
 
           <LinkFooter
-            title="HELP"
+            title="TRỢ GIÚP"
             links={HELP}
           />
         </div>
@@ -59,15 +59,15 @@ const Footer = () => {
         <p className="text-[#222]">©2025 Uomo</p>
         {/* <div className="flex md:flex-row flex-col items-start gap-6 mt-3">
           <div className="flex items-center gap-4">
-            <span className="w-12">Language</span>
+            <span className="w-12">Ngôn ngữ</span>
             <select className="rounded p-1 text-sm focus:outline-none bg-transparent text-[#222]">
-              <option>United Kingdom | English</option>
+              <option>Việt Nam | Tiếng Việt</option>
             </select>
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-12">Currency</span>
+            <span className="w-12">Tiền tệ</span>
             <select className="rounded p-1 text-sm focus:outline-none bg-transparent text-[#222]">
-              <option>$USD</option>
+              <option>VND</option>
             </select>
           </div>
         </div> */}

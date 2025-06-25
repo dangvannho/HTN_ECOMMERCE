@@ -47,7 +47,7 @@ const Register = () => {
       <Tab />
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <FloatingInput label="Username" type="text" {...register("name")} />
+          <FloatingInput label="Họ và tên" type="text" {...register("name")} />
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
@@ -55,7 +55,7 @@ const Register = () => {
 
         <div>
           <FloatingInput
-            label="Phone number"
+            label="số điện thoại"
             type="text"
             {...register("phoneNumber")}
           />
@@ -68,7 +68,7 @@ const Register = () => {
 
         <div>
           <FloatingInput
-            label="Email address"
+            label="Email"
             type="text"
             {...register("email")}
           />
@@ -79,7 +79,7 @@ const Register = () => {
 
         <div>
           <FloatingInput
-            label="Password"
+            label="Mật khẩu"
             type="password"
             {...register("password")}
           />
@@ -92,7 +92,7 @@ const Register = () => {
 
         <div>
           <FloatingInput
-            label="Confim password"
+            label="Xác nhận mật khẩu"
             type="password"
             {...register("confirmPassword")}
           />
@@ -104,15 +104,15 @@ const Register = () => {
         </div>
 
         <p className="text-[#767676] text-sm not-italic font-normal leading-[24px] ">
-          Your personal data will be used to support your experience throughout
-          this website, to manage access to your account, and for other purposes
-          described in our privacy policy.
+          Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên toàn bộ
+          trang web này, để quản lý quyền truy cập vào tài khoản của bạn và cho các mục đích khác
+          được mô tả trong chính sách bảo mật của chúng tôi.
         </p>
         <button
           type="submit"
           className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase"
         >
-          Register
+          Đăng ký
         </button>
       </form>
     </div>

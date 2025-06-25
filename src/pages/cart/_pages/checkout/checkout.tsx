@@ -183,10 +183,9 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
         <>
             <Progress value={66} />
             <div className="py-6 sm:py-[50px] mt-4 sm:mt-10 px-4 sm:px-0">
-                <h2 className="text-xl sm:text-2xl font-bold mb-6">Checkout</h2>
-                <div className="mt-6 sm:mt-10">
+                <div className="">
                     <div className="flex justify-between">
-                        <h3 className="text-base font-medium">BILLING DETAILS</h3>
+                        <h2 className="text-xl sm:text-2xl font-bold mb-6">CHI TIẾT THANH TOÁN</h2>
                         <button
                             type="button"
                             className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
@@ -200,9 +199,9 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                         <div className="flex flex-col gap-6 sm:gap-8 w-full lg:w-[65%]">
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
-                                    <input 
-                                    disabled
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Tên Đầy Đủ</label>
+                                    <input
+                                        disabled
                                         type="text"
                                         name="fullname"
                                         value={formData.fullname}
@@ -213,9 +212,9 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
-                                    <input 
-                                     disabled
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Số Điện Thoại</label>
+                                    <input
+                                        disabled
                                         type="tel"
                                         name="phoneNumber"
                                         value={formData.phoneNumber}
@@ -225,12 +224,10 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                     />
                                 </div>
 
-
-
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Address</label>
-                                    <input 
-                                     disabled
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Địa Chỉ</label>
+                                    <input
+                                        disabled
                                         type="text"
                                         name="address"
                                         value={formData.address}
@@ -241,16 +238,16 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Province/City</label>
-                                    <select 
-                                     disabled
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
+                                    <select
+                                        disabled
                                         name="provinceName"
                                         value={formData.provinceName}
                                         onChange={handleProvinceChange}
                                         className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
                                         required
                                     >
-                                        <option value="">Select Province/City</option>
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
                                         {provinces.map((province) => (
                                             <option key={province.code} value={province.name}>
                                                 {province.name}
@@ -260,17 +257,16 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">District</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Quận/Huyện</label>
                                     <select
-                                     disabled
+                                        disabled
                                         name="districtName"
                                         value={formData.districtName}
                                         onChange={handleDistrictChange}
                                         className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
                                         required
-                                        // disabled={!formData.provinceName}
                                     >
-                                        <option value="">Select District</option>
+                                        <option value="">Chọn Quận/Huyện</option>
                                         {districts.map((district) => (
                                             <option key={district.code} value={district.name}>
                                                 {district.name}
@@ -280,17 +276,16 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Ward</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Phường/Xã</label>
                                     <select
-                                     disabled
+                                        disabled
                                         name="wardName"
                                         value={formData.wardName}
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
                                         required
-                                        // disabled={!formData.districtName}
                                     >
-                                        <option value="">Select Ward</option>
+                                        <option value="">Chọn Phường/Xã</option>
                                         {wards.map((ward) => (
                                             <option key={ward.code} value={ward.name}>
                                                 {ward.name}
@@ -304,19 +299,17 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                         {/* Right column - Order Summary */}
                         <div className="flex flex-col gap-5 w-full lg:w-[35%]">
                             <div className="flex flex-col gap-5 border border-[#222] py-[38px] px-[41px]">
-                                <h4 className="text-base font-medium">YOUR ORDER</h4>
+                                <h4 className="text-base font-medium">ĐƠN HÀNG CỦA BẠN</h4>
                                 <div className="flex justify-between border-b pb-2">
-                                    <span className="text-sm font-medium">PRODUCT</span>
-                                    <span className="text-sm font-medium">SUBTOTAL</span>
+                                    <span className="text-sm font-medium">SẢN PHẨM</span>
+                                    <span className="text-sm font-medium">TỔNG TIỀN</span>
                                 </div>
 
-                                {/* Chỉ render các sản phẩm đã được chọn */}
                                 {cartData?.cart?.items?.map((item: any) => (
                                     <div key={item._id} className="flex justify-between gap-10">
                                         <span className="text-sm font-medium text-[#767676]">
                                             {item.product.name}
                                             {item.variant && ` - ${item.variant.size}`}
-
                                         </span>
                                         <span className="text-sm font-medium text-[#767676]">
                                             {formatToVND(item.finalPrice)}
@@ -324,37 +317,33 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                     </div>
                                 ))}
 
-                                {/* Hiển thị tổng tiền */}
                                 <div className="flex justify-between border-t pt-2">
-                                    <span className="text-sm font-medium">SUBTOTAL</span>
+                                    <span className="text-sm font-medium">TỔNG TIỀN HÀNG</span>
                                     <span className="text-sm font-medium">
                                         {formatToVND(cartData?.totalPrice || 0)}
                                     </span>
                                 </div>
 
-                                {/* Hiển thị shipping */}
                                 <div className="flex justify-between">
-                                    <span className="text-sm font-medium">SHIPPING</span>
+                                    <span className="text-sm font-medium">PHÍ VẬN CHUYỂN</span>
                                     <span className="text-sm font-medium">
-                                        {cartSummary.selectedShipping === "free" && "Free shipping"}
+                                        {cartSummary.selectedShipping === "free" && "Miễn phí vận chuyển"}
                                         {cartSummary.selectedShipping === "flat-rate" && formatToVND(49000)}
                                         {cartSummary.selectedShipping === "local-pickup" && formatToVND(8000)}
                                     </span>
                                 </div>
 
-                                {/* Hiển thị giảm giá nếu có */}
                                 {cartData?.discountAmount > 0 && (
                                     <div className="flex justify-between">
-                                        <span className="text-sm font-medium">DISCOUNT</span>
+                                        <span className="text-sm font-medium">GIẢM GIÁ</span>
                                         <span className="text-sm font-medium text-red-500">
                                             -{formatToVND(cartData.discountAmount)}
                                         </span>
                                     </div>
                                 )}
 
-                                {/* Hiển thị tổng cộng */}
                                 <div className="flex justify-between border-t pt-2 font-medium">
-                                    <span className="text-sm font-medium">TOTAL</span>
+                                    <span className="text-sm font-medium">TỔNG THANH TOÁN</span>
                                     <span className="text-sm font-medium">
                                         {formatToVND(cartData?.finalAmount || 0)}
                                     </span>
@@ -363,7 +352,6 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
 
                             {/* Payment Methods */}
                             <div className="flex flex-col gap-3 border border-[#E4E4E4] py-[38px] px-[41px]">
-
                                 <label className="flex items-center space-x-2">
                                     <input
                                         type="radio"
@@ -373,19 +361,17 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                         onChange={(e) => setSelectedPayment(e.target.value)}
                                         className="accent-[#222]"
                                     />
-                                    <span className="text-base font-normal">Cash on delivery</span>
+                                    <span className="text-base font-normal">Thanh toán khi nhận hàng</span>
                                 </label>
 
                                 <p className="text-xs">
-                                    Your personal data will be used to process your order, support your
-                                    experience throughout this website, and for other purposes
-                                    described in our <a href="#" className="text-[#C32929]">privacy policy</a>
+                                    Thông tin cá nhân của bạn sẽ được sử dụng để xử lý đơn hàng và hỗ trợ trải nghiệm của bạn trên trang web này, cũng như cho các mục đích khác được mô tả trong{' '}
+                                    <a href="#" className="text-[#C32929]">chính sách bảo mật</a> của chúng tôi.
                                 </p>
                             </div>
 
-
                             <ButtomCommon
-                                title="PLACE ORDER"
+                                title="ĐẶT HÀNG"
                                 onClick={HandelSubmitOrder}
                                 loading={isLoading}
                                 disabled={isLoading}

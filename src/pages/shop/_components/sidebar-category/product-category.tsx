@@ -27,7 +27,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategory, onC
 
   return (
     <div>
-      <ButtonFilter title="Product Categories" onClick={handleClick} openCats={openCats}/>
+      <ButtonFilter title="DANH MỤC SẢN PHẨM" onClick={handleClick} openCats={openCats}/>
       {openCats && (
         <div className='mb-10'>
           <ul className="flex flex-col gap-1">

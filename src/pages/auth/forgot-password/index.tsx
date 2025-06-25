@@ -40,10 +40,10 @@ const ForgotPassword = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Forgot Password
+            Quên mật khẩu
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email to receive password reset link
+            Nhập email của bạn để nhận liên kết đặt lại mật khẩu
           </p>
         </div>
         <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
@@ -55,14 +55,14 @@ const ForgotPassword = () => {
             type="submit"
             className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase w-full mt-4"
           >
-            Send
+            Gửi
           </button>
 
           <Link
             to={routePath.login}
             className="block text-center underline mt-5"
           >
-            Back to login
+            Quay lại trang đăng nhập
           </Link>
         </form>
       </div>

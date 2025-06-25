@@ -4,10 +4,10 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useNavigate } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
-  { name: "ORDERS", href: routePath.orders },
-  { name: "ADDRESSES", href: routePath.address },
-  { name: "ACCOUNT DETAIL", href: routePath.accountDetail },
-  { name: "WHISHLIST", href: routePath.wishlist },
+  { name: "ĐƠN HÀNG", href: routePath.orders },
+  { name: "ĐỊA CHỈ", href: routePath.address },
+  { name: "THÔNG TIN TÀI KHOẢN", href: routePath.accountDetail },
+  { name: "DANH SÁCH YÊU THÍCH", href: routePath.wishlist },
 ];
 
 const SidebarAccount = () => {
@@ -19,7 +19,7 @@ const SidebarAccount = () => {
     navigate(routePath.home);
   };
   return (
-    <aside className="flex lg:flex-col md:justify-start justify-between gap-0 md:gap-6 lg:mt-0 mt-[80px]">
+    <aside className="flex lg:flex-col md:justify-start justify-between gap-0 md:gap-6 lg:mt-0 mt-[80px] ">
       {SIDEBAR_ITEMS.map((item, index) => (
         <NavLink
           key={index}
@@ -46,7 +46,7 @@ const SidebarAccount = () => {
         className="text-[11px] md:text-sm font-medium relative group w-max hover:text-[#C32929]"
         onClick={handleLogout}
       >
-        LOGOUT
+        ĐĂNG XUẤT
         <span className="absolute -bottom-[3px] left-0 h-[2px] bg-[#C32929] transition-all duration-300 w-0 group-hover:w-1/2"></span>
       </button>
     </aside>

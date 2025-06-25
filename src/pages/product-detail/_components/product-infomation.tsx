@@ -212,7 +212,7 @@ const ProductInfomation = ({
 
       {/* Size Selector */}
       <div className="flex items-center gap-3 mt-[30px]">
-        <p className="font-medium text-sm">SIZES</p>
+        <p className="font-medium text-sm">KÍCH THƯỚC</p>
         <div className="flex gap-2 ml-[20px] md:ml-[50px]">
           {variants
             .find((variant) => variant.color === selectedColor)
@@ -225,10 +225,9 @@ const ProductInfomation = ({
                 disabled={sizeItem.stock === 0}
                 className={`w-[32px] h-[32px] flex items-center justify-center border text-sm font-normal relative 
                   ${sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"}
-                  ${
-                    selectedSize === sizeItem.size && sizeItem.stock > 0
-                      ? "border-1 border-black"
-                      : ""
+                  ${selectedSize === sizeItem.size && sizeItem.stock > 0
+                    ? "border-1 border-black"
+                    : ""
                   }
                 `}
               >
@@ -248,29 +247,27 @@ const ProductInfomation = ({
             setIsSizeGuideOpen(true);
           }}
         >
-          SIZE GUIDE
+          HƯỚNG DẪN CHỌN SIZE
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
         </p>
       </div>
 
       {/* Color Selector */}
       <div className="mt-[30px] flex item-center">
-        <p className="font-medium text-sm self-center">COLOR</p>
+        <p className="font-medium text-sm self-center">MÀU SẮC</p>
         <div className="flex ml-5 md:ml-[50px] gap-2">
           {variants.map((variant) => (
             <button
               key={variant.color}
               onClick={() => handleColorChange(variant.color)}
-              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${
-                selectedColor === variant.color
+              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${selectedColor === variant.color
                   ? "border-black"
                   : "border-transparent"
-              }`}
+                }`}
             >
               <div
-                className={`w-4 h-4 rounded-full ${
-                  selectedColor === variant.color ? "border-2 border-white" : ""
-                }`}
+                className={`w-4 h-4 rounded-full ${selectedColor === variant.color ? "border-2 border-white" : ""
+                  }`}
                 style={{ backgroundColor: variant.color.toLowerCase() }}
               ></div>
             </button>
@@ -321,27 +318,25 @@ const ProductInfomation = ({
         </div>
         <button
           disabled={!currentStock}
-          className={`bg-black text-white px-6 py-2 w-[280px] text-sm ${
-            !currentStock ? "cursor-not-allowed opacity-50 hover:bg-black" : "hover:bg-black/80"
-          } `}
+          className={`bg-black text-white px-6 py-2 w-[280px] text-sm ${!currentStock ? "cursor-not-allowed opacity-50 hover:bg-black" : "hover:bg-black/80"
+            } `}
           onClick={() => handleAddToCart()}
         >
-          ADD TO CART
+          THÊM VÀO GIỎ HÀNG
         </button>
         <button
           disabled={!currentStock}
-          className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${
-            !currentStock && "cursor-not-allowed opacity-50 hover:bg-red-600"
-          } `}
+          className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${!currentStock && "cursor-not-allowed opacity-50 hover:bg-red-600"
+            } `}
           onClick={() => handleBuyNow()}
         >
-          BUY NOW
+          MUA NGAY
         </button>
       </div>
 
       <div className="flex items-center gap-3 mt-[20px]">
-        <p className="font-medium">Quantity: </p>
-        <span>{currentStock} products</span>
+        <p className="font-medium">Số lượng: </p>
+        <span>{currentStock} sản phẩm</span>
       </div>
 
       {/* Wishlist and Share */}
@@ -351,7 +346,7 @@ const ProductInfomation = ({
           onClick={() => handleFavorite()}
         >
           <Heart className="size-4" fill={isFavorite ? "red" : "black"} />
-          <span className="text-[13px] font-medium">ADD TO WISHLIST</span>
+          <span className="text-[13px] font-medium">THÊM VÀO YÊU THÍCH</span>
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
         </button>
       </div>
@@ -359,11 +354,11 @@ const ProductInfomation = ({
       {/* Additional Info */}
       <div className="text-sm space-y-1 mt-[20px]">
         <div className="flex gap-1">
-          <p className="text-[#767676]">SKU:</p>
+          <p className="text-[#767676]">Mã sản phẩm:</p>
           <span className="font-medium text-[#222]">{currentSku || "N/A"}</span>
         </div>
         <div className="flex gap-1">
-          <p className="text-[#767676]">CATEGORIES:</p>
+          <p className="text-[#767676]">Danh mục:</p>
           <span className="font-medium text-[#222]">
             {productData?.categories
               .map((item) => {

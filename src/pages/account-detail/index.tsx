@@ -81,7 +81,7 @@ const AccountDetail = () => {
       oldPassword: data.currentPassword || "",
       newPassword: data.newPassword || "",
     };
- 
+
     try {
       const response = await accountApi.changePassword(dataRequest);
       if (response.status === 200) {
@@ -96,20 +96,20 @@ const AccountDetail = () => {
   return (
     <div className="flex flex-col gap-10">
       {/* Tiêu đề */}
-      <h4 className="text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
-        Account details
+      <h4 className="heading-element">
+        THÔNG TIN TÀI KHOẢN
       </h4>
 
       {/* Form thông tin người dùng */}
       <div>
-        <h5 className="text-xl font-medium mb-4">Profile Information</h5>
+        <h5 className="text-xl font-medium mb-4">Thông tin cá nhân</h5>
         <form
           onSubmit={profileForm.handleSubmit(onSubmitProfile)}
           className="w-full flex flex-col gap-6"
         >
           <div>
             <FloatingInput
-              label="Display Name"
+              label="Tên hiển thị"
               type="text"
               value={profileForm.watch("displayName")}
               {...profileForm.register("displayName")}
@@ -122,7 +122,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Email Address"
+              label="Địa chỉ email"
               type="text"
               value={profileForm.watch("email")}
               {...profileForm.register("email")}
@@ -136,7 +136,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Phone number"
+              label="Số điện thoại"
               type="text"
               value={profileForm.watch("phoneNumber")}
               {...profileForm.register("phoneNumber")}
@@ -152,21 +152,21 @@ const AccountDetail = () => {
             type="submit"
             className="px-20 py-4 text-sm bg-[#222] text-white w-max"
           >
-            SAVE PROFILE
+            Lưu Thông Tin
           </button>
         </form>
       </div>
 
       {/* Form thay đổi mật khẩu */}
       <div>
-        <h5 className="text-xl font-medium mb-4">Password Change</h5>
+        <h5 className="text-xl font-medium mb-4">Thay Đổi Mật Khẩu</h5>
         <form
           onSubmit={passwordForm.handleSubmit(onSubmitPassword)}
           className="w-full flex flex-col gap-6"
         >
           <div>
             <FloatingInput
-              label="Current password (leave blank to leave unchanged)"
+              label="Mật khẩu hiện tại (để trống nếu không thay đổi)"
               type="password"
               {...passwordForm.register("currentPassword")}
             />
@@ -178,7 +178,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="New password (leave blank to leave unchanged)"
+              label="Mật khẩu mới (để trống nếu không thay đổi)"
               type="password"
               {...passwordForm.register("newPassword")}
             />
@@ -190,7 +190,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Confirm new password"
+              label="Nhắc lại mật khẩu mới"
               type="password"
               {...passwordForm.register("confirmPassword")}
             />
@@ -204,7 +204,7 @@ const AccountDetail = () => {
             type="submit"
             className="px-20 py-4 text-sm bg-[#222] text-white w-max"
           >
-            CHANGE PASSWORD
+            Thay Đổi Mật Khẩu
           </button>
         </form>
       </div>

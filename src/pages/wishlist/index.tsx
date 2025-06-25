@@ -40,13 +40,13 @@ const Wishlist = () => {
 
   return (
     <>
-      <h4 className=" text-[30px] lg:text-[35px] font-bold uppercase absolute lg:left-0 left-3 top-0 lg:-top-[90px]">
+      <h4 className="heading-element">
         wishlist
       </h4>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {wishlist?.length === 0 ? (
           <div className="col-span-3 text-center">
-            No favorite products found
+            Không tìm thấy sản phẩm yêu thích
           </div>
         ) : (
           wishlist.map((product) => (

@@ -12,7 +12,6 @@ const BannerFooter = () => {
         195 Trần Cao Vân, Xuân Hà, Thanh Khê, Đà Nẵng
       </p>
       <div>
-        <p className="text-[#222] text-sm font-medium mt-8">hi@wiicamp.com</p>
         <p className="text-[#222] text-sm font-medium mt-2"> 0327 228 357</p>
       </div>
       <div className="flex gap-7 mt-12">
