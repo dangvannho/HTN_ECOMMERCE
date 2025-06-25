@@ -358,7 +358,9 @@ const ProductInfomation = ({
           <span className="font-medium text-[#222]">{currentSku || "N/A"}</span>
         </div>
         <div className="flex gap-1">
-          <p className="text-[#767676]">DANH MỤC:</p>
+
+          <p className="text-[#767676]">Danh mục:</p>
+
           <span className="font-medium text-[#222]">
             {productData?.categories
               .map((item) => {
