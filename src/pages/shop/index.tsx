@@ -27,7 +27,8 @@
       const [products, setProducts] = useState<Product[]>([]); 
       const [page, setPage] = useState(1);
       const [totalPages, setTotalPages] = useState(1);
-      const [loading, setLoading] = useState(false);  
+      const [loading, setLoading] = useState(false);
+      const [priceFilterLoading, setPriceFilterLoading] = useState(false);
       const { categories } = useCategory();
 
       // Khi chọn category mới, chỉ cập nhật url path /shop/:category
@@ -48,21 +49,36 @@
         }
       };
 
-      // Khi đổi giá, cập nhật filter và cập nhật url
+      // Tối ưu: Chỉ cập nhật URL khi price thực sự thay đổi và không phải giá mặc định
       const handlePriceChange = (newPrice: [number, number]) => {
         setPage(1);
+        setPriceFilterLoading(true); // Chỉ loading cho price filter
+        
         setFilter((prev) => ({ ...prev, minPrice: newPrice[0], maxPrice: newPrice[1] }));
-        // Nếu là giá mặc định thì xóa query, ngược lại thì set query
-        if (newPrice[0] === 100000 && newPrice[1] === 10000000) {
-          navigate('/shop/all', { replace: true });
+        
+        // Chỉ cập nhật URL nếu giá khác mặc định
+        const isDefaultPrice = newPrice[0] === 100000 && newPrice[1] === 10000000;
+        const currentPath = category ? `/shop/${category}` : '/shop/all';
+        
+        if (isDefaultPrice) {
+          // Nếu về giá mặc định, xóa query params
+          if (location.search) {
+            navigate(currentPath, { replace: true });
+          }
         } else {
+          // Chỉ cập nhật URL nếu có thay đổi thực sự
           const params = new URLSearchParams(location.search);
-          params.set('minPrice', newPrice[0].toString());
-          params.set('maxPrice', newPrice[1].toString());
-          navigate({
-            pathname: category ? `/shop/${category}` : '/shop/all',
-            search: params.toString(),
-          }, { replace: true });
+          const currentMinPrice = params.get('minPrice');
+          const currentMaxPrice = params.get('maxPrice');
+          
+          if (currentMinPrice !== newPrice[0].toString() || currentMaxPrice !== newPrice[1].toString()) {
+            params.set('minPrice', newPrice[0].toString());
+            params.set('maxPrice', newPrice[1].toString());
+            navigate({
+              pathname: currentPath,
+              search: params.toString(),
+            }, { replace: true });
+          }
         }
       };
 
@@ -114,6 +130,7 @@
             setTotalPages(1);
           } finally {
             setLoading(false);
+            setPriceFilterLoading(false); // Tắt loading price filter
           }
         };
         fetchProducts();
@@ -129,7 +146,7 @@
               page={page}
               totalPages={totalPages}
               setPage={setPage}
-              loading={loading}
+              loading={loading || priceFilterLoading}
             />
           </div>
    </div>
