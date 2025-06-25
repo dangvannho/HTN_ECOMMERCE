@@ -97,7 +97,9 @@ const Account = ({ isAuthenticated, user, handleLogout }: AccountProps) => {
                 className="flex items-center gap-2 mb-2 p-2 rounded-md text-sm text-[#222] uppercase hover:text-[#d4a373] hover:bg-[#f5f5f5] transition-all duration-200"
               >
                 <UserPenRound className="size-5" />
+
                 Đăng Ký
+
               </Link>
             </>
           )}
