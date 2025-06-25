@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import ButtonFilter from "@/components/commons/button-filter";
 import { formatToVND } from "@/utils/format";
@@ -10,10 +10,31 @@ interface PriceCategoryProps {
 
 const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSelect }) => {
   const [openCats, setOpenCats] = useState(true);
+  // Local state để hiển thị giá trị khi đang kéo slider
+  const [localPrice, setLocalPrice] = useState<[number, number]>(selectedPrice);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setOpenCats((o) => !o);
-  };
+  }, []);
+
+  // Cập nhật local state khi selectedPrice thay đổi từ bên ngoài
+  React.useEffect(() => {
+    setLocalPrice(selectedPrice);
+  }, [selectedPrice]);
+
+  // Chỉ cập nhật UI khi đang kéo (không gọi API)
+  const handleValueChange = useCallback((value: number[]) => {
+    if (value.length === 2) {
+      setLocalPrice([value[0], value[1]]);
+    }
+  }, []);
+
+  // Gọi API khi thả slider
+  const handleValueCommit = useCallback((value: number[]) => {
+    if (value.length === 2) {
+      onPriceSelect([value[0], value[1]]);
+    }
+  }, [onPriceSelect]);
 
   return (
     <div>
@@ -23,9 +44,9 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
           <div className="relative w-full">
             <SliderPrimitive.Root
               className="relative flex w-full touch-none select-none items-center"
-              defaultValue={selectedPrice}
-              value={selectedPrice}
-              onValueChange={onPriceSelect}
+              value={localPrice}
+              onValueChange={handleValueChange}
+              onValueCommit={handleValueCommit}
               max={10000000}
               min={100000}
               step={10000}
@@ -47,11 +68,11 @@ const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSel
           <div className="flex justify-between mt-4">
             <div className="flex items-center gap-2">
               <span className="text-[#767676] text-sm">Min:</span>
-              <p className="text-[#222] text-sm">{formatToVND(selectedPrice[0])}</p>
+              <p className="text-[#222] text-sm">{formatToVND(localPrice[0])}</p>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#767676] text-sm">Max:</span>
-              <p className="text-[#222] text-sm">{formatToVND(selectedPrice[1])}</p>
+              <p className="text-[#222] text-sm">{formatToVND(localPrice[1])}</p>
             </div>
           </div>
         </div>

@@ -4,7 +4,6 @@ import ProductCategory from './product-category';
 import FilterCategory from './filter-category/filter-category';
 import PriceCategory from './price-category';
 import type { FilterProductParams, Category  } from '@/services/product/types/product.type'; 
-import { useDebounce } from '@/hooks/useDebounce';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface SidebarCategoryProps {
@@ -29,8 +28,16 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Debounce cập nhật filter (gọi API) khi đổi giá
-  const debouncedSetFilter = useDebounce((newPrice: [number, number]) => {
+  const handleCategory = (category: string) => {
+    setFilter(prev => ({
+      ...prev,
+      category: prev.category === category ? undefined : category
+    }));
+  };
+
+  // Gọi trực tiếp khi thả slider (không cần debounce)
+  const handlePrice = (newPrice: [number, number]) => {
+    setPrice(newPrice);
     if (onPriceChange) {
       onPriceChange(newPrice);
     } else {
@@ -40,18 +47,6 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
         maxPrice: newPrice[1],
       }));
     }
-  }, 300);
-
-  const handleCategory = (category: string) => {
-    setFilter(prev => ({
-      ...prev,
-      category: prev.category === category ? undefined : category
-    }));
-  };
-
-  const handlePrice = (newPrice: [number, number]) => {
-    setPrice(newPrice); // UI slider mượt
-    debouncedSetFilter(newPrice); // filter đổi sau 300ms
   };
 
   const resetAll = () => {
@@ -94,6 +89,14 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, ca
       setPrice(DEFAULT_PRICE);
     }
   };
+
+  // Sync price state với filter khi filter thay đổi từ bên ngoài
+  React.useEffect(() => {
+    setPrice([
+      filter.minPrice ?? DEFAULT_PRICE[0],
+      filter.maxPrice ?? DEFAULT_PRICE[1],
+    ]);
+  }, [filter.minPrice, filter.maxPrice]);
 
   const FilterContent = () => {
     // Lấy category name từ slug nếu có
