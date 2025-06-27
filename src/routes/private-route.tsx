@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (!token || token === "undefined") {
+    if (!token) {
       navigate(routePath.login, { replace: true });
     } else {
       setIsAuthenticated(true);

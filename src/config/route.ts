@@ -11,10 +11,11 @@ const routePath = {
   orderDetail: "/order-detail/:id",
   accountDetail: "/account-detail",
   wishlist: "/wishlist",
-  address: "/address", 
+  address: "/address",
   notFound: "*",
   collection: "/collections/:slug",
   instruct: "/ordering-instructions",
+  oauth: "/oauth",
 };
 
 export default routePath;

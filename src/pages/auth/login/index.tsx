@@ -35,9 +35,9 @@ const Login = () => {
   // Kiểm tra trạng thái đăng nhập khi component mount
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
-    } else if (localStorage.getItem("accessToken")) {
-      fetchUser();
+      const redirectPath = localStorage.getItem("redirectPath") || "/";
+      navigate(redirectPath);
+      localStorage.removeItem("redirectPath");
     }
   }, [isAuthenticated, fetchUser, navigate]);
 

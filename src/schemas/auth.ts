@@ -7,8 +7,9 @@ export const emailValidate = z
 
 export const phoneNumberValidate = z
   .string()
-  .regex(/^\d+$/, "Số điện thoại chỉ được chứa các chữ số")
+  .min(1, "Số điện thoại là bắt buộc")
   .min(10, "Số điện thoại phải có 10 chữ số")
+  .regex(/^\d+$/, "Số điện thoại chỉ được chứa các chữ số")
   .max(10, "Số điện thoại không được vượt quá 10 chữ số");
 
 export const nameValidate = z

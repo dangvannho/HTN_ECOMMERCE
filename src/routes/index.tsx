@@ -19,7 +19,7 @@ import OrderDetail from "@/pages/order-detail";
 import NotFound from "@/pages/not-found";
 import Collection from "@/pages/collection";
 import Instruct from "@/pages/instruct";
-
+import OAuthHandler from "@/pages/auth/_components/o-auth-handler";
 import PrivateRoute from "./private-route";
 
 const listRoute: Route[] = [
@@ -103,6 +103,11 @@ const listRoute: Route[] = [
     path: routePath.instruct,
     component: <Instruct />,
     layout: MainLayout,
+  },
+  {
+    path: routePath.oauth,
+    component: <OAuthHandler />,
+    layout: null,
   },
 ];
 
