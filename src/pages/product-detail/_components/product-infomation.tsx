@@ -92,7 +92,11 @@ const ProductInfomation = ({
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      if (error.response.data.statusCode === 401) {
+        navigate(routePath.login);
+      } else {
+        toast.error(error.response.data.message);
+      }
     } finally {
       setIsLoadingAddToCart(false);
     }
@@ -113,7 +117,11 @@ const ProductInfomation = ({
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      if (error.response.data.statusCode === 401) {
+        navigate(routePath.login);
+      } else {
+        toast.error(error.response.data.message);
+      }
     } finally {
       setIsLoadingBuyNow(false);
     }
@@ -171,7 +179,11 @@ const ProductInfomation = ({
         setIsFavorite(true);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        toast.error(error.response.data.message);
+        if (error.response.data.statusCode === 401) {
+          navigate(routePath.login);
+        } else {
+          toast.error(error.response.data.message);
+        }
       }
     }
   };
@@ -327,10 +339,10 @@ const ProductInfomation = ({
             <Plus className="size-3" />
           </button>
         </div>
-        <div className="flex flex-1 gap-3 h-[60px]">
+        <div className="flex flex-1 gap-3 ">
           <button
             disabled={!currentStock || isLoadingAddToCart}
-            className={`bg-black text-white px-6 py-2 flex-1 text-sm ${
+            className={`bg-black text-white px-6 py-2 flex-1 text-sm h-[60px] ${
               !currentStock || isLoadingAddToCart
                 ? "cursor-not-allowed opacity-50 hover:bg-black"
                 : "hover:bg-black/80"
@@ -348,7 +360,7 @@ const ProductInfomation = ({
           </button>
           <button
             disabled={!currentStock || isLoadingBuyNow}
-            className={`bg-red-600 text-white px-6 py-2 text-sm hover:bg-red-500 flex-1 ${
+            className={`bg-red-600 text-white px-6 py-2 text-sm hover:bg-red-500 flex-1 h-[60px] ${
               !currentStock || isLoadingBuyNow
                 ? "cursor-not-allowed opacity-50 hover:bg-red-600"
                 : ""

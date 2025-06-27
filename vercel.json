@@ -6,6 +6,5 @@
     }
   ],
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "ignoreCommand": "npm ci --ignore-optional"
+  "outputDirectory": "dist"
 }
