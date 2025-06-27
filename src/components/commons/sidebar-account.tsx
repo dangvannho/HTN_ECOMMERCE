@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
   { name: "ĐƠN HÀNG", href: routePath.orders },
-  { name: "ĐỊA CHỈ", href: routePath.address },
+  { name: "SỔ ĐỊA CHỈ", href: routePath.address },
   { name: "THÔNG TIN TÀI KHOẢN", href: routePath.accountDetail },
   { name: "DANH SÁCH YÊU THÍCH", href: routePath.wishlist },
 ];

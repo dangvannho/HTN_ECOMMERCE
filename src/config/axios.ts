@@ -43,11 +43,6 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomInternalAxiosRequestConfig;
 
-    if (error.response?.status === 401) {
-      localStorage.removeItem("accessToken");
-      window.location.href = "/login";
-    }
-
     if (error.response?.status === 400 && !originalRequest?._retry) {
       originalRequest._retry = true;
 

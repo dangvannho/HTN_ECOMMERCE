@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
-import { formatToVND } from '@/utils/format';
+import { formatToVND } from "@/utils/format";
 
 interface FilterState {
   category: string | null;
@@ -9,18 +9,24 @@ interface FilterState {
 
 interface SelectedFiltersProps {
   filters: FilterState;
-  resetAll: () => void; 
+  resetAll: () => void;
   onRemoveFilter?: (type: string, value: string) => void;
   isPriceActive?: boolean;
   onCategorySelect?: (cat: string) => void;
 }
 
 // Helper component for filter tags
-function FilterTag({ label, onRemove }: { label: string; onRemove: () => void }) {
+function FilterTag({
+  label,
+  onRemove,
+}: {
+  label: string;
+  onRemove: () => void;
+}) {
   return (
     <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 mr-2 mb-2 text-sm">
       {label}
-      <button 
+      <button
         onClick={onRemove}
         className="ml-1 hover:text-red-500"
         aria-label="Remove filter"
@@ -31,21 +37,23 @@ function FilterTag({ label, onRemove }: { label: string; onRemove: () => void })
   );
 }
 
-const SelectedFilters: React.FC<SelectedFiltersProps> = ({ 
-  filters, 
+const SelectedFilters: React.FC<SelectedFiltersProps> = ({
+  filters,
   resetAll,
   onRemoveFilter,
   isPriceActive,
-  onCategorySelect
+  onCategorySelect,
 }) => {
   // Check if any filters are applied
-  const hasFilters = 
-    (filters.category !== null && filters.category !== undefined && filters.category.toLowerCase() !== 'all') ||
-    (isPriceActive);
+  const hasFilters =
+    (filters.category !== null &&
+      filters.category !== undefined &&
+      filters.category.toLowerCase() !== "all") ||
+    isPriceActive;
 
   useEffect(() => {
     if (!hasFilters && onCategorySelect) {
-      onCategorySelect('all');
+      onCategorySelect("all");
     }
     // eslint-disable-next-line
   }, [hasFilters]);
@@ -57,10 +65,17 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
       onRemoveFilter(type, value);
     }
     // Kiểm tra nếu sau khi xóa tag này sẽ không còn filter nào
-    const isLastCategory = type === 'category' && !isPriceActive && filters.category && filters.category.toLowerCase() !== 'all';
-    const isLastPrice = type === 'price' && (!filters.category || filters.category.toLowerCase() === 'all') && isPriceActive;
+    const isLastCategory =
+      type === "category" &&
+      !isPriceActive &&
+      filters.category &&
+      filters.category.toLowerCase() !== "all";
+    const isLastPrice =
+      type === "price" &&
+      (!filters.category || filters.category.toLowerCase() === "all") &&
+      isPriceActive;
     if ((isLastCategory || isLastPrice) && resetAll) {
-       resetAll(); // Đảm bảo state cập nhật xong mới reset
+      resetAll(); // Đảm bảo state cập nhật xong mới reset
     }
   };
 
@@ -68,7 +83,7 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
     <div className="border-t border-gray-200 pt-4">
       <div className="flex flex-wrap mb-2">
         {/* Category */}
-        {filters.category && filters.category.toLowerCase() !== 'all' && (
+        {filters.category && filters.category.toLowerCase() !== "all" && (
           <FilterTag
             key={`category-${filters.category}`}
             label={filters.category}
@@ -78,7 +93,9 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
         {/* Price Range */}
         {isPriceActive && (
           <FilterTag
-            label={`${formatToVND(filters.price[0])} - ${formatToVND(filters.price[1])}`}
+            label={`${formatToVND(filters.price[0])} - ${formatToVND(
+              filters.price[1]
+            )}`}
             onRemove={() => handleRemove("price", "")}
           />
         )}
@@ -89,7 +106,7 @@ const SelectedFilters: React.FC<SelectedFiltersProps> = ({
           onClick={resetAll}
           className="text-sm px-4 py-1 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
         >
-          Reset All
+          Đặt lại
         </button>
       )}
     </div>

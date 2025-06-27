@@ -96,9 +96,7 @@ const AccountDetail = () => {
   return (
     <div className="flex flex-col gap-10">
       {/* Tiêu đề */}
-      <h4 className="heading-element">
-        THÔNG TIN TÀI KHOẢN
-      </h4>
+      <h4 className="heading-element">THÔNG TIN TÀI KHOẢN</h4>
 
       {/* Form thông tin người dùng */}
       <div>
@@ -109,7 +107,7 @@ const AccountDetail = () => {
         >
           <div>
             <FloatingInput
-              label="Tên hiển thị"
+              label="Họ và tên"
               type="text"
               value={profileForm.watch("displayName")}
               {...profileForm.register("displayName")}

@@ -39,7 +39,7 @@ const authApi = {
   },
 
   loginGoogle: async (): Promise<void> => {
-    window.location.href = "http://localhost:8000/v1/api/auth/google";
+    window.location.href = "https://htn.io.vn/v1/api/auth/google/callback";
   },
 
   forgotPassword: async (email: string): Promise<ForgotPasswordResponse> => {
@@ -78,7 +78,7 @@ const authApi = {
       console.log(error);
       throw error;
     }
-  }, 
+  },
 
   register: async (
     email: string,

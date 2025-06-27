@@ -3,11 +3,13 @@ import BannerFooter from "./banner-footer";
 import LinkFooter from "./link-footer";
 import SubscribeFooter from "./subscribe-footer";
 
-
 const LINKS: { name: string; href: string }[] = [
   // { name: "New Arrivals", href: "/" },
   { name: "Quần", href: routePath.shop.replace(":category", "trousers") },
-  { name: "Áo Len và Cardigan", href: routePath.shop.replace(":category", "jumpers-and-cardigans") },
+  {
+    name: "Áo Len và Cardigan",
+    href: routePath.shop.replace(":category", "jumpers-and-cardigans"),
+  },
   { name: "Váy", href: routePath.shop.replace(":category", "dresses") },
   // { name: "Sản phẩm", href: routePath.shop.replace(":category", "all") },
 ];
@@ -30,7 +32,7 @@ const HELP: { name: string; href: string }[] = [
   // { name: "Điều khoản & Bảo mật", href: "/" },
   // { name: "Liên hệ", href: "/" },
   // { name: "Thẻ quà tặng", href: "/" },
-]
+];
 
 const Footer = () => {
   return (
@@ -38,24 +40,15 @@ const Footer = () => {
       <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 pb-[80px]">
         <BannerFooter />
         <div className="col-[1/1] md:col-[2/5] grid grid-cols-2 md:grid-cols-3 gap-8">
-          <LinkFooter
-            title="HỖ TRỢ"
-            links={COMPANY}
-          />
+          <LinkFooter title="HỖ TRỢ" links={COMPANY} />
 
-          <LinkFooter
-            title="CỬA HÀNG"
-            links={LINKS}
-          />
+          <LinkFooter title="CỬA HÀNG" links={LINKS} />
 
-          <LinkFooter
-            title="TRỢ GIÚP"
-            links={HELP}
-          />
+          <LinkFooter title="TRỢ GIÚP" links={HELP} />
         </div>
         <SubscribeFooter />
       </div>
-      <div className="max-w-7xl mx-auto mt-8 flex flex-col items-start md:flex-row md:justify-between md:items-center border-t border-[#CFCDCD] pt-4 pb-6 text-gray-600 text-sm">
+      <div className="max-w-7xl mx-auto mt-8 flex justify-center border-t border-[#CFCDCD] pt-4 pb-6 text-gray-600 text-sm">
         <p className="text-[#222]">©2025 Uomo</p>
         {/* <div className="flex md:flex-row flex-col items-start gap-6 mt-3">
           <div className="flex items-center gap-4">

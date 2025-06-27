@@ -19,7 +19,7 @@ export const nameValidate = z
 // Schema cho form login
 export const loginSchema = z.object({
   email: emailValidate,
-  password: z.string().min(1, "Password là bắt buộc"),
+  password: z.string().min(1, "Mật khẩu là bắt buộc"),
 });
 
 // Schema cho form register
