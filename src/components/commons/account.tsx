@@ -124,7 +124,7 @@ const Account = ({ isAuthenticated, user, handleLogout }: AccountProps) => {
               onClick={() => setOpen(false)}
             >
               <UserPenRound className="w-5 h-5" />
-              Đăng Kí
+              Đăng Ký
             </Link>
           </div>
         </div>

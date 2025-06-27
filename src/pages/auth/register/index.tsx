@@ -55,7 +55,7 @@ const Register = () => {
 
         <div>
           <FloatingInput
-            label="số điện thoại"
+            label="Số điện thoại"
             type="text"
             {...register("phoneNumber")}
           />
@@ -67,11 +67,7 @@ const Register = () => {
         </div>
 
         <div>
-          <FloatingInput
-            label="Email"
-            type="text"
-            {...register("email")}
-          />
+          <FloatingInput label="Email" type="text" {...register("email")} />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
@@ -104,9 +100,10 @@ const Register = () => {
         </div>
 
         <p className="text-[#767676] text-sm not-italic font-normal leading-[24px] ">
-          Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên toàn bộ
-          trang web này, để quản lý quyền truy cập vào tài khoản của bạn và cho các mục đích khác
-          được mô tả trong chính sách bảo mật của chúng tôi.
+          Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn
+          trên toàn bộ trang web này, để quản lý quyền truy cập vào tài khoản
+          của bạn và cho các mục đích khác được mô tả trong chính sách bảo mật
+          của chúng tôi.
         </p>
         <button
           type="submit"

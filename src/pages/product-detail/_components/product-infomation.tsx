@@ -93,7 +93,7 @@ const ProductInfomation = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response.data.statusCode === 401) {
-        navigate(routePath.login);
+        localStorage.setItem("redirectPath", window.location.pathname);
       } else {
         toast.error(error.response.data.message);
       }
@@ -118,7 +118,7 @@ const ProductInfomation = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response.data.statusCode === 401) {
-        navigate(routePath.login);
+        localStorage.setItem("redirectPath", window.location.pathname);
       } else {
         toast.error(error.response.data.message);
       }
@@ -180,7 +180,7 @@ const ProductInfomation = ({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response.data.statusCode === 401) {
-          navigate(routePath.login);
+          localStorage.setItem("redirectPath", window.location.pathname);
         } else {
           toast.error(error.response.data.message);
         }
@@ -262,15 +262,6 @@ const ProductInfomation = ({
               </button>
             ))}
         </div>
-        <p
-          className="ml-1 md:ml-20 text-[10px] md:text-sm font-medium text-[#222] group relative cursor-pointer "
-          onClick={() => {
-            setIsSizeGuideOpen(true);
-          }}
-        >
-          HƯỚNG DẪN CHỌN SIZE
-          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-full"></span>
-        </p>
       </div>
 
       {/* Color Selector */}
@@ -297,6 +288,15 @@ const ProductInfomation = ({
           ))}
         </div>
       </div>
+      <p
+        className="mt-[30px] text-sm font-medium text-[#05a] group relative cursor-pointer w-max italic"
+        onClick={() => {
+          setIsSizeGuideOpen(true);
+        }}
+      >
+        HƯỚNG DẪN CHỌN SIZE
+        <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#05a] transition-all duration-300 group-hover:w-full"></span>
+      </p>
 
       {/* Quantity and Add to Cart */}
       <div className="flex gap-4 mt-[33px]  md:flex-row flex-col">
@@ -380,7 +380,7 @@ const ProductInfomation = ({
       </div>
 
       <div className="flex items-center gap-3 mt-[20px]">
-        <p className="font-medium">SỐ LƯỢNG: </p>
+        <p className="font-medium text-[13px]">SỐ LƯỢNG: </p>
         <span>{currentStock} sản phẩm</span>
       </div>
 
@@ -403,7 +403,7 @@ const ProductInfomation = ({
           <span className="font-medium text-[#222]">{currentSku || "N/A"}</span>
         </div>
         <div className="flex gap-1">
-          <p className="text-[#767676]">Danh mục:</p>
+          <p className="text-[#767676]">DANH MỤC:</p>
 
           <span className="font-medium text-[#222]">
             {productData?.categories

@@ -35,7 +35,7 @@ const CardItem = ({ product }: CardItemProps) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response.data.statusCode === 401) {
-          navigate(routePath.login);
+          localStorage.setItem("redirectPath", window.location.pathname);
         } else {
           toast.error(error.response.data.message);
         }

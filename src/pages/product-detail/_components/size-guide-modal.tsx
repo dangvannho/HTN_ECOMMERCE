@@ -16,7 +16,9 @@ const SizeGuideModal = ({ open, onOpenChange, image }: SizeGuideModalProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[800px] max-h-[95vh]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-medium">Size Guide</DialogTitle>
+          <DialogTitle className="text-2xl font-medium">
+            Hướng Dẫn Chọn Size
+          </DialogTitle>
         </DialogHeader>
         <div className="mt-1 overflow-y-auto max-h-[calc(95vh-100px)]">
           <img src={image} alt="" className="w-full h-auto" />
