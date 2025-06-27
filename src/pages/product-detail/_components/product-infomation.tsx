@@ -34,6 +34,8 @@ const ProductInfomation = ({
   const [currentId, setCurrentId] = useState("");
   const [currentStock, setCurrentStock] = useState(0);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isLoadingAddToCart, setIsLoadingAddToCart] = useState(false);
+  const [isLoadingBuyNow, setIsLoadingBuyNow] = useState(false);
 
   const navigate = useNavigate();
   const { fetchCart } = useCartStore();
@@ -75,6 +77,7 @@ const ProductInfomation = ({
   }, [variants, onColorChange, selectedColor]);
 
   const handleAddToCart = async () => {
+    setIsLoadingAddToCart(true);
     try {
       const data: IAddToCartData = {
         productId: productData?._id || "",
@@ -90,9 +93,12 @@ const ProductInfomation = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoadingAddToCart(false);
     }
   };
   const handleBuyNow = async () => {
+    setIsLoadingBuyNow(true);
     try {
       const data: IBuyNow = {
         productId: productData?._id || "",
@@ -108,6 +114,8 @@ const ProductInfomation = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoadingBuyNow(false);
     }
   };
 
@@ -212,8 +220,8 @@ const ProductInfomation = ({
 
       {/* Size Selector */}
       <div className="flex items-center gap-3 mt-[30px]">
-        <p className="font-medium text-sm">KÍCH THƯỚC</p>
-        <div className="flex gap-2 ml-[20px] md:ml-[50px]">
+        <p className="font-medium text-sm min-w-[100px] ">KÍCH THƯỚC</p>
+        <div className="flex gap-2">
           {variants
             .find((variant) => variant.color === selectedColor)
             ?.sizes.map((sizeItem) => (
@@ -225,9 +233,10 @@ const ProductInfomation = ({
                 disabled={sizeItem.stock === 0}
                 className={`w-[32px] h-[32px] flex items-center justify-center border text-sm font-normal relative 
                   ${sizeItem.stock === 0 && "text-gray-400 cursor-not-allowed"}
-                  ${selectedSize === sizeItem.size && sizeItem.stock > 0
-                    ? "border-1 border-black"
-                    : ""
+                  ${
+                    selectedSize === sizeItem.size && sizeItem.stock > 0
+                      ? "border-1 border-black"
+                      : ""
                   }
                 `}
               >
@@ -242,7 +251,7 @@ const ProductInfomation = ({
             ))}
         </div>
         <p
-          className="ml-1 md:ml-20 text-[10px] md:text-sm font-medium text-[#222] group relative cursor-pointer"
+          className="ml-1 md:ml-20 text-[10px] md:text-sm font-medium text-[#222] group relative cursor-pointer "
           onClick={() => {
             setIsSizeGuideOpen(true);
           }}
@@ -253,21 +262,23 @@ const ProductInfomation = ({
       </div>
 
       {/* Color Selector */}
-      <div className="mt-[30px] flex item-center">
-        <p className="font-medium text-sm self-center">MÀU SẮC</p>
-        <div className="flex ml-5 md:ml-[50px] gap-2">
+      <div className="mt-[30px] flex item-center gap-3">
+        <p className="font-medium text-sm self-center min-w-[100px]">MÀU SẮC</p>
+        <div className="flex gap-2">
           {variants.map((variant) => (
             <button
               key={variant.color}
               onClick={() => handleColorChange(variant.color)}
-              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${selectedColor === variant.color
+              className={`w-6 h-6 flex items-center justify-center rounded-full border-2 ${
+                selectedColor === variant.color
                   ? "border-black"
                   : "border-transparent"
-                }`}
+              }`}
             >
               <div
-                className={`w-4 h-4 rounded-full ${selectedColor === variant.color ? "border-2 border-white" : ""
-                  }`}
+                className={`w-4 h-4 rounded-full ${
+                  selectedColor === variant.color ? "border-2 border-white" : ""
+                }`}
                 style={{ backgroundColor: variant.color.toLowerCase() }}
               ></div>
             </button>
@@ -276,8 +287,8 @@ const ProductInfomation = ({
       </div>
 
       {/* Quantity and Add to Cart */}
-      <div className="flex gap-4 mt-[33px] h-[60px]">
-        <div className="flex items-center border">
+      <div className="flex gap-4 mt-[33px]  md:flex-row flex-col">
+        <div className="flex items-center border h-[60px] w-max">
           <button
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
             className="px-4 py-2"
@@ -316,26 +327,48 @@ const ProductInfomation = ({
             <Plus className="size-3" />
           </button>
         </div>
-        <button
-          disabled={!currentStock}
-          className={`bg-black text-white px-6 py-2 w-[280px] text-sm ${!currentStock ? "cursor-not-allowed opacity-50 hover:bg-black" : "hover:bg-black/80"
+        <div className="flex gap-3 h-[60px]">
+          <button
+            disabled={!currentStock || isLoadingAddToCart}
+            className={`bg-black text-white px-6 py-2 w-[280px] text-sm ${
+              !currentStock || isLoadingAddToCart
+                ? "cursor-not-allowed opacity-50 hover:bg-black"
+                : "hover:bg-black/80"
             } `}
-          onClick={() => handleAddToCart()}
-        >
-          THÊM VÀO GIỎ HÀNG
-        </button>
-        <button
-          disabled={!currentStock}
-          className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${!currentStock && "cursor-not-allowed opacity-50 hover:bg-red-600"
+            onClick={() => handleAddToCart()}
+          >
+            {isLoadingAddToCart ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lí...
+              </div>
+            ) : (
+              "THÊM VÀO GIỎ HÀNG"
+            )}
+          </button>
+          <button
+            disabled={!currentStock || isLoadingBuyNow}
+            className={`bg-red-600 text-white px-6 py-2 w-[280px] text-sm hover:bg-red-500 ${
+              !currentStock || isLoadingBuyNow
+                ? "cursor-not-allowed opacity-50 hover:bg-red-600"
+                : ""
             } `}
-          onClick={() => handleBuyNow()}
-        >
-          MUA NGAY
-        </button>
+            onClick={() => handleBuyNow()}
+          >
+            {isLoadingBuyNow ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lí...
+              </div>
+            ) : (
+              "MUA NGAY"
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-3 mt-[20px]">
-        <p className="font-medium">Số lượng: </p>
+        <p className="font-medium">SỐ LƯỢNG: </p>
         <span>{currentStock} sản phẩm</span>
       </div>
 
@@ -354,7 +387,7 @@ const ProductInfomation = ({
       {/* Additional Info */}
       <div className="text-sm space-y-1 mt-[20px]">
         <div className="flex gap-1">
-          <p className="text-[#767676]">Mã sản phẩm:</p>
+          <p className="text-[#767676]">MÃ SẢN PHẨM: </p>
           <span className="font-medium text-[#222]">{currentSku || "N/A"}</span>
         </div>
         <div className="flex gap-1">

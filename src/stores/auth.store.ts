@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || "Đã có lỗi xảy ra, vui zun thử lại";
+        error.response?.data?.message || "Đã có lỗi xảy ra, vui lòng thử lại";
       set({ isLoading: false, error: errorMessage });
       toast.error(errorMessage);
     }
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         isAuthenticated: false,
       });
       // localStorage.removeItem("accessToken"); // Xóa token nếu không hợp lệ
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
     }
   },
   logout: () => {

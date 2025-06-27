@@ -190,20 +190,22 @@ const Header = () => {
                 key={item.name}
               >
                 {item.name === "BỘ SƯU TẬP" ? (
-                  <div className="w-full ">
-                    <div
-                      className="text-base font-medium text-[#222] relative group flex items-center justify-between "
-                      onClick={() =>
-                        setIsCollectionHovered(!isCollectionHovered)
-                      }
-                    >
-                      {item.name}
+                  <div className="w-full">
+                    <div className="flex justify-between">
+                      <div
+                        className="text-base font-medium text-[#222] relative group flex items-center justify-between cursor-pointer"
+                        onClick={() =>
+                          setIsCollectionHovered(!isCollectionHovered)
+                        }
+                      >
+                        {item.name}
+                        <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/2"></span>
+                      </div>
                       <ChevronRight
                         className={`transition-transform duration-500 ${
                           isCollectionHovered ? "rotate-90" : ""
                         }`}
                       />
-                      <span className="absolute -bottom-[3px] left-0 w-0 h-[2px] bg-[#222] transition-all duration-300 group-hover:w-1/6"></span>
                     </div>
 
                     {/* Mobile Collection Dropdown */}
@@ -250,7 +252,7 @@ const Header = () => {
             className="uppercase flex gap-2 text-sm font-medium"
           >
             <User className="size-5" />
-            <span className="mt-1"> My account</span>
+            <span className="mt-1">THÔNG TIN TÀI KHOẢN</span>
           </Link>
         </div>
       </div>

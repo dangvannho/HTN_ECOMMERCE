@@ -18,7 +18,9 @@ import ResetPassword from "@/pages/auth/reset-password";
 import OrderDetail from "@/pages/order-detail";
 import NotFound from "@/pages/not-found";
 import Collection from "@/pages/collection";
-import Instruct from "@/pages/instruct"
+import Instruct from "@/pages/instruct";
+
+import PrivateRoute from "./private-route";
 
 const listRoute: Route[] = [
   {
@@ -58,7 +60,11 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.cart,
-    component: <Cart />,
+    component: (
+      <PrivateRoute>
+        <Cart />
+      </PrivateRoute>
+    ),
     layout: MainLayout,
   },
 
@@ -97,7 +103,7 @@ const listRoute: Route[] = [
     path: routePath.instruct,
     component: <Instruct />,
     layout: MainLayout,
-  }
+  },
 ];
 
 export default listRoute;
