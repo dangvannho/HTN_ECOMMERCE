@@ -102,7 +102,7 @@ const Addresses = () => {
     <>
       <h4 className="heading-element">Sổ địa chỉ</h4>
       <div>
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex justify-between mb-3">
           <p className="flex-1 text-[#222] text-xs sm:text-sm not-italic font-normal">
             Các địa chỉ sau đây sẽ được sử dụng trên trang thanh toán theo mặc
             định.

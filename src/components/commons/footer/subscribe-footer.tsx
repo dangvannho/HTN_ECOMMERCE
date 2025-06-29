@@ -2,7 +2,7 @@ const SubscribeFooter = () => {
   return (
     <div className="flex flex-col">
       <h3 className="text-lg font-medium">ĐẶT MUA NGAY</h3>
-      <p className="text-[#222] text-sm mt-10">
+      <p className="text-[#222] text-sm mt-6 md:mt-8 lg:mt-10">
         Hãy là người đầu tiên nhận được tin tức mới nhất về xu hướng, chương trình khuyến mãi và nhiều hơn thế nữa!
       </p>
       {/* <div className="flex mt-3">

@@ -148,7 +148,7 @@ const AccountDetail = () => {
           </div>
           <button
             type="submit"
-            className="px-20 py-4 text-sm bg-[#222] text-white w-max"
+            className="px-20 py-4 text-sm bg-[#222] text-white w-full md:w-max"
           >
             Lưu Thông Tin
           </button>
@@ -200,7 +200,7 @@ const AccountDetail = () => {
           </div>
           <button
             type="submit"
-            className="px-20 py-4 text-sm bg-[#222] text-white w-max"
+            className="px-20 py-4 text-sm bg-[#222] text-white w-full md:w-max"
           >
             Thay Đổi Mật Khẩu
           </button>
