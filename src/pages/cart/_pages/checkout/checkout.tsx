@@ -142,11 +142,40 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
 
     const handleSelectAddress = async (address: IAddress) => {
         try {
+            // Cập nhật địa chỉ mặc định
             await addressesApi.updateAddress(address._id, { ...address, isDefault: true });
+
+            // Cập nhật form data với địa chỉ được chọn
+            setFormData({
+                fullname: address.fullname,
+                phoneNumber: address.phoneNumber,
+                address: address.address,
+                provinceName: address.provinceName,
+                districtName: address.districtName,
+                wardName: address.wardName,
+                email: formData.email // Giữ nguyên email nếu có
+            });
+
+            // Cập nhật districts và wards dựa trên địa chỉ được chọn
+            const selectedProvince = provinces.find(
+                (province) => province.name === address.provinceName
+            );
+            if (selectedProvince) {
+                setDistricts(selectedProvince.districts || []);
+
+                const selectedDistrict = selectedProvince.districts.find(
+                    (district) => district.name === address.districtName
+                );
+                if (selectedDistrict) {
+                    setWards(selectedDistrict.wards || []);
+                }
+            }
+
             setShowAddressModal(false);
             fetchAddresses();
         } catch (error) {
             console.error("Error setting default address:", error);
+            toast.error("Không thể cập nhật địa chỉ mặc định!");
         }
     };
 
@@ -199,7 +228,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                         <div className="flex flex-col gap-6 sm:gap-8 w-full lg:w-[65%]">
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">Tên Đầy Đủ</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Họ và tên</label>
                                     <input
                                         disabled
                                         type="text"

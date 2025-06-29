@@ -61,11 +61,11 @@ const Addresses = () => {
   const handleSubmit = async (data: AddressFormInputs) => {
     try {
       if (editingId) {
-        await addressesApi.updateAddress(editingId, data);
-        toast.success("Address updated successfully!");
+        const response = await addressesApi.updateAddress(editingId, data);
+        toast.success(response.message);
       } else {
-        await addressesApi.createAddress(data);
-        toast.success("Address added successfully!");
+        const response = await addressesApi.createAddress(data);
+        toast.success(response.message);
       }
       setShowForm(false);
       setEditingId(null);

@@ -67,12 +67,14 @@ const ProductRelated = ({ slug }: ProductRelatedProps) => {
         </div>
       )}
 
-      <p
-        className="underline cursor-pointer text-center block md:hidden"
-        onClick={() => setShowAll(!showAll)}
-      >
-        {showAll ? "Thu gọn" : "Tất cả"}
-      </p>
+      {productData.length > 4 && (
+        <p
+          className="underline cursor-pointer text-center block md:hidden"
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "Thu gọn" : "Tất cả"}
+        </p>
+      )}
     </div>
   );
 };
