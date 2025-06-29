@@ -120,7 +120,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Địa chỉ email"
+              label="Email"
               type="text"
               value={profileForm.watch("email")}
               {...profileForm.register("email")}
@@ -164,7 +164,7 @@ const AccountDetail = () => {
         >
           <div>
             <FloatingInput
-              label="Mật khẩu hiện tại (để trống nếu không thay đổi)"
+              label="Mật khẩu hiện tại"
               type="password"
               {...passwordForm.register("currentPassword")}
             />
@@ -176,7 +176,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Mật khẩu mới (để trống nếu không thay đổi)"
+              label="Mật khẩu mới"
               type="password"
               {...passwordForm.register("newPassword")}
             />
@@ -188,7 +188,7 @@ const AccountDetail = () => {
           </div>
           <div>
             <FloatingInput
-              label="Nhắc lại mật khẩu mới"
+              label="Xác nhận mật khẩu mới"
               type="password"
               {...passwordForm.register("confirmPassword")}
             />

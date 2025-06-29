@@ -53,11 +53,7 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div>
-          <FloatingInput
-            label="Tên người dùng hoặc địa chỉ email *"
-            type="text"
-            {...register("email")}
-          />
+          <FloatingInput label="Email *" type="text" {...register("email")} />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
@@ -65,7 +61,7 @@ const Login = () => {
 
         <div>
           <FloatingInput
-            label="Mặt Khẩu *"
+            label="Mật Khẩu *"
             type="password"
             {...register("password")}
           />

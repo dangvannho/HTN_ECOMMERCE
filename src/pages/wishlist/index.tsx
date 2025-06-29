@@ -59,7 +59,11 @@ const Wishlist = () => {
           ) : (
             wishlist.map((product) => (
               <div className="relative group">
-                <CardItem key={product._id} product={product} />
+                <CardItem
+                  key={product._id}
+                  product={product}
+                  checkFavorite={false}
+                />
                 <button
                   className="absolute top-3 right-3 p-2 rounded bg-white opacity-0 group-hover:opacity-100 transition-all duration-200"
                   onClick={() => handleRemoveFromWishlist(product._id)}

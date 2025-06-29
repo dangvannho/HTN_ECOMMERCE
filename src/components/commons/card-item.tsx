@@ -7,13 +7,15 @@ import { Product } from "@/services/product/types/product.type";
 import { formatToVND } from "@/utils/format";
 import favoriteApi from "@/services/favorite/api/favorite.api";
 import { toast } from "react-hot-toast";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface CardItemProps {
   product: Product;
+  checkFavorite?: boolean;
 }
 
 // item trong section trending
-const CardItem = ({ product }: CardItemProps) => {
+const CardItem = ({ product, checkFavorite = true }: CardItemProps) => {
   const [isFavorite, setIsFavorite] = useState(product.isFavorite);
   const navigate = useNavigate();
 
@@ -43,6 +45,8 @@ const CardItem = ({ product }: CardItemProps) => {
     }
   };
 
+  const debouncedHandleFavorite = useDebounce(handleFavorite, 500);
+
   return (
     <div className="w-full cursor-pointer">
       <div className="relative bg-[#F3F3F3] aspect-[1/1] group">
@@ -65,7 +69,6 @@ const CardItem = ({ product }: CardItemProps) => {
           {/* <button className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors">
             <Cart />
           </button> */}
-
           <button
             className="size-10 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition-colors"
             onClick={() =>
@@ -75,14 +78,16 @@ const CardItem = ({ product }: CardItemProps) => {
             <Eye />
           </button>
 
-          <button
-            className={`size-10 rounded-full ${
-              isFavorite ? "bg-red-500" : "bg-white"
-            } flex items-center justify-center hover:bg-red-600  transition-colors`}
-            onClick={() => handleFavorite()}
-          >
-            <HeartIcon fill={isFavorite ? "white" : "black"} />
-          </button>
+          {checkFavorite && (
+            <button
+              className={`size-10 rounded-full ${
+                isFavorite ? "bg-red-500" : "bg-white"
+              } flex items-center justify-center hover:bg-red-600  transition-colors`}
+              onClick={() => debouncedHandleFavorite()}
+            >
+              <HeartIcon fill={isFavorite ? "white" : "black"} />
+            </button>
+          )}
         </div>
       </div>
 
