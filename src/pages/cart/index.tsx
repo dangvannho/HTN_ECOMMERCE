@@ -39,9 +39,9 @@ const CartLayout = () => {
     return (
         <div className=" xl:max-w-5xl 2xl:max-w-7xl mx-auto py-[33px] items-center px-4 xl:px-0">
             <h2 className="text-2xl sm:text-[35px] not-italic font-bold px-4 sm:px-0">
-                {step === "bag" && "CART"}
-                {step === "checkout" && "SHIPPING AND CHECKOUT"}
-                {step === "order" && "ORDER RECEIVED"}
+                {step === "bag" && "GIỎ HÀNG"}
+                {step === "checkout" && "ĐỊA CHỈ VÀ THANH TOÁN"}
+                {step === "order" && "XÁC NHẬN ĐẶC HÀNG"}
             </h2>
             {<ProgressStepper step={step} setStep={handleSetStep} />}
             <main>

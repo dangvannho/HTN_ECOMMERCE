@@ -9,7 +9,8 @@ export const addressSchema = z.object({
   address: z
     .string()
     .min(1, "Vui lòng nhập địa chỉ")
-    .min(4, "Địa chỉ phải có ít nhất 4 ký tự"),
+    .min(4, "Địa chỉ phải có ít nhất 4 ký tự")
+    .regex(/^[A-Za-zÀ-ỹ0-9\s]+$/, "Địa chỉ không được chứa ký tự đặc biệt"),
   provinceName: z.string().min(1, "Vui lòng chọn tỉnh/thành phố"),
   districtName: z.string().min(1, "Vui lòng chọn quận/huyện"),
   wardName: z.string().min(1, "Vui lòng chọn phường/xã"),

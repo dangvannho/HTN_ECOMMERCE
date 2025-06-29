@@ -32,7 +32,7 @@ const ResetPassword = () => {
     const { password } = data;
 
     if (!token) {
-      toast.error("Invalid reset password link");
+      toast.error("Đường dẫn đặt lại mật khẩu không hợp lệ");
       return;
     }
 
@@ -54,17 +54,17 @@ const ResetPassword = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Reset Password
+            Đặt Lại Mật Khẩu
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your new password to reset password
+            Nhập mật khẩu mới để đặt lại mật khẩu
           </p>
         </div>
         <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <FloatingInput
               type="password"
-              label="New password"
+              label="Mật khẩu mới"
               {...register("password")}
             />
             {errors.password && (
@@ -77,7 +77,7 @@ const ResetPassword = () => {
           <div>
             <FloatingInput
               type="password"
-              label="Confirm password"
+              label="Xác nhận mật khẩu"
               {...register("confirmPassword")}
             />
             {errors.confirmPassword && (
@@ -91,14 +91,14 @@ const ResetPassword = () => {
             type="submit"
             className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase w-full mt-4"
           >
-            Reset
+            Đặt Lại Mật Khẩu
           </button>
 
           <Link
             to={routePath.login}
             className="block text-center underline mt-5"
           >
-            Back to login
+            Quay lại đăng nhập
           </Link>
         </form>
       </div>

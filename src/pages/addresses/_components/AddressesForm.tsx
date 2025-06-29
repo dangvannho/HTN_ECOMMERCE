@@ -170,7 +170,7 @@ const AddressForm: FC<AddressFormProps> = ({
         <div className="space-y-6">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Tên Đầy Đủ
+              Họ và tên 
             </label>
             <input
               type="text"

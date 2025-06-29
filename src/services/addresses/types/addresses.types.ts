@@ -10,6 +10,12 @@ export interface IAddress {
   isDefault: boolean;
 }
 
+export interface IApiResponse<T> {
+  statusCode: number;
+  message: string;
+  data: T;
+}
+
 export interface IAddressFormData {
   
   fullname: string;

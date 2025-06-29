@@ -10,7 +10,9 @@ export const phoneNumberValidate = z
   .min(1, "Số điện thoại là bắt buộc")
   .regex(/^\d+$/, "Số điện thoại chỉ được chứa các chữ số")
   .min(10, "Số điện thoại phải có 10 chữ số")
-  .max(10, "Số điện thoại không được vượt quá 10 chữ số");
+  .max(10, "Số điện thoại không được vượt quá 10 chữ số")
+  .regex(/^(0)(3|5|7|8|9)[0-9]{8}$/, "Số điện thoại không hợp lệ!");
+  
 
 export const nameValidate = z
   .string()
