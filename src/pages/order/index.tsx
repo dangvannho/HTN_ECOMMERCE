@@ -40,7 +40,7 @@ const Order = () => {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-[#E4E4E4] h-12">
-                  {["ĐƠN HÀNG", "NGÀY ĐẶT", "TỔNG TIỀN", "TRẠNG THÁI"].map(
+                  {["ĐƠN HÀNG", "NGÀY ĐẶT", "TỔNG TIỀN", "CHI TIẾT"].map(
                     (header) => (
                       <th
                         key={header}

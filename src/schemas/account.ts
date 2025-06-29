@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { emailValidate, nameValidate } from "./auth";
+import {
+  emailValidate,
+  nameValidate,
+  passwordValidate,
+  comfirmPasswordValidate,
+} from "./auth";
 
 // Schema cho form account detail
 export const accountDetailSchema = z.object({
@@ -10,25 +15,10 @@ export const accountDetailSchema = z.object({
 
 export const changePasswordSchema = z
   .object({
-    currentPassword: z.string().optional(),
-    newPassword: z
-      .string()
-      .min(6, "Password phải có ít nhất 6 ký tự")
-      .optional(),
-    confirmPassword: z.string().optional(),
+    currentPassword: z.string().min(1, "Mật khẩu hiện tại là bắt buộc"),
+    newPassword: passwordValidate,
+    confirmPassword: comfirmPasswordValidate,
   })
-  .refine(
-    (data) => {
-      if (data.newPassword && !data.currentPassword) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "Vui lòng nhập mật khẩu hiện tại",
-      path: ["currentPassword"],
-    }
-  )
   .refine(
     (data) => {
       if (data.newPassword && data.newPassword !== data.confirmPassword) {
@@ -37,7 +27,7 @@ export const changePasswordSchema = z
       return true;
     },
     {
-      message: "Mật khẩu xác nhận không khớp",
+      message: "Mật khẩu và xác nhận mật khẩu không khớp",
       path: ["confirmPassword"],
     }
   );
