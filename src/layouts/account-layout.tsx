@@ -10,7 +10,9 @@ const AccountLayout = ({ children }: { children: React.ReactNode }) => {
         <main className="flex-1 mt-[70px] lg:mt-[230px]">
           <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto flex lg:flex-row flex-col gap-x-[240px] gap-y-[30px] relative mb-[100px] xl:px-0 px-4">
             <SidebarAccount />
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 order-1 md:order-2 mt-[60px] md:mt-0">
+              {children}
+            </div>
           </div>
         </main>
 

@@ -19,13 +19,13 @@ const SidebarAccount = () => {
     navigate(routePath.home);
   };
   return (
-    <aside className="flex lg:flex-col md:justify-start justify-between gap-0 md:gap-6 lg:mt-0 mt-[80px] ">
+    <aside className="flex flex-col md:flex-row lg:flex-col gap-6 lg:mt-0 mt-[20px] md:mt-[80px] md:order-1 order-2">
       {SIDEBAR_ITEMS.map((item, index) => (
         <NavLink
           key={index}
           to={item.href}
           className={({ isActive }) =>
-            `text-[11px] md:text-sm font-medium relative group w-max ${
+            `text-sm font-medium relative group w-max ${
               isActive ? "text-[#C32929]" : "text-[#222] hover:text-[#C32929]"
             }`
           }
@@ -43,7 +43,7 @@ const SidebarAccount = () => {
         </NavLink>
       ))}
       <button
-        className="text-[11px] md:text-sm font-medium relative group w-max hover:text-[#C32929]"
+        className="text-sm font-medium relative group w-max hover:text-[#C32929]"
         onClick={handleLogout}
       >
         ĐĂNG XUẤT

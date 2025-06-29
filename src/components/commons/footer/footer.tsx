@@ -36,7 +36,7 @@ const HELP: { name: string; href: string }[] = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[#E4E4E4] pt-[100px] px-4">
+    <footer className="bg-[#E4E4E4] pt-[50px] lg:pt-[100px] px-4">
       <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 pb-[80px]">
         <BannerFooter />
         <div className="col-[1/1] md:col-[2/5] grid grid-cols-2 md:grid-cols-3 gap-8">

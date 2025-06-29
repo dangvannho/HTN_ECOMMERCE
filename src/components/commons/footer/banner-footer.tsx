@@ -8,13 +8,13 @@ const BannerFooter = () => {
       <div className="flex items-center">
         <img src="/logo.svg" alt="" />
       </div>
-      <p className="text-[#222] text-sm font-normal mt-10">
+      <p className="text-[#222] text-sm font-normal mt-6 md:mt-8 lg:mt-10">
         195 Trần Cao Vân, Xuân Hà, Thanh Khê, Đà Nẵng
       </p>
       <div>
         <p className="text-[#222] text-sm font-medium mt-2"> 0327 228 357</p>
       </div>
-      <div className="flex gap-7 mt-12">
+      <div className="flex gap-7 mt-8 md:mt-10 lg:mt-12">
         <a href="https://www.facebook.com">
           <Facebook className="size-3" />
         </a>
