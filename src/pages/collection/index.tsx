@@ -84,7 +84,7 @@ const CollectionPage = () => {
 
         {/* Display products */}
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6  px-4 xl:px-0">
             {products.map((product) => (
               <CardItem key={product._id} product={product} />
             ))}
