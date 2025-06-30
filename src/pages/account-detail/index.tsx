@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 
 const AccountDetail = () => {
   const [profile, setProfile] = useState<User | null>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [isLoadingPassword, setIsLoadingPassword] = useState(false);
   const profileForm = useForm<AccountDetailFormInputs>({
     resolver: zodResolver(accountDetailSchema),
     defaultValues: {
@@ -61,6 +63,7 @@ const AccountDetail = () => {
   const onSubmitProfile = async (data: AccountDetailFormInputs) => {
     const { displayName: name } = data;
     try {
+      setIsLoadingProfile(true);
       const response = await accountApi.updateUser(name);
       if (response.status === 200) {
         toast.success(response.message);
@@ -73,6 +76,8 @@ const AccountDetail = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoadingProfile(false);
     }
   };
 
@@ -83,6 +88,7 @@ const AccountDetail = () => {
     };
 
     try {
+      setIsLoadingPassword(true);
       const response = await accountApi.changePassword(dataRequest);
       if (response.status === 200) {
         toast.success(response.message);
@@ -90,6 +96,8 @@ const AccountDetail = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoadingPassword(false);
     }
   };
 
@@ -150,7 +158,14 @@ const AccountDetail = () => {
             type="submit"
             className="px-20 py-4 text-sm bg-[#222] text-white w-full md:w-max"
           >
-            Lưu Thông Tin
+            {isLoadingProfile ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lý...
+              </div>
+            ) : (
+              "Lưu Thông Tin"
+            )}
           </button>
         </form>
       </div>
@@ -202,7 +217,14 @@ const AccountDetail = () => {
             type="submit"
             className="px-20 py-4 text-sm bg-[#222] text-white w-full md:w-max"
           >
-            Thay Đổi Mật Khẩu
+            {isLoadingPassword ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lý...
+              </div>
+            ) : (
+              " Thay Đổi Mật Khẩu"
+            )}
           </button>
         </form>
       </div>
