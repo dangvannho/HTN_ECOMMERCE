@@ -150,11 +150,27 @@ const BagShopping = ({ setStep, setCartSummary }: BagShoppingProps) => {
 
     const handleSelectItem = async (itemId: string, selected: boolean) => {
         try {
-            await cartApi.updateSelect({ itemId, selected });
-            // Fetch lại cart sau khi update selection
-            await fetchAndSetCart();
+            const response = await cartApi.updateSelect({ itemId, selected });
+            const responseData = response.data;
+
+            // Cập nhật state từ response của updateSelect
+            setCartTotals({
+                totalPrice: responseData.totalPrice,
+                discountAmount: responseData.discountAmount,
+                finalAmount: responseData.finalAmount,
+            });
+
+            // Cập nhật selected state của items trong cartItems
+            const updatedCartItems = cartItems.map(item => ({
+                ...item,
+                selected: responseData.selectedItemIds.includes(item._id)
+            }));
+
+            // Cập nhật cart store với selected state mới
+            useCartStore.setState({ cartItems: updatedCartItems });
         } catch (error) {
             console.error('Error selecting item:', error);
+            toast.error('Có lỗi xảy ra khi chọn sản phẩm');
         }
     };
 

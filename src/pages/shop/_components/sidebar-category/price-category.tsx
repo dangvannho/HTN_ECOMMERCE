@@ -8,7 +8,7 @@ interface PriceCategoryProps {
   onPriceSelect: (price: [number, number]) => void;
 }
 
-const PriceCategory: React.FC<PriceCategoryProps> = ({ selectedPrice, onPriceSelect }) => {
+const PriceCategory = ({ selectedPrice, onPriceSelect }: PriceCategoryProps) => {
   const [openCats, setOpenCats] = useState(true);
   // Local state để hiển thị giá trị khi đang kéo slider
   const [localPrice, setLocalPrice] = useState<[number, number]>(selectedPrice);

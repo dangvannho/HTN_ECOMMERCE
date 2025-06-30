@@ -11,7 +11,7 @@ interface MainCategoryProps {
   loading: boolean;
 }
 
-const MainCategory: React.FC<MainCategoryProps> = ({ filteredProducts, page, totalPages, setPage, loading }) => {
+const MainCategory = ({ filteredProducts, page, totalPages, setPage, loading }: MainCategoryProps) => {
   return (
     <div className="w-full">
       <BannerCategory />

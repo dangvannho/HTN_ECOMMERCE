@@ -20,6 +20,7 @@ export const nameValidate = z
   .min(2, "Họ và tên phải có ít nhất 2 ký tự")
   .regex(/^[^\d]*$/, "Họ và tên không được chứa số")
   .regex(/^[A-Za-zÀ-ỹ\s]*$/, "Họ và tên không được chứa ký tự đặc biệt");
+  
 
 export const passwordValidate = z
   .string()

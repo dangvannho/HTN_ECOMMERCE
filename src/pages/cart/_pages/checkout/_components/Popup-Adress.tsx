@@ -1,4 +1,4 @@
-import React from "react";
+
 import { IAddress } from "@/services/addresses/types/addresses.types";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ interface PopupAdressProps {
     onSelect: (address: IAddress) => void;
 }
 
-const PopupAdress: React.FC<PopupAdressProps> = ({ show, onClose, addresses, onSelect }) => {
+const PopupAdress = ({ show, onClose, addresses, onSelect }: PopupAdressProps) => {
     if (!show) return null;
 
     // Sắp xếp địa chỉ: địa chỉ mặc định lên đầu

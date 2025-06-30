@@ -37,13 +37,13 @@ function FilterTag({
   );
 }
 
-const SelectedFilters: React.FC<SelectedFiltersProps> = ({
+const SelectedFilters = ({
   filters,
   resetAll,
   onRemoveFilter,
   isPriceActive,
   onCategorySelect,
-}) => {
+}: SelectedFiltersProps) => {
   // Check if any filters are applied
   const hasFilters =
     (filters.category !== null &&
