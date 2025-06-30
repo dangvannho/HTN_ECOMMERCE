@@ -1,11 +1,11 @@
-import React from 'react'
+
 
 interface CollectionHeaderProps {
   title: string;
   id?: string;
 }
 
-const CollectionHeader: React.FC<CollectionHeaderProps> = ({ title, id }) => {
+const CollectionHeader = ({ title, id }: CollectionHeaderProps) => {
   return (
     <div className="flex items-center justify-center mb-5 sm:mb-10">
       <div className="flex-grow border-t border-dotted border-gray-500 mr-4"></div>

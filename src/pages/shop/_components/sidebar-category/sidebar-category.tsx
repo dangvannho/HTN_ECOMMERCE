@@ -17,7 +17,7 @@ interface SidebarCategoryProps {
 
 const DEFAULT_PRICE: [number, number] = [100000, 10000000];
 
-const SidebarCategory: React.FC<SidebarCategoryProps> = ({ filter, setFilter, categories, onCategorySelect, selectedCategory, onPriceChange }) => {
+const SidebarCategory = ({ filter, setFilter, categories, onCategorySelect, selectedCategory, onPriceChange }: SidebarCategoryProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState<[number, number]>([
     filter.minPrice ?? DEFAULT_PRICE[0],

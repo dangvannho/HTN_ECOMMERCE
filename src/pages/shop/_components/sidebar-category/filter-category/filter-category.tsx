@@ -1,4 +1,4 @@
-import React from 'react';
+
 import SelectedFilters from './selected-filters-category';
 
 interface FilterState {
@@ -14,7 +14,7 @@ interface FilterCategoryProps {
   onCategorySelect?: (cat: string) => void;
 }
 
-const FilterCategory: React.FC<FilterCategoryProps> = ({ filters, resetAll, onRemoveFilter, isPriceActive, onCategorySelect }) => {
+const FilterCategory = ({ filters, resetAll, onRemoveFilter, isPriceActive, onCategorySelect }: FilterCategoryProps) => {
   return (
     <div className="mt-2 mb-1">
       <SelectedFilters 

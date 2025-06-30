@@ -12,16 +12,11 @@ interface CartItemProps {
   onSelectItem: (itemId: string, selected: boolean) => void;
 }
 
-const CartItem = ({
-  item,
-  onUpdateQuantity,
-  onRemoveItem,
-  onSelectItem,
-}: CartItemProps) => {
-  const [localQuantity, setLocalQuantity] = useState(item.quantity);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const previousQuantityRef = useRef(item.quantity);
-  const isMaxStock = localQuantity > item.variant.stock;
+const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartItemProps) => {
+    const [localQuantity, setLocalQuantity] = useState(item.quantity);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const previousQuantityRef = useRef(item.quantity);
+    const isMaxStock = localQuantity > item.variant.stock;
 
   // Cập nhật localQuantity khi item.quantity thay đổi từ props và không trong quá trình update
   useEffect(() => {

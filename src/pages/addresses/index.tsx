@@ -61,11 +61,11 @@ const Addresses = () => {
   const handleSubmit = async (data: AddressFormInputs) => {
     try {
       if (editingId) {
-        const response = await addressesApi.updateAddress(editingId, data);
-        toast.success(response.message);
+        const responseUpdate = await addressesApi.updateAddress(editingId, data);
+        toast.success(responseUpdate.message);
       } else {
-        const response = await addressesApi.createAddress(data);
-        toast.success(response.message);
+        const responseCreate = await addressesApi.createAddress(data);
+        toast.success(responseCreate.message);
       }
       setShowForm(false);
       setEditingId(null);
@@ -76,10 +76,10 @@ const Addresses = () => {
       window.scrollTo({
         top: 0,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving address:", error);
       toast.error(
-        editingId ? "Failed to update address" : "Failed to add address"
+        (error)?.response?.data?.message || (editingId ? "Failed to update address" : "Failed to add address")
       );
     }
   };

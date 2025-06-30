@@ -271,7 +271,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                         name="provinceName"
                                         value={formData.provinceName}
                                         onChange={handleProvinceChange}
-                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
+                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-[#fafafa] appearance-none"
                                         required
                                     >
                                         <option value="">Chọn Tỉnh/Thành phố</option>
@@ -290,7 +290,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                         name="districtName"
                                         value={formData.districtName}
                                         onChange={handleDistrictChange}
-                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
+                                       className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-[#fafafa] appearance-none"
                                         required
                                     >
                                         <option value="">Chọn Quận/Huyện</option>
@@ -309,7 +309,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                                         name="wardName"
                                         value={formData.wardName}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-white appearance-none hover:border-gray-400"
+                                      className="w-full px-4 py-2.5 rounded border border-gray-300 focus:ring-1 focus:ring-gray-200 focus:border-gray-400 transition-all duration-200 outline-none bg-[#fafafa] appearance-none"
                                         required
                                     >
                                         <option value="">Chọn Phường/Xã</option>
