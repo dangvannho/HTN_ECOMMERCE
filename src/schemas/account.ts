@@ -27,7 +27,7 @@ export const changePasswordSchema = z
       return true;
     },
     {
-      message: "Mật khẩu và xác nhận mật khẩu không khớp",
+      message: "Mật khẩu mới và xác nhận mật khẩu mới không khớp",
       path: ["confirmPassword"],
     }
   );

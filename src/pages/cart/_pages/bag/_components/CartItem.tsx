@@ -102,6 +102,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                             checked={item.selected}
                             onChange={(e) => onSelectItem(item._id, e.target.checked)}
                             className="w-4 h-4 accent-black cursor-pointer"
+                            disabled={item.variant.stock === 0}
                         />
                     </div>
                     {/* Product image */}
