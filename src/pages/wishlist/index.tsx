@@ -14,7 +14,7 @@ const Wishlist = () => {
     try {
       setIsLoading(true);
       const response = await favoriteApi.getFavorites();
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         setWishlist(response.data.products);
       }
     } catch (error) {
