@@ -24,8 +24,8 @@ const AddressCard = ({ address, onRefresh, onEdit }: AddressCardProps) => {
 
     const handleDelete = async () => {
         try {
-            await addressesApi.deleteAddress(address._id as string);
-            toast.success('Address deleted successfully!');
+            const response = await addressesApi.deleteAddress(address._id as string);
+            toast.success(response.message);
             onRefresh();
             setShowDeleteModal(false);
         } catch (error) {

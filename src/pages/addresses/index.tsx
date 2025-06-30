@@ -71,6 +71,11 @@ const Addresses = () => {
       setEditingId(null);
       setEditingData(undefined);
       fetchAddresses();
+
+      // Scroll to top after successful submission
+      window.scrollTo({
+        top: 0,
+      });
     } catch (error) {
       console.error("Error saving address:", error);
       toast.error(
