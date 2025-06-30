@@ -93,7 +93,19 @@ const CardItem = ({ product, checkFavorite = true }: CardItemProps) => {
 
       <div className="my-3">
         <p className="text-base md:text-sm not-italic font-normal text-[#767676]">
-          {product.categories?.map((item) => item.name).join(", ")}
+          {product.categories?.map((item) => (
+            <span
+              key={item._id}
+              className="cursor-pointer hover:text-gray-900 hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigate(routePath.shop.replace(":category", item.slug));
+              }}
+            >
+              {item.name}
+            </span>
+          ))}
         </p>
         <Link
           to={routePath.productDetail.replace(":slug", product.slug)}
