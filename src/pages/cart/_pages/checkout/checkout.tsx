@@ -170,9 +170,7 @@ const Checkout = ({ setStep, cartSummary }: CheckoutProps) => {
                     setWards(selectedDistrict.wards || []);
                 }
             }
-
             setShowAddressModal(false);
-            fetchAddresses();
         } catch (error) {
             console.error("Error setting default address:", error);
             toast.error("Không thể cập nhật địa chỉ mặc định!");

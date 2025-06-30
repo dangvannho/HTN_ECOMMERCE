@@ -134,7 +134,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                         </p>
                         {isMaxStock && (
                             <p className="text-xs text-red-500">
-                                Đã đạt số lượng tối đa trong kho ({item.variant.stock})
+                                Hết hàng
                             </p>
                         )}
                     </div>
@@ -176,7 +176,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemoveItem, onSelectItem }: CartIt
                             className="size-6 border flex items-center justify-center hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             onClick={() => handleQuantityChange(1)}
                             disabled={isMaxStock || isUpdating}
-                            title={isMaxStock ? `Đã đạt số lượng tối đa (${item.variant.stock})` : undefined}
+                            title={isMaxStock ? `Đã đạt số lượng tối đa` : undefined}
                         >
                             +
                         </button>
