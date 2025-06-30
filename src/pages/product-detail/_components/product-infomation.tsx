@@ -352,7 +352,7 @@ const ProductInfomation = ({
             {isLoadingAddToCart ? (
               <div className="flex items-center justify-center">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                Đang xử lí...
+                Đang xử lý...
               </div>
             ) : (
               "THÊM VÀO GIỎ HÀNG"
@@ -370,7 +370,7 @@ const ProductInfomation = ({
             {isLoadingBuyNow ? (
               <div className="flex items-center justify-center">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                Đang xử lí...
+                Đang xử lý...
               </div>
             ) : (
               "MUA NGAY"
