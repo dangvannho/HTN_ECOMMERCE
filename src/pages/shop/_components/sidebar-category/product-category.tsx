@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import ButtonFilter from '@/components/commons/button-filter';
 import type { Category  } from '@/services/product/types/product.type'; 
 
@@ -8,11 +8,8 @@ interface ProductCategoryProps {
   categories: Category[]
 }
 
-const ProductCategory: React.FC<ProductCategoryProps> = ({ selectedCategory, onCategorySelect, categories }) => {
+const ProductCategory = ({ selectedCategory, onCategorySelect, categories }: ProductCategoryProps) => {
   const [openCats, setOpenCats] = useState(true);
-  
-
-
   const handleClick = () => {
     setOpenCats((o) => !o);
   };

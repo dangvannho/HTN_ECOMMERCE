@@ -1,4 +1,4 @@
-import React from "react";
+
 import Pagination from "./pagination-category";
 import CardItem from "@/components/commons/card-item";
 import { Product } from "@/services/product/types/product.type";
@@ -13,13 +13,13 @@ interface ListCardCategoryProps {
   setPage: (page: number) => void;
 }
 
-const ListCardCategory: React.FC<ListCardCategoryProps> = ({ 
+const ListCardCategory = ({ 
   filteredProducts, 
   loading,
   page,
   totalPages,
   setPage 
-}) => {
+}: ListCardCategoryProps) => {
   if (loading) {
     return <Loading />;
   }

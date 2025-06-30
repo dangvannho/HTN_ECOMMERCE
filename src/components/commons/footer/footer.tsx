@@ -2,48 +2,37 @@ import routePath from "@/config/route";
 import BannerFooter from "./banner-footer";
 import LinkFooter from "./link-footer";
 import SubscribeFooter from "./subscribe-footer";
+import useCategory from "@/services/category/hooks/useCategory";
 
-const LINKS: { name: string; href: string }[] = [
-  // { name: "New Arrivals", href: "/" },
-  { name: "Quần", href: routePath.shop.replace(":category", "trousers") },
-  {
-    name: "Áo Len và Cardigan",
-    href: routePath.shop.replace(":category", "jumpers-and-cardigans"),
-  },
-  { name: "Váy", href: routePath.shop.replace(":category", "dresses") },
-  // { name: "Sản phẩm", href: routePath.shop.replace(":category", "all") },
-];
 
 const COMPANY: { name: string; href: string }[] = [
   { name: "Hướng Dẫn Đặt Hàng", href: "/ordering-instructions" },
-  // { name: "Tuyển dụng", href: "/" },
-  // { name: "Đối tác", href: "/" },
-  // { name: "Blog", href: "/" },
-  // { name: "Liên hệ", href: "/" },
+
 ];
 
 const HELP: { name: string; href: string }[] = [
-  // { name: "Dịch vụ khách hàng", href: "/" },
   { name: "Tài khoản của tôi", href: routePath.accountDetail },
   { name: "Đơn đặt hàng của tôi", href: routePath.orders },
   { name: "Danh sách yêu thích", href: routePath.wishlist },
   { name: "Địa chỉ của tôi", href: routePath.address },
-  // { name: "Tìm cửa hàng", href: "/" },
-  // { name: "Điều khoản & Bảo mật", href: "/" },
-  // { name: "Liên hệ", href: "/" },
-  // { name: "Thẻ quà tặng", href: "/" },
 ];
 
 const Footer = () => {
+  const { categories } = useCategory();
+
+  // Get first 5 categories and map them to LINKS format
+  const LINKS = categories.slice(0, 5).map(category => ({
+    name: category.name,
+    href: `/shop/${category.slug}` 
+  }));
+
   return (
     <footer className="bg-[#E4E4E4] pt-[50px] lg:pt-[100px] px-4">
       <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 pb-[80px]">
         <BannerFooter />
         <div className="col-[1/1] md:col-[2/5] grid grid-cols-2 md:grid-cols-3 gap-8">
           <LinkFooter title="HỖ TRỢ" links={COMPANY} />
-
-          <LinkFooter title="CỬA HÀNG" links={LINKS} />
-
+          <LinkFooter title="DANH MỤC" links={LINKS} />
           <LinkFooter title="TRỢ GIÚP" links={HELP} />
         </div>
         <SubscribeFooter />

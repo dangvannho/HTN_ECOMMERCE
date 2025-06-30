@@ -11,7 +11,7 @@ interface InputGroupProps {
     children?: React.ReactNode; // dùng cho select
 }
 
-const InputGroup: React.FC<InputGroupProps> = ({
+const InputGroup = ({
     label,
     name,
     value,
@@ -20,7 +20,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
     required = false,
     disabled = false,
     children
-}) => {
+}: InputGroupProps) => {
     return (
         <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">{label}</label>
