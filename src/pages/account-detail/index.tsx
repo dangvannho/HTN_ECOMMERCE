@@ -61,10 +61,12 @@ const AccountDetail = () => {
   };
 
   const onSubmitProfile = async (data: AccountDetailFormInputs) => {
-    const { displayName: name } = data;
+    const { displayName, phoneNumber } = data;
+    const nameTrim = displayName.trim();
+    const phoneNumberTrim = phoneNumber.trim();
     try {
       setIsLoadingProfile(true);
-      const response = await accountApi.updateUser(name);
+      const response = await accountApi.updateUser(nameTrim, phoneNumberTrim);
       if (response.status === 200) {
         toast.success(response.message);
         profileForm.reset({
@@ -146,7 +148,6 @@ const AccountDetail = () => {
               type="text"
               value={profileForm.watch("phoneNumber")}
               {...profileForm.register("phoneNumber")}
-              disabled={true}
             />
             {profileForm.formState.errors.phoneNumber && (
               <p className="text-red-500 text-sm mt-1">

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import FloatingInput from "@/components/commons/float-input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +13,7 @@ import { toast } from "react-hot-toast";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const token = searchParams.get("token");
 
   const {
@@ -29,10 +31,12 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ResetPasswordFormInputs> = async (data) => {
+    setIsLoading(true);
     const { password } = data;
 
     if (!token) {
       toast.error("Đường dẫn đặt lại mật khẩu không hợp lệ");
+      setIsLoading(false);
       return;
     }
 
@@ -46,6 +50,8 @@ const ResetPassword = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,9 +95,16 @@ const ResetPassword = () => {
 
           <button
             type="submit"
-            className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase w-full mt-4"
+            className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark w-full mt-4"
           >
-            Đặt Lại Mật Khẩu
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lý...
+              </div>
+            ) : (
+              "Đặt Lại Mật Khẩu"
+            )}
           </button>
 
           <Link

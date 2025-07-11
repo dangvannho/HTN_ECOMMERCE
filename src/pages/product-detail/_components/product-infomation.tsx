@@ -8,7 +8,7 @@ import { formatToVND } from "@/utils/format";
 import { useCartStore } from "@/stores/cart.store";
 import cartApi from "@/services/cart/api/cart.api";
 import orderApi from "@/services/order/api/order.api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IAddToCartData } from "@/services/cart/types/cart.types";
 import toast from "react-hot-toast";
 import favoriteApi from "@/services/favorite/api/favorite.api";
@@ -381,7 +381,7 @@ const ProductInfomation = ({
 
       <div className="flex items-center gap-3 mt-[20px]">
         <p className="font-medium text-[13px]">SỐ LƯỢNG: </p>
-        <span>{currentStock} sản phẩm</span>
+        <span className="text-sm">{currentStock} sản phẩm</span>
       </div>
 
       {/* Wishlist and Share */}
@@ -405,13 +405,17 @@ const ProductInfomation = ({
         <div className="flex gap-1">
           <p className="text-[#767676]">DANH MỤC:</p>
 
-          <span className="font-medium text-[#222]">
-            {productData?.categories
-              .map((item) => {
-                return item.name;
-              })
-              .join(", ")}
-          </span>
+          <div>
+            {productData?.categories.map((item) => {
+              return (
+                <span className="font-medium text-[#222] cursor-pointer hover:underline">
+                  <Link to={routePath.shop.replace(":category", item.slug)}>
+                    {item.name}
+                  </Link>
+                </span>
+              );
+            })}
+          </div>
         </div>
         {/* <div className="flex gap-1">
           <p className="text-[#767676]">TAGS: </p>

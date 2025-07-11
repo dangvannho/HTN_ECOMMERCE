@@ -1,53 +1,62 @@
 export type OrderProduct = {
-        productName: string; 
-        price: number; 
-        quantity: number;
+  productName: string;
+  price: number;
+  quantity: number;
+};
 
-}
+export type UserAddress = {
+  fullName: string;
+  phoneNumber: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
+};
+
 export type Order = {
-    _id: string;
-    address: string;
-    status: string;
-    paymentMethod: string;
-    originalTotal: number;
-    discountAmount: number;
-    finalAmount: number;
-    orderCode: string;
-    createdAt: string;  
-    totalItems: number;
-    items: OrderProduct[]
-}; 
+  _id: string;
+  address: UserAddress;
+  status: string;
+  paymentMethod: string;
+  originalTotal: number;
+  discountAmount: number;
+  finalAmount: number;
+  orderCode: string;
+  createdAt: string;
+  totalItems: number;
+  items: OrderProduct[];
+};
 
 export type GetOrderResponse = {
-    status: number;
-    message: string;
-    data: Order[]
-} 
+  status: number;
+  message: string;
+  data: Order[];
+};
 
 export type GetOrderDetailResponse = {
-    status: number;
-    message: string;
-    data: Order
-}
+  status: number;
+  message: string;
+  data: Order;
+};
 
 export type CreateOrderRequest = {
-    addressId: string;
-    paymentMethod: string;
+  addressId: string;
+  paymentMethod: string;
 };
 
 export type CreateOrderResponse = {
-    status: number;
-    message: string;
-    data: {
-        _id: string;
-    };
+  status: number;
+  message: string;
+  data: {
+    _id: string;
+  };
 };
 
 export interface IBuyNow {
-    productId: string;
-    variantId: string;
-    quantity: number;
+  productId: string;
+  variantId: string;
+  quantity: number;
 }
 export interface BuyNowResponse {
-    statusCode: number; 
+  statusCode: number;
 }

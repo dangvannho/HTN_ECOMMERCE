@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   emailValidate,
+  phoneNumberValidate,
   nameValidate,
   passwordValidate,
   comfirmPasswordValidate,
@@ -10,7 +11,7 @@ import {
 export const accountDetailSchema = z.object({
   displayName: nameValidate,
   email: emailValidate,
-  phoneNumber: z.string().optional(),
+  phoneNumber: phoneNumberValidate,
 });
 
 export const changePasswordSchema = z

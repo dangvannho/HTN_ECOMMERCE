@@ -40,16 +40,20 @@ const Order = () => {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-[#E4E4E4] h-12">
-                  {["ĐƠN HÀNG", "NGÀY ĐẶT", "TỔNG TIỀN", "CHI TIẾT"].map(
-                    (header) => (
-                      <th
-                        key={header}
-                        className="text-[#222] text-sm font-medium px-6 py-3 text-left last:pl-0"
-                      >
-                        {header}
-                      </th>
-                    )
-                  )}
+                  {[
+                    "ĐƠN HÀNG",
+                    "NGÀY ĐẶT",
+                    "TRẠNG THÁI",
+                    "TỔNG TIỀN",
+                    "CHI TIẾT",
+                  ].map((header) => (
+                    <th
+                      key={header}
+                      className="text-[#222] text-sm font-medium px-6 py-3 text-left last:pl-0"
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -77,9 +81,9 @@ const Order = () => {
                       <td className="px-6 py-4 text-sm text-[#222]">
                         {formatDate(order.createdAt)}
                       </td>
-                      {/* <td className="px-6 py-4 text-sm text-[#222]">
-                      {order.status}
-                    </td> */}
+                      <td className="px-6 py-4 text-sm text-[#222]">
+                        {order.status}
+                      </td>
                       <td className="px-6 py-4 text-sm text-[#222]">
                         {formatToVND(order.finalAmount)} cho {order.totalItems}{" "}
                         {order.totalItems > 0 && "sản phẩm"}

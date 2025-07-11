@@ -147,7 +147,9 @@ const Header = () => {
           {isOpen ? <X className="size-4" /> : <Menu className="size-6" />}
         </button>
         <div className="flex items-center ">
-          <img src="/logo.svg" alt="" className="flex-1" />
+          <Link to={routePath.home}>
+            <img src="/logo.svg" alt="" />
+          </Link>
         </div>
 
         <div className="flex items-center justify-end gap-3 flex-1">

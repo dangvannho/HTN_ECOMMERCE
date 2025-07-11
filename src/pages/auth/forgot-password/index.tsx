@@ -1,5 +1,6 @@
-import FloatingInput from "@/components/commons/float-input";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import FloatingInput from "@/components/commons/float-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ForgotPasswordFormInputs,
@@ -21,10 +22,12 @@ const ForgotPassword = () => {
       email: "",
     },
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<ForgotPasswordFormInputs> = async (data) => {
     const { email } = data;
     try {
+      setIsLoading(true);
       const response = await authApi.forgotPassword(email);
       if (response.statusCode === 200) {
         toast.success(response.data.EM);
@@ -32,6 +35,8 @@ const ForgotPassword = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,9 +58,16 @@ const ForgotPassword = () => {
           )}
           <button
             type="submit"
-            className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark uppercase w-full mt-4"
+            className="bg-primary text-[#FFF] text-sm not-italic font-medium leading-[24px] py-[15px] hover:bg-primary-dark  w-full mt-4"
           >
-            Gửi
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Đang xử lý...
+              </div>
+            ) : (
+              "GỬI"
+            )}
           </button>
 
           <Link

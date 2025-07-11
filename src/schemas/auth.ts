@@ -12,12 +12,12 @@ export const phoneNumberValidate = z
   .min(10, "Số điện thoại phải có 10 chữ số")
   .max(10, "Số điện thoại không được vượt quá 10 chữ số")
   .regex(/^(0)(3|5|7|8|9)[0-9]{8}$/, "Số điện thoại không hợp lệ!");
-  
 
 export const nameValidate = z
   .string()
   .min(1, "Họ và tên là bắt buộc")
   .min(2, "Họ và tên phải có ít nhất 2 ký tự")
+  .max(50, "Họ và tên không được quá 50 ký tự")
   .regex(/^[^\d]*$/, "Họ và tên không được chứa số")
   .regex(/^[A-Za-zÀ-ỹ\s]*$/, "Họ và tên không được chứa ký tự đặc biệt");
   
