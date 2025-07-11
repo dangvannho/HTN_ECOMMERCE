@@ -11,10 +11,14 @@ const ACCOUNT_ENDPOINT = {
 };
 
 const accountApi = {
-  updateUser: async (name: string): Promise<UpdateUserResponse> => {
+  updateUser: async (
+    name: string,
+    phoneNumber: string
+  ): Promise<UpdateUserResponse> => {
     try {
       const response = await axiosInstance.put(ACCOUNT_ENDPOINT.UPDATE_USER, {
         name,
+        phoneNumber,
       });
       return response.data;
     } catch (error) {

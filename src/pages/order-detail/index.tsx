@@ -23,18 +23,18 @@ const OrderDetail = () => {
     }
   };
 
-  // const getStatusColor = (status: string) => {
-  //   switch (status) {
-  //     case "pending":
-  //       return "bg-yellow-100 text-yellow-800";
-  //     case "completed":
-  //       return "bg-green-100 text-green-800";
-  //     case "cancelled":
-  //       return "bg-red-100 text-red-800";
-  //     default:
-  //       return "bg-gray-100 text-gray-800";
-  //   }
-  // };
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   return (
     <div className="xl:max-w-5xl 2xl:max-w-7xl mx-auto p-4">
@@ -43,15 +43,17 @@ const OrderDetail = () => {
         <div className="border-b pb-4 mb-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold">Thông Tin Đơn Hàng</h1>
-            {/* <span
+            <span
               className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
                 orderData?.status || ""
               )}`}
             >
               {orderData?.status}
-            </span> */}
+            </span>
           </div>
-          <p className="text-gray-600 mt-2">Mã Đơn Hàng: {orderData?.orderCode}</p>
+          <p className="text-gray-600 mt-2">
+            Mã Đơn Hàng: {orderData?.orderCode}
+          </p>
         </div>
 
         {/* Order Information */}
@@ -59,6 +61,10 @@ const OrderDetail = () => {
           <div>
             <h2 className="text-lg font-semibold mb-3">Thông Tin Đặt Hàng</h2>
             <div className="space-y-2">
+              <p>
+                <span className="font-medium">Họ và tên: </span>
+                {orderData?.address?.fullName}
+              </p>
               <p>
                 <span className="font-medium">Ngày Đặt: </span>
                 {formatDate(orderData?.createdAt || "")}
@@ -69,7 +75,7 @@ const OrderDetail = () => {
               </p>
               <p>
                 <span className="font-medium">Địa Chỉ Giao Hàng: </span>
-                {orderData?.address}
+                {`${orderData?.address?.address}, ${orderData?.address?.ward}, ${orderData?.address?.district}, ${orderData?.address?.province}`}
               </p>
             </div>
           </div>
@@ -84,7 +90,7 @@ const OrderDetail = () => {
                 <span className="font-medium">Giảm Giá:</span>{" "}
                 {formatToVND(orderData?.discountAmount || 0)}
               </p>
-              <p className="text-lg font-semibold text-primary">
+              <p className="font-semibold text-primary">
                 <span className="font-medium">Tổng Số Tiền:</span>{" "}
                 {formatToVND(orderData?.finalAmount || 0)}
               </p>
